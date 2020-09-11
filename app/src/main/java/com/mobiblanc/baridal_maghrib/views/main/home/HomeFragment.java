@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment {
 
 
     @BindView(R.id.categoriesRecycler)
-    RecyclerView categoriesRecycler;
+    SnappingRecyclerView categoriesRecycler;
     @BindView(R.id.servicesRecycler)
     RecyclerView servicesRecycler;
 
@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
+        categoriesRecycler.enableViewScaling(true);
         ArrayList<Item> categories = new ArrayList<Item>() {
             {
                 add(new Item(R.drawable.portrait, "Portraits de Sa Majesté le Roi"));
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment {
                 add(new Item(R.drawable.ic_tracking, "Suivi de commande"));
                 add(new Item(R.drawable.ic_adresse, "Mes adresses"));
                 add(new Item(R.drawable.ic_cart_bancaire, "Mes cartes"));
-                add(new Item(R.drawable.ic_aide, "Service client"));
+                add(new Item(R.drawable.ic_aide, "Assistance"));
             }
         };
         servicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

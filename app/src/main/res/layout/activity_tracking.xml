@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    tools:context=".views.tracking.TrackingActivity">
+
+    <ImageView
+        android:id="@+id/loginBtn"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/ic_account"
+        app:layout_constraintBottom_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logo" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cartBtn"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_bag"
+        app:layout_constraintBottom_toBottomOf="@id/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/logo" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/tracking_title"
+        android:textColor="@color/darkGrey"
+        android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <RelativeLayout
+        android:id="@+id/discountLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/hintGrey"
+            android:fontFamily="@font/montserrat_medium"
+            android:hint="@string/discount_number_hint"
+            android:paddingBottom="15dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hintGrey"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/applyDiscountBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/apply_btn"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="170dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/illustration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/stepper"
+        app:layout_constraintTop_toBottomOf="@id/discountLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stepper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/cancelBtn">
+
+        <TextView
+            android:id="@+id/stepDate1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="10-08\n15:23 PM"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/stepIcon1"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/ic_check"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/stepDate1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Paiement accepté"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate1"
+            app:layout_constraintStart_toEndOf="@id/stepIcon1" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/separator"
+            app:layout_constraintEnd_toEndOf="@id/stepIcon1"
+            app:layout_constraintStart_toStartOf="@id/stepIcon1"
+            app:layout_constraintTop_toBottomOf="@id/stepIcon1" />
+
+        <TextView
+            android:id="@+id/stepDate2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="10-08\n15:23 PM"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1" />
+
+        <ImageView
+            android:id="@+id/stepIcon2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/ic_check_1"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate2"
+            app:layout_constraintStart_toEndOf="@id/stepDate2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="En cours de traitement"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate2"
+            app:layout_constraintStart_toEndOf="@id/stepIcon2" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/separator"
+            app:layout_constraintEnd_toEndOf="@id/stepIcon2"
+            app:layout_constraintStart_toStartOf="@id/stepIcon2"
+            app:layout_constraintTop_toBottomOf="@id/stepIcon2" />
+
+        <TextView
+            android:id="@+id/stepDate3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="10-08\n15:23 PM"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2" />
+
+        <ImageView
+            android:id="@+id/stepIcon3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/ic_check_1"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate3"
+            app:layout_constraintStart_toEndOf="@id/stepDate3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="En cours de livraison"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate3"
+            app:layout_constraintStart_toEndOf="@id/stepIcon3" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/separator"
+            app:layout_constraintEnd_toEndOf="@id/stepIcon3"
+            app:layout_constraintStart_toStartOf="@id/stepIcon3"
+            app:layout_constraintTop_toBottomOf="@id/stepIcon3" />
+
+        <TextView
+            android:id="@+id/stepDate4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="10-08\n15:23 PM"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line3" />
+
+        <ImageView
+            android:id="@+id/stepIcon4"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/ic_check_1"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate4"
+            app:layout_constraintStart_toEndOf="@id/stepDate4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Livrée"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/stepDate4"
+            app:layout_constraintStart_toEndOf="@id/stepIcon4" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelBtn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/blue"
+        android:fontFamily="@font/montserrat_medium"
+        android:stateListAnimator="@null"
+        android:text="@string/cancel_command_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

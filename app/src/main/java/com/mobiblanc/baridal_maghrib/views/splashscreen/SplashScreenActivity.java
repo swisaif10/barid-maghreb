@@ -7,9 +7,11 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.listeners.OnDialogButtonsClickListener;
+import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity implements OnDialogButtonsClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +19,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-            finish();
+            Utilities.showUpdateDialog(this,this);
+
         }, 3000);
+    }
+
+    @Override
+    public void onFirstButtonClick() {
+        startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onSecondButtonClick() {
+        startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+        finish();
     }
 }

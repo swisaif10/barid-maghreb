@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.models.Item;
+import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
+import com.mobiblanc.baridal_maghrib.views.main.help.HelpFragment;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,13 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.image.setImageResource(arrayList.get(position).getImage());
         holder.title.setText(arrayList.get(position).getTitle());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (arrayList.get(position).getTitle().equalsIgnoreCase("Assistance")) {
+                ((MainActivity) context).hideShowHeader(View.GONE);
+                ((MainActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new HelpFragment()).addToBackStack(null).commit();
+            }
+        });
     }
 
     @Override

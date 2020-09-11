@@ -1,4 +1,4 @@
-package com.mobiblanc.baridal_maghrib.views.main.cart;
+package com.mobiblanc.baridal_maghrib.views.cart.cartdetails;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnDialogButtonsClickListener;
 import com.mobiblanc.baridal_maghrib.models.CartItem;
+import com.mobiblanc.baridal_maghrib.views.cart.delivery.DeliveryModeFragment;
 import com.mobiblanc.baridal_maghrib.views.connexion.ConnexionActivity;
 
 import java.util.ArrayList;
@@ -78,14 +79,14 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     }
 
     @Override
-    public void login() {
+    public void onFirstButtonClick() {
         Intent intent = new Intent(getActivity(), ConnexionActivity.class);
         intent.putExtra("to_login", true);
         startActivity(intent);
     }
 
     @Override
-    public void signUp() {
+    public void onSecondButtonClick() {
         Intent intent = new Intent(getActivity(), ConnexionActivity.class);
         intent.putExtra("to_login", false);
         startActivity(intent);
@@ -95,7 +96,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         ArrayList<CartItem> items = new ArrayList<CartItem>() {
             {
                 add(new CartItem(R.drawable.timbre, "Timbre", "Véhicule circulant au Maroc", "7,50 MAD"));
-                add(new CartItem(R.drawable.portrait_1, "Portrait de Sa Majesté le Roi", "20cm*30cm", "500 MAD"));
+                add(new CartItem(R.drawable.portrait_1, "Portrait de Sa Majesté le Roi", "20cm*30cm", "500,00 MAD"));
             }
         };
         cartRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

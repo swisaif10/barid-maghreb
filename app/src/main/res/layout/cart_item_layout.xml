@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="65dp"
-        android:layout_height="85dp"
+        android:layout_width="55dp"
+        android:layout_height="75dp"
         android:layout_marginHorizontal="10dp"
         android:src="@drawable/timbre"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/quantityLayout"
+        android:id="@+id/titleLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="15dp"
         android:orientation="vertical"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="parent">
@@ -51,25 +51,33 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/image"
-        app:layout_constraintTop_toBottomOf="@id/quantityLayout">
+        app:layout_constraintTop_toBottomOf="@id/titleLayout">
 
         <RelativeLayout
-            android:layout_width="65dp"
-            android:layout_height="20dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
             android:layout_alignBottom="@+id/total"
-            android:background="@drawable/rounded_background"
-            android:paddingHorizontal="5dp">
+            android:background="@drawable/rounded_bordered_background">
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/decreaseBtn"
-                android:layout_width="10dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_moins" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/quantity">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/ic_moins" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/quantity"
@@ -78,18 +86,24 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
-                android:text="10"
+                android:text="1"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
 
-
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/increaseBtn"
-                android:layout_width="10dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_plus" />
+                android:layout_toEndOf="@id/quantity">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_plus" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <TextView

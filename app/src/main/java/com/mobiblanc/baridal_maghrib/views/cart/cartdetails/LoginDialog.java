@@ -1,13 +1,10 @@
-package com.mobiblanc.baridal_maghrib.views.main.cart;
+package com.mobiblanc.baridal_maghrib.views.cart.cartdetails;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-
-import androidx.annotation.NonNull;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnDialogButtonsClickListener;
@@ -40,10 +37,10 @@ public class LoginDialog extends Dialog {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.loginBtn:
-                onDialogButtonsClickListener.login();
+                onDialogButtonsClickListener.onFirstButtonClick();
                 break;
             case R.id.signUpBtn:
-                onDialogButtonsClickListener.signUp();
+                onDialogButtonsClickListener.onSecondButtonClick();
                 break;
         }
         dismiss();

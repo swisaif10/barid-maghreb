@@ -57,8 +57,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.nextBtn)
-        MaterialButton nextBtn;
+        
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.background)

@@ -1,4 +1,4 @@
-package com.mobiblanc.baridal_maghrib.views.main.cart;
+package com.mobiblanc.baridal_maghrib.views.cart.cartdetails;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -5,4 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".views.main.cart.CartActivity" />
+    tools:context=".views.cart.CartActivity" />

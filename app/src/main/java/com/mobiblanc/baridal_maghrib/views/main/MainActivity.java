@@ -8,13 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.connexion.ConnexionActivity;
-import com.mobiblanc.baridal_maghrib.views.main.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.main.divers.DiversFragment;
 import com.mobiblanc.baridal_maghrib.views.main.home.HomeFragment;
 import com.mobiblanc.baridal_maghrib.views.main.portraits.PortraitsFragment;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.tabMenu)
     TabLayout tabLayout;
+    @BindView(R.id.header)
+    ConstraintLayout header;
     private String[] menu = {"Accueil", "Portraits", "Timbres", "Divers", "A propos"};
     private ArrayList<Fragment> fragments;
 
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        hideShowHeader(View.VISIBLE);
         if (getCurrentFragment() instanceof HomeFragment)
             finish();
         else {
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.loginBtn, R.id.cartBtn})
+    @OnClick({R.id.loginBtn, R.id.cartBtn, R.id.logo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.loginBtn:
@@ -61,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.cartBtn:
                 startActivity(new Intent(MainActivity.this, CartActivity.class));
+                break;
+            case R.id.logo:
+                selectTab(0);
                 break;
         }
     }
@@ -127,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectTab(int position) {
         highLightTab(position);
         tabLayout.selectTab(tabLayout.getTabAt(position));
+
     }
 
     private Fragment getCurrentFragment() {
@@ -139,5 +147,9 @@ public class MainActivity extends AppCompatActivity {
                 return i;
         }
         return -1;
+    }
+
+    public void hideShowHeader(int visibility) {
+        header.setVisibility(visibility);
     }
 }

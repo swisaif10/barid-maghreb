@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -39,11 +42,7 @@ public class AuthenticationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @OnClick(R.id.siginBtn)
-    public void onViewClicked() {
-    }
-
-    @OnClick({R.id.backBtn, R.id.siginBtn, R.id.loginBtn})
+    @OnClick({R.id.backBtn, R.id.siginBtn, R.id.loginBtn, R.id.container})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.backBtn:
@@ -54,6 +53,9 @@ public class AuthenticationFragment extends Fragment {
                 break;
             case R.id.loginBtn:
                 getActivity().finish();
+            case R.id.container:
+                Utilities.hideSoftKeyboard(getContext(),getView());
+                break;
         }
     }
 }

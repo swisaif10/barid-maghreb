@@ -7,4 +7,5 @@
     <color name="black">#000000</color>
     <color name="darkGrey">#333333</color>
     <color name="yellow">#EDC571</color>
+    <color name="separator">#ADADAD</color>
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,7 +32,7 @@ public class InscriptionFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.backBtn, R.id.signUpBtn})
+    @OnClick({R.id.backBtn, R.id.signUpBtn, R.id.container})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.backBtn:
@@ -39,6 +40,9 @@ public class InscriptionFragment extends Fragment {
                 break;
             case R.id.signUpBtn:
                 getActivity().finish();
+                break;
+            case R.id.container:
+                Utilities.hideSoftKeyboard(getContext(), getView());
                 break;
         }
     }
