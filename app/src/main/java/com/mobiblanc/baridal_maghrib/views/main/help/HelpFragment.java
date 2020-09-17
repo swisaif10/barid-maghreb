@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
+import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,6 +25,7 @@ public class HelpFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override

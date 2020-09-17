@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
-import com.mobiblanc.baridal_maghrib.views.connexion.ConnexionActivity;
-import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
+import com.mobiblanc.baridal_maghrib.views.account.ConnexionActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,7 +27,9 @@ public class TrackingActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.loginBtn:
-                startActivity(new Intent(TrackingActivity.this, ConnexionActivity.class));
+                Intent intent = new Intent(TrackingActivity.this, ConnexionActivity.class);
+                intent.putExtra("destination", 1);
+                startActivity(intent);
                 break;
             case R.id.cartBtn:
                 startActivity(new Intent(TrackingActivity.this, CartActivity.class));
@@ -36,7 +37,7 @@ public class TrackingActivity extends AppCompatActivity {
             case R.id.cancelBtn:
                 break;
             case R.id.container:
-                Utilities.hideSoftKeyboard(this,view);
+                Utilities.hideSoftKeyboard(this, view);
                 break;
         }
     }

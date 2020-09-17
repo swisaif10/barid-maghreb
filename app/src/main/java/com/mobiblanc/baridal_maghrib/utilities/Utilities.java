@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnDialogButtonsClickListener;
@@ -25,6 +28,27 @@ public interface Utilities {
         } catch (Exception e) {
             Log.e("", e.getMessage());
         }
+    }
+
+    static void showErrorPopup(Context context, String message) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.server_error_dialog, null, false);
+        Button ok = view.findViewById(R.id.okBtn);
+        TextView msg = view.findViewById(R.id.message);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        msg.setText(message);
+
+        ok.setOnClickListener(v -> dialog.dismiss());
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
     }
 
     static void showConfirmationDialog(Context context, View.OnClickListener onClickListener) {

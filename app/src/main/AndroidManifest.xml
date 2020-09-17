@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobiblanc.baridal_maghrib">
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the "MyLocation" functionality.
-    -->
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".APSM"
         android:allowBackup="true"
         android:icon="@mipmap/bamicone"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_traffic_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.tracking.TrackingActivity"/>
+        <activity android:name=".views.tracking.TrackingActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -32,16 +30,13 @@
         </activity>
         <activity
             android:name=".views.cart.CartActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".views.main.portraits.PortraitDetailsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".views.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".views.connexion.ConnexionActivity"
+            android:name=".views.account.ConnexionActivity"
             android:screenOrientation="portrait" />
     </application>
 

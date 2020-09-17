@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:overScrollMode="never"
-    tools:context=".views.connexion.fragments.InscriptionFragment">
+    tools:context=".views.account.connexion.InscriptionFragment">
 
     <RelativeLayout
         android:id="@+id/container"

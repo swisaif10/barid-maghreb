@@ -17,7 +17,7 @@ import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnDialogButtonsClickListener;
 import com.mobiblanc.baridal_maghrib.models.CartItem;
 import com.mobiblanc.baridal_maghrib.views.cart.delivery.DeliveryModeFragment;
-import com.mobiblanc.baridal_maghrib.views.connexion.ConnexionActivity;
+import com.mobiblanc.baridal_maghrib.views.account.ConnexionActivity;
 
 import java.util.ArrayList;
 
@@ -81,14 +81,14 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     @Override
     public void onFirstButtonClick() {
         Intent intent = new Intent(getActivity(), ConnexionActivity.class);
-        intent.putExtra("to_login", true);
+        intent.putExtra("destination", 0);
         startActivity(intent);
     }
 
     @Override
     public void onSecondButtonClick() {
         Intent intent = new Intent(getActivity(), ConnexionActivity.class);
-        intent.putExtra("to_login", false);
+        intent.putExtra("destination", 2);
         startActivity(intent);
     }
 
@@ -103,11 +103,11 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         cartAdapter = new CartAdapter(getContext(), items);
         cartRecycler.setAdapter(cartAdapter);
 
-        enableSwipeToDeleteAndUndo();
+        enableSwipeToDelete();
 
     }
 
-    private void enableSwipeToDeleteAndUndo() {
+    private void enableSwipeToDelete() {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {

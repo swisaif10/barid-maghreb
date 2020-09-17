@@ -48,8 +48,6 @@
     <string name="discount_title">Bon de réduction</string>
     <string name="pay_btn">Payer</string>
     <string name="apply_btn">Appliquer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirmation_title">Confirmation</string>
     <string name="command_number">Numéro de commande</string>
     <string name="command_date">Date de commande</string>
@@ -68,4 +66,16 @@
     <string name="name_hint">Nom et prénom</string>
     <string name="reason_hint">Motif</string>
     <string name="message_hint">Message</string>
+    <string name="ok_btn">OK</string>
+    <string name="no_internet_msg">Aucune connexion internet détectée. Veuillez vérifier vos paramètres de connexion puis réessayer.</string>
+    <string name="generic_error">Une erreur est survenue!</string>
+    <string name="price_entity">MAD</string>
+    <string name="logout_btn">Se déconnecter</string>
+    <string name="update_infos_title">Mes informations personnelles</string>
+    <string name="birthdate_hint">Date de naissance</string>
+    <string name="address_hint">Mon adresse</string>
+    <string name="confirm_btn">Confirmer</string>
+    <string name="my_history_title">Mon historique</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
