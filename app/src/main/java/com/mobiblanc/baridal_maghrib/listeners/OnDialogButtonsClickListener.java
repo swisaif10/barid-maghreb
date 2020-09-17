@@ -1,7 +1,7 @@
 package com.mobiblanc.baridal_maghrib.listeners;
 
 public interface OnDialogButtonsClickListener {
-    void login();
+    void onFirstButtonClick();
 
-    void signUp();
+    void onSecondButtonClick();
 }
