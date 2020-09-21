@@ -53,12 +53,14 @@ public class ProfileFragment extends Fragment {
         init();
     }
 
-    @OnClick({R.id.loginBtn, R.id.logo, R.id.cartBtn, R.id.logoutBtn})
+    @OnClick({R.id.backBtn, R.id.logo, R.id.cartBtn, R.id.logoutBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.loginBtn:
+            case R.id.backBtn:
+                getActivity().onBackPressed();
                 break;
             case R.id.logo:
+                getActivity().onBackPressed();
                 break;
             case R.id.cartBtn:
                 startActivity(new Intent(getActivity(), CartActivity.class));

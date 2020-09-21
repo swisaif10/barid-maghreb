@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
-import com.mobiblanc.baridal_maghrib.models.CartItem;
+import com.mobiblanc.baridal_maghrib.listeners.OnItemQuantityChangedListener;
+import com.mobiblanc.baridal_maghrib.models.cart.items.CartItem;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,13 +24,13 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<CartItem> arrayList;
-    private int portraitItemPrice = 500;
-    private float timbreItemPrice = 7.5f;
+    private List<CartItem> arrayList;
+    private OnItemQuantityChangedListener onItemQuantityChangedListener;
 
-    public CartAdapter(Context context, ArrayList<CartItem> arrayList) {
+    public CartAdapter(Context context, List<CartItem> arrayList, OnItemQuantityChangedListener onItemQuantityChangedListener) {
         this.context = context;
         this.arrayList = arrayList;
+        this.onItemQuantityChangedListener = onItemQuantityChangedListener;
     }
 
     @NonNull
@@ -41,28 +43,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.image.setImageResource(arrayList.get(position).getImage());
-        holder.title.setText(arrayList.get(position).getTitle());
-        holder.subtitle.setText(arrayList.get(position).getDescription());
-        holder.total.setText(arrayList.get(position).getPrice());
+        Glide.with(context).load(arrayList.get(position).getImage()).into(holder.image);
+        holder.title.setText(arrayList.get(position).getName());
+        holder.subtitle.setText(arrayList.get(position).getShortDescription());
+        holder.quantity.setText(arrayList.get(position).getQty());
+        holder.price.setText(String.valueOf(arrayList.get(position).getPrice()));
 
-        holder.decreaseBtn.setOnClickListener(v -> updateDetails(holder, position, -1));
+        holder.decreaseBtn.setOnClickListener(v -> {
+            if (Integer.valueOf(holder.quantity.getText().toString()) > 1) {
+                int qty = Integer.valueOf(holder.quantity.getText().toString()) - 1;
+                holder.quantity.setText(String.valueOf(qty));
+                onItemQuantityChangedListener.onItemQuantityChanged(position, Integer.valueOf(qty));
+            }
+        });
 
-        holder.increaseBtn.setOnClickListener(v -> updateDetails(holder, position, 1));
+        holder.increaseBtn.setOnClickListener(v -> {
+            if (Integer.valueOf(holder.quantity.getText().toString()) < 9) {
+                int qty = Integer.valueOf(holder.quantity.getText().toString()) + 1;
+                holder.quantity.setText(String.valueOf(qty));
+                onItemQuantityChangedListener.onItemQuantityChanged(position, Integer.valueOf(qty));
+            }
+        });
     }
-
-    private void updateDetails(ViewHolder holder, int position, int x) {
-        int qte = Integer.valueOf(holder.quantity.getText().toString()) + x;
-        holder.quantity.setText(String.valueOf(qte));
-        float fee;
-        if (arrayList.get(position).getTitle().equalsIgnoreCase("timbre"))
-            fee = timbreItemPrice * qte;
-        else
-            fee = portraitItemPrice * qte;
-
-        holder.total.setText(String.format("%.2f", fee).replace(".", ",") + " MAD");
-    }
-
 
     @Override
     public int getItemCount() {
@@ -73,11 +75,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         arrayList.remove(position);
         notifyItemRemoved(position);
     }
-
-    public ArrayList<CartItem> getData() {
-        return arrayList;
-    }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
@@ -92,8 +89,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         TextView quantity;
         @BindView(R.id.increaseBtn)
         RelativeLayout increaseBtn;
-        @BindView(R.id.total)
-        TextView total;
+        @BindView(R.id.price)
+        TextView price;
 
         ViewHolder(View itemView) {
             super(itemView);

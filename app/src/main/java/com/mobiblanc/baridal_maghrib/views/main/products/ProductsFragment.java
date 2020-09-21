@@ -14,23 +14,28 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.listeners.OnProductSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.products.Product;
 import com.mobiblanc.baridal_maghrib.models.products.ProductsData;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.viewmodels.MainVM;
+import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pl.droidsonroids.gif.GifImageView;
 
-public class ProductsFragment extends Fragment {
+public class ProductsFragment extends Fragment implements OnProductSelectedListener {
 
     @BindView(R.id.portraitsRecycler)
     RecyclerView portraitsRecycler;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.loader)
+    GifImageView loader;
     private String id;
     private String titleTxt;
     private Connectivity connectivity;
@@ -77,21 +82,28 @@ public class ProductsFragment extends Fragment {
         getProducts();
     }
 
+    @Override
+    public void onProductSelected(Product product) {
+        ((MainActivity) getActivity()).replaceFragment(ProductDetailsFragment.newInstance(product));
+        ((MainActivity) getActivity()).isMenu(false);
+    }
+
     private void init(List<Product> products) {
         title.setText(titleTxt);
         portraitsRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        portraitsRecycler.setAdapter(new ProductsAdapter(getContext(), products));
+        portraitsRecycler.setAdapter(new ProductsAdapter(getContext(), products, this::onProductSelected));
     }
 
     private void getProducts() {
-        if (connectivity.isConnected())
+        if (connectivity.isConnected()) {
+            loader.setVisibility(View.VISIBLE);
             mainVM.getProducts(Integer.valueOf(id));
-        else
+        } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
     private void handleProductsData(ProductsData productsData) {
-
+        loader.setVisibility(View.GONE);
         if (productsData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {

@@ -1,4 +1,4 @@
-package com.mobiblanc.baridal_maghrib.models;
+package com.mobiblanc.baridal_maghrib.models.cart;
 
 public class CartItem {
     private int image;

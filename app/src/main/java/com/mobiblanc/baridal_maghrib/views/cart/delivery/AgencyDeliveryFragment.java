@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnItemSelectedListener;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +61,7 @@ public class AgencyDeliveryFragment extends Fragment implements OnItemSelectedLi
     }
     @Override
     public void onItemSelected(int mode) {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new AgencySelectFragment()).addToBackStack(null).commit();
+        ((CartActivity) getActivity()).replaceFragment(new AgencySelectFragment());
     }
 
     private void init() {

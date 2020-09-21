@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -22,7 +21,8 @@ import com.mobiblanc.baridal_maghrib.models.dashboard.Menu;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.viewmodels.MainVM;
-import com.mobiblanc.baridal_maghrib.views.account.ConnexionActivity;
+import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
+import com.mobiblanc.baridal_maghrib.views.base.BaseActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.main.dashboard.DashboardFragment;
 import com.mobiblanc.baridal_maghrib.views.main.products.ProductsFragment;
@@ -33,17 +33,24 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pl.droidsonroids.gif.GifImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tabMenu)
     TabLayout tabLayout;
     @BindView(R.id.header)
     ConstraintLayout header;
+    @BindView(R.id.loader)
+    GifImageView loader;
     private ArrayList<Fragment> fragments;
     private Connectivity connectivity;
     private MainVM mainVM;
     private List<Menu> menu;
+
+    private Boolean isMenu = true;
+
+    private Boolean backPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +67,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        hideShowHeader(View.VISIBLE);
 
         if (getCurrentFragment() instanceof DashboardFragment)
             finish();
         else {
             super.onBackPressed();
-            highLightTab(getFragmentIndex(getCurrentFragment()));
+
+            if (isMenu) {
+                backPressed = true;
+                tabLayout.selectTab(tabLayout.getTabAt(fragments.indexOf(getCurrentFragment())));
+            } else
+                isMenu = true;
         }
     }
 
@@ -73,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.loginBtn:
-                Intent intent = new Intent(MainActivity.this, ConnexionActivity.class);
+                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
                 intent.putExtra("destination", 1);
                 startActivity(intent);
                 break;
@@ -81,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CartActivity.class));
                 break;
             case R.id.logo:
-                selectTab(0,"");
+                tabLayout.selectTab(tabLayout.getTabAt(0));
                 break;
         }
     }
@@ -125,7 +138,12 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 highLightTab(position);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragments.get(position)).addToBackStack(null).commit();
+
+                if (!backPressed) {
+                    replaceFragment(fragments.get(position));
+                } else {
+                    backPressed = false;
+                }
             }
 
             @Override
@@ -139,14 +157,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, fragments.get(0)).addToBackStack(null).commit();
-        highLightTab(0);
+        // to init the tabLayout to 0
+        tabLayout.selectTab(tabLayout.getTabAt(1));
+        tabLayout.selectTab(tabLayout.getTabAt(0));
     }
 
     private void getDashboardDetails() {
-        if (connectivity.isConnected())
+        if (connectivity.isConnected()) {
+            showHideLoader(View.VISIBLE);
             mainVM.getDashboardDetails();
-        else
+        } else
             Utilities.showErrorPopup(this, getString(R.string.no_internet_msg));
     }
 
@@ -194,12 +214,12 @@ public class MainActivity extends AppCompatActivity {
             if (item.getValue().equalsIgnoreCase(String.valueOf(id)))
                 position = menu.indexOf(item);
         }
-        if (position != -1) {
-            highLightTab(position);
+        if (position != -1)
             tabLayout.selectTab(tabLayout.getTabAt(position));
-        } else {
+        else {
             highLightTab(-1);
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, ProductsFragment.newInstance(String.valueOf(id), title)).addToBackStack(null).commit();
+            replaceFragment(ProductsFragment.newInstance(String.valueOf(id), title));
+            isMenu = false;
         }
     }
 
@@ -217,5 +237,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void hideShowHeader(int visibility) {
         header.setVisibility(visibility);
+    }
+
+    public void isMenu(Boolean menu) {
+        isMenu = menu;
+    }
+
+    public void showHideLoader(int visibility) {
+        loader.setVisibility(visibility);
     }
 }

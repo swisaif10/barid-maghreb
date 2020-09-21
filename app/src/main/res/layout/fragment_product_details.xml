@@ -186,18 +186,19 @@
             android:layout_above="@id/addBtn"
             android:layout_below="@id/descriptionTitle"
             android:layout_marginVertical="15dp"
-            android:scrollbars = "vertical"
             android:fontFamily="@font/montserrat_regular"
+            android:scrollbars="vertical"
             android:textColor="@color/black"
             android:textSize="14sp"
             tools:text="Non ergo erunt homines deliciis diffluentes audiendi, si quando de amicitia, quam nec usu nec ratione habent cognitam, dispu. Nam quis est, pro deorum fidem atque hominum! quam nec usu nec ratione habent cognitam, dispu. Nam quis est, pro deorum fidem atque hominu Non ergo erunt homines deliciis diffluentes audiendi, si quando de amicitia, quam nec usu nec ratione" />
 
         <LinearLayout
             android:id="@+id/totalLayout"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/addBtn"
             android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -217,7 +218,7 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center_vertical"
-                android:text="@string/price_entity"
+                android:text="@string/price_unity"
                 android:textColor="@color/blue"
                 android:textSize="17sp" />
         </LinearLayout>

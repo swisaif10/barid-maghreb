@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/loginBtn"
+                android:id="@+id/backBtn"
                 android:layout_width="65dp"
                 android:layout_height="70dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
                     android:layout_width="22dp"
                     android:layout_height="24dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_account" />
+                    android:src="@drawable/ic_back" />
             </RelativeLayout>
 
             <ImageView
@@ -66,14 +66,28 @@
             android:textColor="@color/blue"
             android:textSize="24sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Mohammed Benjelloun"
-            android:textColor="@color/grey"
-            android:textSize="18sp" />
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_user_grey" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Mohammed Benjelloun"
+                android:textColor="@color/grey"
+                android:textSize="18sp" />
+        </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profileRecycler"

@@ -1,8 +1,8 @@
 package com.mobiblanc.baridal_maghrib.views.main.dashboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.listeners.OnDashboardItemSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.dashboard.DashboardResponseData;
+import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
+import com.mobiblanc.baridal_maghrib.views.tracking.TrackingActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements OnDashboardItemSelectedListener {
 
 
     @BindView(R.id.categoriesRecycler)
@@ -64,15 +68,43 @@ public class DashboardFragment extends Fragment {
         init();
     }
 
+    @Override
+    public void onDashboardItemSelected(int index, int type) {
+        if (type == 0) {
+            ((MainActivity) getActivity()).selectTab(responseData.getCategories().get(index).getId(), responseData.getCategories().get(index).getName());
+
+        } else if (type == 1) {
+            Intent intent;
+            switch (responseData.getServices().get(index).getView()) {
+                case "assistance":
+                    intent = new Intent(getActivity(), AccountActivity.class);
+                    intent.putExtra("destination", 2);
+                    startActivity(intent);
+                    break;
+                case "tracking":
+                    startActivity(new Intent(getActivity(), TrackingActivity.class));
+                    break;
+                case "adresse":
+                    intent = new Intent(getActivity(), CartActivity.class);
+                    intent.putExtra("destination", 1);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    }
+
     private void init() {
+        ((MainActivity) getActivity()).showHideLoader(View.GONE);
         categoriesRecycler.enableViewScaling(true);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         //categoriesRecycler.setLayoutManager(new ScaleLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoriesRecycler.setAdapter(new CategoriesAdapter(getContext(), responseData.getCategories()));
+        categoriesRecycler.setAdapter(new CategoriesAdapter(getContext(), responseData.getCategories(), this::onDashboardItemSelected));
 
         servicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        servicesRecycler.setAdapter(new ServicesAdapter(getContext(), responseData.getServices()));
+        servicesRecycler.setAdapter(new ServicesAdapter(getContext(), responseData.getServices(), this::onDashboardItemSelected));
+        servicesRecycler.setNestedScrollingEnabled(false);
     }
+
 
 }
 

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
-import com.mobiblanc.baridal_maghrib.views.account.ConnexionActivity;
+import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
 
 import butterknife.ButterKnife;
 
@@ -32,7 +32,7 @@ public class MyHistoryAdapter extends RecyclerView.Adapter<MyHistoryAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.itemView.setOnClickListener(v -> {
-            ((ConnexionActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new OrderDetailsFragment()).addToBackStack(null).commit();
+            ((AccountActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new OrderDetailsFragment()).addToBackStack(null).commit();
         });
     }
 

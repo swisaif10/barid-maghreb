@@ -52,6 +52,7 @@ public class ConfirmationFragment extends Fragment implements View.OnClickListen
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.backBtn:
+                getActivity().onBackPressed();
                 break;
             case R.id.payBtn:
                 Utilities.showConfirmationDialog(getContext(), this::onClick);

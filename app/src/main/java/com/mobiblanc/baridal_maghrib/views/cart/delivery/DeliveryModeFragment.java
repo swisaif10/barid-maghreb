@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnItemSelectedListener;
-import com.mobiblanc.baridal_maghrib.models.CartItem;
+import com.mobiblanc.baridal_maghrib.models.cart.CartItem;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 
 import java.util.ArrayList;
 
@@ -57,9 +58,9 @@ public class DeliveryModeFragment extends Fragment implements OnItemSelectedList
     @Override
     public void onItemSelected(int mode) {
         if (mode == 0)
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new StandardDeliveryFragment()).addToBackStack(null).commit();
+            ((CartActivity) getActivity()).replaceFragment(new StandardDeliveryFragment());
         else
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new AgencyDeliveryFragment()).addToBackStack(null).commit();
+            ((CartActivity) getActivity()).replaceFragment(new AgencyDeliveryFragment());
 
     }
 

@@ -191,7 +191,6 @@
                     android:id="@+id/number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/maroc"
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/montserrat_medium"
                     android:inputType="textEmailAddress"
@@ -231,13 +230,35 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cguCheck"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/yellow"
+                    android:checked="false" />
+
+                <TextView
+                    android:id="@+id/cguBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/cgu_text"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signUpBtn"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/blue"
                 android:fontFamily="@font/montserrat_semibold"
                 android:stateListAnimator="@null"

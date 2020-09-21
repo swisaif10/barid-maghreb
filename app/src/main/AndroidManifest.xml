@@ -7,7 +7,7 @@
 
     <application
         android:name=".APSM"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/bamicone"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_traffic_config"
@@ -36,7 +36,7 @@
             android:name=".views.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".views.account.ConnexionActivity"
+            android:name=".views.account.AccountActivity"
             android:screenOrientation="portrait" />
     </application>
 

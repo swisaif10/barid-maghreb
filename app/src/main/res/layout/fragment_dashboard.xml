@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingHorizontal="20dp"
     android:paddingBottom="20dp"
     tools:context=".views.main.dashboard.DashboardFragment">
 
@@ -20,6 +19,7 @@
             android:id="@+id/categoriesTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/categories_title"
             android:textColor="@color/darkGrey"
@@ -41,22 +41,45 @@
         android:id="@+id/servicesTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/services_title"
         android:textColor="@color/darkGrey"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/servicesRecycler" />
+        app:layout_constraintBottom_toTopOf="@+id/servicesLayout" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/servicesRecycler"
-        android:layout_width="match_parent"
+    <HorizontalScrollView
+        android:id="@+id/servicesLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:fillViewport="true"
+        android:scrollbars="none"
         android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/services_item_layout" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/servicesRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:itemCount="5"
+                tools:listitem="@layout/services_item_layout" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

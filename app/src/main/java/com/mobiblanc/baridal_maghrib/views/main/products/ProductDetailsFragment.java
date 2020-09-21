@@ -1,6 +1,7 @@
 package com.mobiblanc.baridal_maghrib.views.main.products;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -15,10 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
+import com.mobiblanc.baridal_maghrib.models.cart.add.AddItemData;
+import com.mobiblanc.baridal_maghrib.models.cart.guest.GuestCartData;
 import com.mobiblanc.baridal_maghrib.models.products.Product;
+import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
+import com.mobiblanc.baridal_maghrib.utilities.Constants;
+import com.mobiblanc.baridal_maghrib.utilities.Utilities;
+import com.mobiblanc.baridal_maghrib.viewmodels.CartVM;
 import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 
@@ -49,6 +58,9 @@ public class ProductDetailsFragment extends Fragment {
     @BindView(R.id.description)
     TextView description;
     private Product product;
+    private Connectivity connectivity;
+    private CartVM cartVM;
+    private PreferenceManager preferenceManager;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -66,6 +78,16 @@ public class ProductDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MainActivity) getActivity()).hideShowHeader(View.GONE);
+
+        cartVM = ViewModelProviders.of(this).get(CartVM.class);
+        connectivity = new Connectivity(getContext(), this);
+        cartVM.getAddItemLiveData().observe(this, this::handleAddItemToCartData);
+        cartVM.getGuestCartLiveData().observe(this, this::handleCreateGuestCartData);
+
+        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
+
         if (getArguments() != null) {
             product = (Product) getArguments().getSerializable("product");
         }
@@ -93,17 +115,23 @@ public class ProductDetailsFragment extends Fragment {
                 break;
             case R.id.decreaseBtn:
                 if (Integer.valueOf(quantity.getText().toString()) > 1)
-                    updateTotal(-1);
+                    quantity.setText(String.valueOf(Integer.valueOf(quantity.getText().toString()) + 1));
                 break;
             case R.id.increaseBtn:
-                updateTotal(1);
+                if (Integer.valueOf(quantity.getText().toString()) < 9)
+                    quantity.setText(String.valueOf(Integer.valueOf(quantity.getText().toString()) + 1));
                 break;
             case R.id.cartBtn:
                 startActivity(new Intent(getActivity(), CartActivity.class));
                 break;
             case R.id.addBtn:
-                if (Integer.valueOf(quantity.getText().toString()) > 0)
-                    makeFlyAnimation();
+                String id = preferenceManager.getValue(Constants.CART_ID, null);
+                if (id == null)
+                    createGuestCart();
+                else
+                    addItemToCart(id);
+
+                makeFlyAnimation();
                 break;
         }
     }
@@ -113,14 +141,53 @@ public class ProductDetailsFragment extends Fragment {
         Glide.with(getContext()).load(product.getImage().get(0)).into(copy);
         title.setText(product.getName());
         shortDescription.setText(product.getShortDescription());
-        description.setText(Html.fromHtml(Html.fromHtml(product.getDescription()).toString()));
+        description.setText(Html.fromHtml(product.getDescription()).toString());
         description.setMovementMethod(new ScrollingMovementMethod());
         total.setText(product.getPrice());
     }
 
+    private void addItemToCart(String id) {
+        if (connectivity.isConnected()) {
+            cartVM.addItem(id, product.getSku(), Integer.valueOf(quantity.getText().toString()));
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleAddItemToCartData(AddItemData addItemData) {
+
+        if (addItemData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = addItemData.getHeader().getCode();
+            if (code != 200) {
+                Utilities.showErrorPopup(getContext(), addItemData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void createGuestCart() {
+        if (connectivity.isConnected()) {
+            cartVM.createGuestCart();
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleCreateGuestCartData(GuestCartData guestCartData) {
+
+        if (guestCartData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = guestCartData.getHeader().getCode();
+            if (code == 200) {
+                preferenceManager.putValue(Constants.CART_ID, guestCartData.getResponse().getQuoteId());
+                addItemToCart(guestCartData.getResponse().getQuoteId());
+            } else {
+                Utilities.showErrorPopup(getContext(), guestCartData.getHeader().getMessage());
+            }
+        }
+    }
+
     private void makeFlyAnimation() {
-
-
         new AnimationUtil().attachActivity(getActivity()).setTargetView(image).setMoveDuration(1000).setDestView(cartBtn).setAnimationListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -145,13 +212,6 @@ public class ProductDetailsFragment extends Fragment {
             }
         }).startAnimation();
 
-    }
-
-    private void updateTotal(int x) {
-        quantity.setText(String.valueOf(Integer.valueOf(quantity.getText().toString()) + x));
-        int qte = Integer.valueOf(quantity.getText().toString());
-        float fee = Integer.valueOf(product.getPrice()) * qte;
-        total.setText(String.format("%.2f", fee).replace(".", ","));
     }
 
 }

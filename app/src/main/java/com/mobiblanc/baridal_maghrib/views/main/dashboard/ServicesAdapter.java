@@ -1,7 +1,6 @@
 package com.mobiblanc.baridal_maghrib.views.main.dashboard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.listeners.OnDashboardItemSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.dashboard.Service;
-import com.mobiblanc.baridal_maghrib.views.account.ConnexionActivity;
-import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
-import com.mobiblanc.baridal_maghrib.views.main.help.HelpFragment;
 
 import java.util.List;
 
@@ -27,10 +24,13 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     private Context context;
     private List<Service> arrayList;
+    private OnDashboardItemSelectedListener onDashboardItemSelectedListener;
 
-    public ServicesAdapter(Context context, List<Service> arrayList) {
+    public ServicesAdapter(Context context, List<Service> arrayList, OnDashboardItemSelectedListener onDashboardItemSelectedListener) {
         this.context = context;
         this.arrayList = arrayList;
+        this.arrayList.addAll(arrayList);
+        this.onDashboardItemSelectedListener = onDashboardItemSelectedListener;
     }
 
     @NonNull
@@ -45,13 +45,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         Glide.with(context).load(arrayList.get(position).getIcon()).fitCenter().into(holder.image);
         holder.title.setText(arrayList.get(position).getTitle());
 
-        holder.itemView.setOnClickListener(v -> {
-            if (arrayList.get(position).getTitle().equalsIgnoreCase("Assistance")) {
-                Intent intent = new Intent(context, ConnexionActivity.class);
-                intent.putExtra("destination", 2);
-                context.startActivity(intent);
-            }
-        });
+        holder.itemView.setOnClickListener(v -> onDashboardItemSelectedListener.onDashboardItemSelected(position, 1));
     }
 
     @Override

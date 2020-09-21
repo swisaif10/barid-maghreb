@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnItemSelectedListener;
-import com.mobiblanc.baridal_maghrib.models.CartItem;
+import com.mobiblanc.baridal_maghrib.models.cart.CartItem;
 
 import java.util.ArrayList;
 

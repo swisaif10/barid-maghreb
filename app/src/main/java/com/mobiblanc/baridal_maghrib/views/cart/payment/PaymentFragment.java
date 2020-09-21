@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,7 +41,7 @@ public class PaymentFragment extends Fragment {
                 getActivity().onBackPressed();
                 break;
             case R.id.payBtn:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new ConfirmationFragment()).addToBackStack(null).commit();
+                ((CartActivity) getActivity()).replaceFragment(new ConfirmationFragment());
                 break;
             case R.id.container:
                 Utilities.hideSoftKeyboard(getContext(),getView());
