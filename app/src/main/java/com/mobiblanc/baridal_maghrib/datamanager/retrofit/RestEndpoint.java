@@ -6,6 +6,7 @@ import com.mobiblanc.baridal_maghrib.models.cart.guest.GuestCartData;
 import com.mobiblanc.baridal_maghrib.models.cart.items.CartItemsData;
 import com.mobiblanc.baridal_maghrib.models.dashboard.DashboardData;
 import com.mobiblanc.baridal_maghrib.models.products.ProductsData;
+import com.mobiblanc.baridal_maghrib.models.registration.RegistrationData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -50,5 +51,17 @@ public interface RestEndpoint {
     Call<DeleteItemData> deleteItem(@Header("Authorization") String credentials,
                                     @Field("quoteId") String cartId,
                                     @Field("itemId") int itemId);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.REGISTRATION_URL)
+    Call<RegistrationData> registration(@Header("Authorization") String credentials,
+                                        @Field("email") String email,
+                                        @Field("firstname") String firstname,
+                                        @Field("lastname") String lastname,
+                                        @Field("password") String password,
+                                        @Field("numContact") String numContact,
+                                        @Field("raison") String raison,
+                                        @Field("adresse") String adresse,
+                                        @Field("commentaire") String commentaire);
 
 }

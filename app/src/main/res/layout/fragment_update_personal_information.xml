@@ -100,7 +100,7 @@
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/hintGrey"
             android:fontFamily="@font/montserrat_medium"
-            android:hint="@string/address_hint"
+            android:hint="@string/my_address_hint"
             android:paddingBottom="15dp"
             android:textColor="@color/black"
             android:textColorHint="@color/hintGrey"

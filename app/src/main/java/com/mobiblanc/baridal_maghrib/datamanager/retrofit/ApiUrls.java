@@ -13,6 +13,7 @@ public interface ApiUrls {
     String GET_CART_ITEMS_URL = "api/cart/items";
     String ADD_ITEM_TO_CART_URL = "api/cart/item";
     String DELETE_ITEM_FROM_CART_URL = "api/cart/item/delete";
+    String REGISTRATION_URL = "api/account/registration";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 

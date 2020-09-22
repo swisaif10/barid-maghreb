@@ -29,7 +29,6 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
     public ServicesAdapter(Context context, List<Service> arrayList, OnDashboardItemSelectedListener onDashboardItemSelectedListener) {
         this.context = context;
         this.arrayList = arrayList;
-        this.arrayList.addAll(arrayList);
         this.onDashboardItemSelectedListener = onDashboardItemSelectedListener;
     }
 

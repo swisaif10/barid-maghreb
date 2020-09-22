@@ -47,7 +47,7 @@ public class AuthenticationFragment extends Fragment {
                 getActivity().onBackPressed();
                 break;
             case R.id.siginBtn:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new InscriptionFragment()).addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new RegistrationFragment()).addToBackStack(null).commit();
                 break;
             case R.id.loginBtn:
                 getActivity().finish();

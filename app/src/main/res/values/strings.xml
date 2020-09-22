@@ -73,10 +73,12 @@
     <string name="logout_btn">Se déconnecter</string>
     <string name="update_infos_title">Mes informations personnelles</string>
     <string name="birthdate_hint">Date de naissance</string>
-    <string name="address_hint">Mon adresse</string>
+    <string name="address_hint">Adresse postale</string>
+    <string name="my_address_hint">Mon adresse</string>
     <string name="confirm_btn">Confirmer</string>
     <string name="my_history_title">Mon historique</string>
     <string name="cgu_text"><![CDATA[<font color="#000000">J’accepte </font><font color="#EDC571"><u>les conditions générales</u></font>]]></string>
+    <string name="rules_text"><![CDATA[<font color="#000000">La Loi </font><font color="#EDC571"><u>0809</u></font>]]></string>
     <string name="total_price">Prix total :</string>
     <string name="fee">Prix d\'envoi:</string>
     <string name="price">Prix produits:</string>

@@ -6,11 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,7 @@ abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
     SwipeToDeleteCallback(Context context) {
         mContext = context;
         mBackground = new GradientDrawable();
-        backgroundColor = Color.parseColor("#D93535");
+        backgroundColor = Color.parseColor("#FFFFFF");
         mClearPaint = new Paint();
         mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
@@ -59,23 +60,22 @@ abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
         }
 
         mBackground.setColor(backgroundColor);
-        mBackground.setBounds(itemView.getRight() + (int) dX - 100, itemView.getTop() + 20, itemView.getRight(), itemView.getBottom() - 20);
+        mBackground.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
         mBackground.draw(c);
-        mBackground.setCornerRadius(45f);
 
-        Paint p = new Paint();
-        p.setColor(Color.WHITE);
-        p.setTextSize(30);
-        p.setTypeface(ResourcesCompat.getFont(mContext, R.font.montserrat_bold));
-        p.setTextAlign(Paint.Align.CENTER);
+        Drawable deleteDrawable = ContextCompat.getDrawable(mContext, R.drawable.ic_delete);
 
-        int yPos = (int) ((itemView.getTop() + itemView.getHeight() / 2) - ((p.descent() + p.ascent()) / 2));
-        c.drawText("Éliminer", itemView.getRight() - 100, yPos, p);
+        int deleteIconTop = itemView.getTop() + (itemHeight - deleteDrawable.getIntrinsicHeight()) / 2;
+        int deleteIconMargin = (itemHeight - deleteDrawable.getIntrinsicHeight()) / 2;
+        int deleteIconLeft = itemView.getRight() - deleteIconMargin - deleteDrawable.getIntrinsicWidth();
+        int deleteIconRight = itemView.getRight() - deleteIconMargin;
+        int deleteIconBottom = deleteIconTop + deleteDrawable.getIntrinsicHeight();
 
+
+        deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
+        deleteDrawable.draw(c);
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
-
     }
 
     private void clearCanvas(Canvas c, Float left, Float top, Float right, Float bottom) {

@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.views.account.connexion.AuthenticationFragment;
-import com.mobiblanc.baridal_maghrib.views.account.connexion.InscriptionFragment;
+import com.mobiblanc.baridal_maghrib.views.account.connexion.RegistrationFragment;
 import com.mobiblanc.baridal_maghrib.views.account.help.HelpFragment;
 import com.mobiblanc.baridal_maghrib.views.account.profile.ProfileFragment;
 import com.mobiblanc.baridal_maghrib.views.base.BaseActivity;
@@ -31,7 +31,7 @@ public class AccountActivity extends BaseActivity {
                     fragment = new HelpFragment();
                     break;
                 default:
-                    fragment = new InscriptionFragment();
+                    fragment = new RegistrationFragment();
                     break;
             }
             replaceFragment(fragment);
