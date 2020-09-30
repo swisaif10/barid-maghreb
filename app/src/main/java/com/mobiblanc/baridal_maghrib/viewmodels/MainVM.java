@@ -39,8 +39,13 @@ public class MainVM extends AndroidViewModel {
         productsLiveData = new MutableLiveData<>();
     }
 
-    public void getDashboardDetails() {
-        Call<DashboardData> call = RestService.getInstance().endpoint().getDashboard(ApiUrls.AUTHORIZATION);
+    public void getDashboardDetails(String token) {
+        Call<DashboardData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().getDashboard(token);
+        else
+            call = RestService.getInstance().endpoint().getGuestDashboard(ApiUrls.AUTHORIZATION);
+
         call.enqueue(new Callback<DashboardData>() {
             @Override
             public void onResponse(Call<DashboardData> call, Response<DashboardData> response) {
@@ -54,8 +59,12 @@ public class MainVM extends AndroidViewModel {
         });
     }
 
-    public void getProducts(int id) {
-        Call<ProductsData> call = RestService.getInstance().endpoint().getProductsList(ApiUrls.AUTHORIZATION, id);
+    public void getProducts(String token, int id) {
+        Call<ProductsData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().getProductsList(token, id);
+        else
+            call = RestService.getInstance().endpoint().getGuestProductsList(ApiUrls.AUTHORIZATION, id);
         call.enqueue(new Callback<ProductsData>() {
             @Override
             public void onResponse(Call<ProductsData> call, Response<ProductsData> response) {

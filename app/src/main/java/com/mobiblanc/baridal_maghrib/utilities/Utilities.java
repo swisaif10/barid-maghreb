@@ -3,6 +3,7 @@ package com.mobiblanc.baridal_maghrib.utilities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,5 +135,9 @@ public interface Utilities {
         Pattern pattern = Pattern.compile(expression);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    static float dpToPx(Context context, float dp) {
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }

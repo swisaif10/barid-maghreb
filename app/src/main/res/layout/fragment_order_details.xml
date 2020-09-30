@@ -24,6 +24,15 @@
                 android:src="@drawable/ic_back" />
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Commande N°SB129056"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -27,10 +27,7 @@ public class SnappingRecyclerView extends RecyclerView {
     private Orientation _orientation = Orientation.HORIZONTAL;
 
     private ChildViewMetrics _childViewMetrics;
-    private OnViewSelectedListener _listener;
-    private int _selectedPosition;
-
-    private final static int MINIMUM_SCROLL_EVENT_OFFSET_MS = 20;
+    private final static int MINIMUM_SCROLL_EVENT_OFFSET_MS = 200;
 
     public SnappingRecyclerView(Context context) {
         this(context, null);
@@ -106,13 +103,11 @@ public class SnappingRecyclerView extends RecyclerView {
                     _userScrolling = false;
                     _scrolling = false;
 
-                    /** if idle, always check location and correct it if necessary, this is just an extra check **/
+                    /*   *//** if idle, always check location and correct it if necessary, this is just an extra check **//*
                     if (getCenterView() != null && getPercentageFromCenter(getCenterView()) > 0) {
                         scrollToView(getCenterView());
-                    }
+                    }*/
 
-                    /** if idle, notify listeners of new selected view **/
-                    notifyListener();
                 } else if (newState == SCROLL_STATE_FLING) {
                     _scrolling = true;
                 }
@@ -122,34 +117,12 @@ public class SnappingRecyclerView extends RecyclerView {
         });
     }
 
-    private void notifyListener() {
-        View view = getCenterView();
-        int position = getChildAdapterPosition(view);
-
-        /** if there is a listener and the index is not the same as the currently selected position, notify listener **/
-        if (_listener != null && position != _selectedPosition) {
-            _listener.onSelected(view, position);
-        }
-
-        _selectedPosition = position;
-    }
-
-    /**
-     * Set the orientation for this SnappingRecyclerView
-     *
-     * @param orientation LinearLayoutManager.HORIZONTAL or LinearLayoutManager.VERTICAL
-     */
     public void setOrientation(Orientation orientation) {
         this._orientation = orientation;
         _childViewMetrics = new ChildViewMetrics(_orientation);
         setLayoutManager(new LinearLayoutManager(getContext(), _orientation.intValue(), false));
     }
 
-    /**
-     * Enable downscaling of views which are not focused, based on how far away they are from the center
-     *
-     * @param enabled enable or disable the scaling behaviour
-     */
     public void enableViewScaling(boolean enabled) {
         this._scaleViews = enabled;
     }
@@ -169,35 +142,23 @@ public class SnappingRecyclerView extends RecyclerView {
         }
     }
 
-    /**
-     * Adds the margins to a childView so a view will still center even if it's only a single child
-     *
-     * @param child childView to set margins for
-     */
     private void setMarginsForChild(View child) {
         int lastItemIndex = getLayoutManager().getItemCount() - 1;
         int childIndex = getChildAdapterPosition(child);
 
-        int startMargin = 0;
+        int startMargin = 48;
         int endMargin = 0;
         int topMargin = 0;
         int bottomMargin = 0;
 
-        if (_orientation == Orientation.VERTICAL) {
-            topMargin = childIndex == 0 ? getCenterLocation() : 0;
-            bottomMargin = childIndex == lastItemIndex ? getCenterLocation() : 0;
-        } else {
-            startMargin = childIndex == 0 ? getCenterLocation() : 0;
-            endMargin = childIndex == lastItemIndex ? getCenterLocation() : 0;
-        }
+        //startMargin = childIndex == 0 ? getCenterLocation() : 0;
+        endMargin = childIndex == lastItemIndex ? getCenterLocation() : 0;
 
-        /** if sdk minimum level is 17, set RTL margins **/
-        if (_orientation == Orientation.HORIZONTAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (_orientation == Orientation.HORIZONTAL) {
             ((MarginLayoutParams) child.getLayoutParams()).setMarginStart(startMargin);
             ((MarginLayoutParams) child.getLayoutParams()).setMarginEnd(endMargin);
         }
 
-        /** If layout direction is RTL, swap the margins  **/
         if (ViewCompat.getLayoutDirection(child) == ViewCompat.LAYOUT_DIRECTION_RTL) {
             ((MarginLayoutParams) child.getLayoutParams()).setMargins(endMargin, topMargin, startMargin, bottomMargin);
         } else {
@@ -205,10 +166,8 @@ public class SnappingRecyclerView extends RecyclerView {
         }
 
         /** if sdk minimum level is 18, check if view isn't undergoing a layout pass (this improves the feel of the view by a lot) **/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            if (!child.isInLayout())
-                child.requestLayout();
-        }
+        if (!child.isInLayout())
+            child.requestLayout();
     }
 
     @Override
@@ -229,14 +188,14 @@ public class SnappingRecyclerView extends RecyclerView {
 
         View targetView = getChildClosestToLocation(location);
 
-        if (!_userScrolling) {
+        /*if (!_userScrolling) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (targetView != getCenterView()) {
                     scrollToView(targetView);
                     return true;
                 }
             }
-        }
+        }*/
 
         return super.dispatchTouchEvent(event);
     }

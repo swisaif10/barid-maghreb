@@ -31,13 +31,11 @@ public class RestService {
         client.addInterceptor(chain -> {
             Request original = chain.request();
             Request.Builder requestBuilder = original.newBuilder()
-                    .addHeader("Accept", "application/json;version="+ BuildConfig.VERSION_NAME )
+                    .addHeader("Accept", "application/json;version=" + BuildConfig.VERSION_NAME)
                     .addHeader("os", "android");
             Request request = requestBuilder.build();
             return chain.proceed(request);
         });
-
-        //client.addInterceptor(new TokenRenewInterceptor());
 
 
         Retrofit retrofit = new Retrofit.Builder()

@@ -59,8 +59,12 @@ public class CartVM extends AndroidViewModel {
         deleteItemLiveData = new MutableLiveData<>();
     }
 
-    public void createGuestCart() {
-        Call<GuestCartData> call = RestService.getInstance().endpoint().createGuestCart(ApiUrls.AUTHORIZATION);
+    public void createCart(String token) {
+        Call<GuestCartData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().createCart(token);
+        else
+            call = RestService.getInstance().endpoint().createGuestCart(ApiUrls.AUTHORIZATION);
         call.enqueue(new Callback<GuestCartData>() {
             @Override
             public void onResponse(Call<GuestCartData> call, Response<GuestCartData> response) {
@@ -74,8 +78,13 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getCartItems(String cartId) {
-        Call<CartItemsData> call = RestService.getInstance().endpoint().getCartItems(ApiUrls.AUTHORIZATION, cartId);
+    public void getCartItems(String token, String cartId) {
+        Call<CartItemsData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().getCartItems(token, cartId);
+        else
+            call = RestService.getInstance().endpoint().getGuestCartItems(ApiUrls.AUTHORIZATION, cartId);
+
         call.enqueue(new Callback<CartItemsData>() {
             @Override
             public void onResponse(Call<CartItemsData> call, Response<CartItemsData> response) {
@@ -89,8 +98,12 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void addItem(String cartId, String sku, int quantity) {
-        Call<AddItemData> call = RestService.getInstance().endpoint().addItemToCart(ApiUrls.AUTHORIZATION, cartId, sku, quantity);
+    public void addItem(String token, String cartId, String sku, int quantity) {
+        Call<AddItemData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().addItemToCart(token, cartId, sku, quantity);
+        else
+            call = RestService.getInstance().endpoint().addItemToCartByGuest(ApiUrls.AUTHORIZATION, cartId, sku, quantity);
         call.enqueue(new Callback<AddItemData>() {
             @Override
             public void onResponse(Call<AddItemData> call, Response<AddItemData> response) {
@@ -104,8 +117,12 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void updateItem(String cartId, int itemId, int quantity) {
-        Call<AddItemData> call = RestService.getInstance().endpoint().updateItemQty(ApiUrls.AUTHORIZATION, cartId, itemId, quantity);
+    public void updateItem(String token, String cartId, int itemId, int quantity) {
+        Call<AddItemData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().updateItemQty(token, cartId, itemId, quantity);
+        else
+            call = RestService.getInstance().endpoint().updateItemQtyByGuest(ApiUrls.AUTHORIZATION, cartId, itemId, quantity);
         call.enqueue(new Callback<AddItemData>() {
             @Override
             public void onResponse(Call<AddItemData> call, Response<AddItemData> response) {
@@ -119,8 +136,12 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void deleteItem(String cartId, int itemId) {
-        Call<DeleteItemData> call = RestService.getInstance().endpoint().deleteItem(ApiUrls.AUTHORIZATION, cartId, itemId);
+    public void deleteItem(String token, String cartId, int itemId) {
+        Call<DeleteItemData> call;
+        if (token != null)
+            call = RestService.getInstance().endpoint().deleteItem(token, cartId, itemId);
+        else
+            call = RestService.getInstance().endpoint().deleteItemByGuest(ApiUrls.AUTHORIZATION, cartId, itemId);
         call.enqueue(new Callback<DeleteItemData>() {
             @Override
             public void onResponse(Call<DeleteItemData> call, Response<DeleteItemData> response) {

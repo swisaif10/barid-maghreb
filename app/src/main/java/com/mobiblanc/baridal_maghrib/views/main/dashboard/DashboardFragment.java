@@ -1,6 +1,5 @@
 package com.mobiblanc.baridal_maghrib.views.main.dashboard;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -83,6 +82,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
                     break;
                 case "tracking":
                     startActivity(new Intent(getActivity(), TrackingActivity.class));
+                    getActivity().finish();
                     break;
                 case "adresse":
                     intent = new Intent(getActivity(), CartActivity.class);
@@ -97,7 +97,6 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
         ((MainActivity) getActivity()).showHideLoader(View.GONE);
         categoriesRecycler.enableViewScaling(true);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        //categoriesRecycler.setLayoutManager(new ScaleLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         categoriesRecycler.setAdapter(new CategoriesAdapter(getContext(), responseData.getCategories(), this::onDashboardItemSelected));
 
         servicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -105,47 +104,4 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
         servicesRecycler.setNestedScrollingEnabled(false);
     }
 
-
-}
-
-class ScaleLayoutManager extends LinearLayoutManager {
-
-    private final float mShrinkAmount = 0.15f;
-    private final float mShrinkDistance = 0.9f;
-
-    public ScaleLayoutManager(Context context) {
-        super(context);
-    }
-
-    public ScaleLayoutManager(Context context, int orientation, boolean reverseLayout) {
-        super(context, orientation, reverseLayout);
-    }
-
-    @Override
-    public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-
-        int orientation = getOrientation();
-
-        if (orientation == HORIZONTAL) {
-            int scrolled = super.scrollHorizontallyBy(dx, recycler, state);
-            float midpoint = getWidth() / 2.f;
-            float d0 = 0.f;
-            float d1 = mShrinkDistance * midpoint;
-            float s0 = 1.f;
-            float s1 = 1.f - mShrinkAmount;
-
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                float childMidpoint = (getDecoratedRight(child) + getDecoratedLeft(child)) / 2.f;
-                float d = Math.min(d1, Math.abs(midpoint - childMidpoint));
-                float scale = s0 + (s1 - s0) * (d - d0) / (d1 - d0);
-                child.setScaleX(scale);
-                child.setScaleY(scale);
-            }
-
-            return scrolled;
-        } else {
-            return 0;
-        }
-    }
 }

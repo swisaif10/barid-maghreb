@@ -12,7 +12,7 @@
     <string name="firstname_hint">Prénom</string>
     <string name="social_hint">Raison sociale</string>
     <string name="number_hint">Num contact</string>
-    <string name="comment_hint">Commentaire</string>
+    <string name="comment_hint">Complément</string>
     <string name="services_title">Services</string>
     <string name="categories_title">Catégories</string>
     <string name="portraits_title">Portraits</string>
@@ -57,7 +57,7 @@
     <string name="confiramtion_dialog_subtitle">Merci de votre achat. vous recevrez\nprochainement un e-mail avec tous les détails.</string>
     <string name="confirmation_dialog_btn">Suivi de la commande</string>
     <string name="tracking_title">Suivi de la commande</string>
-    <string name="cancel_command_btn">Annuler la commande</string>
+    <string name="share_command_btn">Partager la commande</string>
     <string name="update_dialog_title">Mise à jour</string>
     <string name="update_version_btn">Mettre à jour</string>
     <string name="not_now_btn">Pas maintenant</string>
@@ -85,5 +85,6 @@
     <string name="cgu_title">Conditions générales</string>
     <string name="cgu_description_title">Rappel important :</string>
     <string name="cgu_description_body">Toutes les opérations portant sur l’exposition, la diffusion et la mise en vente des photographies, et en général de toutes les reproductions y compris en dessin ou photographie, des traits de Sa Majesté le Roi, doivent se conformer aux dispositions du Dahir n° 1-56-204 du 16 joumada I 1376 (19 décembre 1956) réglementant la reproduction des traits de Sa Majesté le Roi et de leurs Altesses Royales, Ses Enfants (B.O n° 2307 du 11 janvier 1957) et à la circulaire de Monsieur le Chef du Gouvernement n° 15/2019 du 23 Moharrem 1441 (23 septembre 2019) relative au portrait officiel de de Sa Majesté le Roi Mohammed VI, que Dieu le Glorifie.</string>
+    <string name="send_btn">Envoyer</string>
 
 </resources>

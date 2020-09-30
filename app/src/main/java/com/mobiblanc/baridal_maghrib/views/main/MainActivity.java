@@ -1,5 +1,6 @@
 package com.mobiblanc.baridal_maghrib.views.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,10 +16,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.tabs.TabLayout;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.baridal_maghrib.models.dashboard.DashboardData;
 import com.mobiblanc.baridal_maghrib.models.dashboard.DashboardResponseData;
 import com.mobiblanc.baridal_maghrib.models.dashboard.Menu;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
+import com.mobiblanc.baridal_maghrib.utilities.Constants;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.viewmodels.MainVM;
 import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
@@ -43,10 +46,13 @@ public class MainActivity extends BaseActivity {
     ConstraintLayout header;
     @BindView(R.id.loader)
     GifImageView loader;
+    @BindView(R.id.count)
+    TextView count;
     private ArrayList<Fragment> fragments;
     private Connectivity connectivity;
     private MainVM mainVM;
     private List<Menu> menu;
+    private PreferenceManager preferenceManager;
 
     private Boolean isMenu = true;
 
@@ -62,13 +68,23 @@ public class MainActivity extends BaseActivity {
         connectivity = new Connectivity(this, this);
         mainVM.getDashboardLiveData().observe(this, this::handleDashboardData);
 
+        preferenceManager = new PreferenceManager.Builder(this, Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
+
         getDashboardDetails();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCartCount();
     }
 
     @Override
     public void onBackPressed() {
         hideShowHeader(View.VISIBLE);
-
+        updateCartCount();
         if (getCurrentFragment() instanceof DashboardFragment)
             finish();
         else {
@@ -87,7 +103,11 @@ public class MainActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.loginBtn:
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-                intent.putExtra("destination", 1);
+                if (preferenceManager.getValue(Constants.TOKEN, null) != null)
+                    intent.putExtra("destination", 1);
+                else
+                    intent.putExtra("destination", 0);
+
                 startActivity(intent);
                 break;
             case R.id.cartBtn:
@@ -165,7 +185,7 @@ public class MainActivity extends BaseActivity {
     private void getDashboardDetails() {
         if (connectivity.isConnected()) {
             showHideLoader(View.VISIBLE);
-            mainVM.getDashboardDetails();
+            mainVM.getDashboardDetails(preferenceManager.getValue(Constants.TOKEN, null));
         } else
             Utilities.showErrorPopup(this, getString(R.string.no_internet_msg));
     }
@@ -173,12 +193,14 @@ public class MainActivity extends BaseActivity {
     private void handleDashboardData(DashboardData dashboardData) {
 
         if (dashboardData == null) {
+            showHideLoader(View.GONE);
             Utilities.showErrorPopup(this, getString(R.string.generic_error));
         } else {
             int code = dashboardData.getHeader().getCode();
             if (code == 200) {
                 init(dashboardData.getResponse());
             } else {
+                showHideLoader(View.GONE);
                 Utilities.showErrorPopup(this, dashboardData.getHeader().getMessage());
             }
         }
@@ -237,6 +259,7 @@ public class MainActivity extends BaseActivity {
 
     public void hideShowHeader(int visibility) {
         header.setVisibility(visibility);
+        tabLayout.setVisibility(visibility);
     }
 
     public void isMenu(Boolean menu) {
@@ -245,5 +268,10 @@ public class MainActivity extends BaseActivity {
 
     public void showHideLoader(int visibility) {
         loader.setVisibility(visibility);
+    }
+
+    public void updateCartCount() {
+        count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
+        count.setVisibility(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0 ? View.VISIBLE : View.INVISIBLE);
     }
 }

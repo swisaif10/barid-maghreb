@@ -1,5 +1,6 @@
 package com.mobiblanc.baridal_maghrib.views.account.profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.baridal_maghrib.models.Item;
+import com.mobiblanc.baridal_maghrib.utilities.Constants;
+import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
+import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 
 import java.util.ArrayList;
 
@@ -27,6 +32,7 @@ public class ProfileFragment extends Fragment {
 
     @BindView(R.id.profileRecycler)
     RecyclerView profileRecycler;
+    private PreferenceManager preferenceManager;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -36,6 +42,10 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
 
     }
 
@@ -60,12 +70,18 @@ public class ProfileFragment extends Fragment {
                 getActivity().onBackPressed();
                 break;
             case R.id.logo:
-                getActivity().onBackPressed();
+                startActivity(new Intent(getActivity(), MainActivity.class));
                 break;
             case R.id.cartBtn:
                 startActivity(new Intent(getActivity(), CartActivity.class));
                 break;
             case R.id.logoutBtn:
+                preferenceManager.clearValue(Constants.TOKEN);
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                intent.putExtra("destination", 0);
+                startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }

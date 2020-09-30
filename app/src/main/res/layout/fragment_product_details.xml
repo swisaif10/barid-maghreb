@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/notif"
+            android:id="@+id/count"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:background="@drawable/notification_circle"
@@ -56,12 +56,12 @@
             android:id="@+id/preview"
             android:layout_width="15dp"
             android:layout_height="22dp"
-            android:src="@drawable/portrait_1"
             android:translationX="7dp"
             android:translationY="-7dp"
             android:visibility="invisible"
-            app:layout_constraintEnd_toStartOf="@id/notif"
-            app:layout_constraintTop_toBottomOf="@id/cart" />
+            app:layout_constraintEnd_toStartOf="@id/count"
+            app:layout_constraintTop_toBottomOf="@id/cart"
+            tools:src="@drawable/portrait_1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

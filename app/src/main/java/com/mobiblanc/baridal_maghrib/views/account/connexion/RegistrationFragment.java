@@ -88,7 +88,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inscription, container, false);
+        View view = inflater.inflate(R.layout.fragment_registeration, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -158,7 +158,7 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 checkForm();
-                if (!Utilities.isEmailValid(s.toString())) {
+                if (!Utilities.isEmailValid(s.toString()) && !s.toString().equalsIgnoreCase("")) {
                     emailError.setVisibility(View.VISIBLE);
                     emailError.setText("Format email invalide");
                 } else {
@@ -181,7 +181,7 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 checkForm();
-                if (!Utilities.isPasswordValid(s.toString())) {
+                if (!Utilities.isPasswordValid(s.toString()) && !s.toString().equalsIgnoreCase("")) {
                     passwordError.setText("Mot de passe invalide");
                     passwordError.setVisibility(View.VISIBLE);
                 } else {
@@ -204,7 +204,7 @@ public class RegistrationFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 checkForm();
-                if (!s.toString().equalsIgnoreCase(password.getText().toString())) {
+                if (!s.toString().equalsIgnoreCase(password.getText().toString()) && !s.toString().equalsIgnoreCase("")) {
                     confirmPasswordError.setText("Les mots de passe ne sont pas similaires");
                     confirmPasswordError.setVisibility(View.VISIBLE);
                 } else {
@@ -220,7 +220,7 @@ public class RegistrationFragment extends Fragment {
     private void register() {
         if (connectivity.isConnected()) {
             loader.setVisibility(View.VISIBLE);
-            accountVM.registration(email.getText().toString().trim(),
+            accountVM.register(email.getText().toString().trim(),
                     firstname.getText().toString().trim(),
                     lastname.getText().toString().trim(),
                     password.getText().toString().trim(),

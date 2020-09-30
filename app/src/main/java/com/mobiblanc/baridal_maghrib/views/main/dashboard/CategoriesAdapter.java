@@ -4,10 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
@@ -40,11 +40,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (arrayList.get(position).getName().equalsIgnoreCase("Timbres"))
-            holder.background.setBackground(context.getResources().getDrawable(R.drawable.timbres));
+        if (position == 0)
+            holder.background.setImageResource(R.drawable.portrait_static);
         else
-            holder.background.setBackground(context.getResources().getDrawable(R.drawable.portrait));
+            holder.background.setImageResource(R.drawable.timbre_static);
 
+        //Glide.with(context).load(arrayList.get(position).getImage()).fitCenter().into(holder.background);
         holder.title.setText(arrayList.get(position).getName());
 
         holder.itemView.setOnClickListener(v -> onDashboardItemSelectedListener.onDashboardItemSelected(position, 0));
@@ -61,7 +62,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.background)
-        ConstraintLayout background;
+        ImageView background;
 
         ViewHolder(View itemView) {
             super(itemView);

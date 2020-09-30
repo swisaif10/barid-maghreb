@@ -1,5 +1,6 @@
 package com.mobiblanc.baridal_maghrib.views.main.products;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.baridal_maghrib.listeners.OnProductSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.products.Product;
 import com.mobiblanc.baridal_maghrib.models.products.ProductsData;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
+import com.mobiblanc.baridal_maghrib.utilities.Constants;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.viewmodels.MainVM;
 import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
@@ -40,6 +43,7 @@ public class ProductsFragment extends Fragment implements OnProductSelectedListe
     private String titleTxt;
     private Connectivity connectivity;
     private MainVM mainVM;
+    private PreferenceManager preferenceManager;
 
     public static ProductsFragment newInstance(String id, String title) {
         ProductsFragment fragment = new ProductsFragment();
@@ -61,6 +65,10 @@ public class ProductsFragment extends Fragment implements OnProductSelectedListe
         mainVM = ViewModelProviders.of(this).get(MainVM.class);
         connectivity = new Connectivity(getContext(), this);
         mainVM.getProductsLiveData().observe(this, this::handleProductsData);
+
+        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
 
         if (getArguments() != null) {
             id = getArguments().getString("id");
@@ -97,7 +105,7 @@ public class ProductsFragment extends Fragment implements OnProductSelectedListe
     private void getProducts() {
         if (connectivity.isConnected()) {
             loader.setVisibility(View.VISIBLE);
-            mainVM.getProducts(Integer.valueOf(id));
+            mainVM.getProducts(preferenceManager.getValue(Constants.TOKEN, null), Integer.valueOf(id));
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }

@@ -322,7 +322,7 @@
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/montserrat_medium"
         android:stateListAnimator="@null"
-        android:text="@string/cancel_command_btn"
+        android:text="@string/share_command_btn"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="13sp"

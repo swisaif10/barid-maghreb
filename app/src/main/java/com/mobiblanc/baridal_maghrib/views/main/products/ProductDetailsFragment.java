@@ -37,8 +37,8 @@ import butterknife.OnClick;
 
 public class ProductDetailsFragment extends Fragment {
 
-    @BindView(R.id.notif)
-    TextView notif;
+    @BindView(R.id.count)
+    TextView count;
     @BindView(R.id.preview)
     ImageView preview;
     @BindView(R.id.image)
@@ -107,6 +107,14 @@ public class ProductDetailsFragment extends Fragment {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        preview.setVisibility(View.GONE);
+        count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
+        count.setVisibility(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0 ? View.VISIBLE : View.INVISIBLE);
+    }
+
     @OnClick({R.id.backBtn, R.id.decreaseBtn, R.id.increaseBtn, R.id.cartBtn, R.id.addBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -115,7 +123,7 @@ public class ProductDetailsFragment extends Fragment {
                 break;
             case R.id.decreaseBtn:
                 if (Integer.valueOf(quantity.getText().toString()) > 1)
-                    quantity.setText(String.valueOf(Integer.valueOf(quantity.getText().toString()) + 1));
+                    quantity.setText(String.valueOf(Integer.valueOf(quantity.getText().toString()) - 1));
                 break;
             case R.id.increaseBtn:
                 if (Integer.valueOf(quantity.getText().toString()) < 9)
@@ -127,18 +135,19 @@ public class ProductDetailsFragment extends Fragment {
             case R.id.addBtn:
                 String id = preferenceManager.getValue(Constants.CART_ID, null);
                 if (id == null)
-                    createGuestCart();
+                    createCart();
                 else
                     addItemToCart(id);
 
-                makeFlyAnimation();
                 break;
         }
     }
 
     private void init() {
+
         Glide.with(getContext()).load(product.getImage().get(0)).into(image);
         Glide.with(getContext()).load(product.getImage().get(0)).into(copy);
+        Glide.with(getContext()).load(product.getImage().get(0)).into(preview);
         title.setText(product.getName());
         shortDescription.setText(product.getShortDescription());
         description.setText(Html.fromHtml(product.getDescription()).toString());
@@ -148,7 +157,7 @@ public class ProductDetailsFragment extends Fragment {
 
     private void addItemToCart(String id) {
         if (connectivity.isConnected()) {
-            cartVM.addItem(id, product.getSku(), Integer.valueOf(quantity.getText().toString()));
+            cartVM.addItem(preferenceManager.getValue(Constants.TOKEN, null), id, product.getSku(), Integer.valueOf(quantity.getText().toString()));
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -159,15 +168,17 @@ public class ProductDetailsFragment extends Fragment {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
             int code = addItemData.getHeader().getCode();
-            if (code != 200) {
+            if (code == 200) {
+                makeFlyAnimation();
+                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + Integer.valueOf(quantity.getText().toString()));
+            } else
                 Utilities.showErrorPopup(getContext(), addItemData.getHeader().getMessage());
-            }
         }
     }
 
-    private void createGuestCart() {
+    private void createCart() {
         if (connectivity.isConnected()) {
-            cartVM.createGuestCart();
+            cartVM.createCart(preferenceManager.getValue(Constants.TOKEN, null));
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -197,8 +208,8 @@ public class ProductDetailsFragment extends Fragment {
             @Override
             public void onAnimationEnd(Animator animation) {
                 preview.setVisibility(View.VISIBLE);
-                notif.setVisibility(View.VISIBLE);
-                notif.setText(String.valueOf(Integer.valueOf(notif.getText().toString()) + Integer.valueOf(quantity.getText().toString())));
+                count.setVisibility(View.VISIBLE);
+                count.setText(String.valueOf(Integer.valueOf(count.getText().toString()) + Integer.valueOf(quantity.getText().toString())));
             }
 
             @Override
