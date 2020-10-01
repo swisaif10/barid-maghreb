@@ -33,14 +33,14 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position == 1)
+        if (position == 2)
             holder.separator.setVisibility(View.GONE);
     }
 
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

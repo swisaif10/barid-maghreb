@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.payment.PaymentFragment;
 
 import java.util.ArrayList;
@@ -77,11 +78,10 @@ public class StandardDeliveryFragment extends Fragment {
             case R.id.addNewAddressBtn:
                 AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
                 addNewAddressFragment.setTargetFragment(this, REQUEST_CODE);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, addNewAddressFragment).addToBackStack(null).commit();
+                ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
                 break;
             case R.id.nextBtn:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PaymentFragment()).addToBackStack(null).commit();
+                ((CartActivity) getActivity()).replaceFragment(new PaymentFragment());
                 break;
         }
     }

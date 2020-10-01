@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@id/logo" />
 
     <RelativeLayout
-        android:id="@+id/discountLayout"
+        android:id="@+id/codeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -59,6 +59,7 @@
         app:layout_constraintTop_toBottomOf="@id/title">
 
         <EditText
+            android:id="@+id/code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/hintGrey"
@@ -70,7 +71,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/applyDiscountBtn"
+            android:id="@+id/applyBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -82,191 +83,234 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="170dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/illustration"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/stepper"
-        app:layout_constraintTop_toBottomOf="@id/discountLayout" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/stepper"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@id/cancelBtn">
+        android:layout_marginVertical="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/cancelBtn"
+        app:layout_constraintTop_toBottomOf="@id/codeLayout">
 
-        <TextView
-            android:id="@+id/stepDate1"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="10-08\n15:23 PM"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/stepIcon1"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:src="@drawable/ic_check"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/stepDate1" />
+            <TextView
+                android:id="@+id/stepDate1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="10-08\n15:23 PM"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+            <ImageView
+                android:id="@+id/stepIcon1"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@id/stepDate1"
+                android:src="@drawable/ic_check"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepDate1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@id/stepIcon1"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Paiement accepté"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepIcon1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/separator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/stepIcon1"
+                app:layout_constraintStart_toStartOf="@id/stepIcon1"
+                app:layout_constraintTop_toBottomOf="@id/stepIcon1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="Paiement accepté"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate1"
-            app:layout_constraintStart_toEndOf="@id/stepIcon1" />
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="1dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="@id/stepIcon1"
-            app:layout_constraintStart_toStartOf="@id/stepIcon1"
-            app:layout_constraintTop_toBottomOf="@id/stepIcon1" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/separator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/stepIcon2"
+                app:layout_constraintStart_toStartOf="@id/stepIcon2"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/stepDate2"
+            <TextView
+                android:id="@+id/stepDate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="10-08\n15:23 PM"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/stepIcon2"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="30dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_check_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepDate2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="En cours de traitement"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepIcon2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="10-08\n15:23 PM"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line1" />
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/stepIcon2"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:src="@drawable/ic_check_1"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate2"
-            app:layout_constraintStart_toEndOf="@id/stepDate2" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/separator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/stepIcon3"
+                app:layout_constraintStart_toStartOf="@id/stepIcon3"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+            <TextView
+                android:id="@+id/stepDate3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="10-08\n15:23 PM"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/stepIcon3"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="30dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_check_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepDate3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="En cours de livraison"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepIcon3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="En cours de traitement"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate2"
-            app:layout_constraintStart_toEndOf="@id/stepIcon2" />
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/line2"
-            android:layout_width="1dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="@id/stepIcon2"
-            app:layout_constraintStart_toStartOf="@id/stepIcon2"
-            app:layout_constraintTop_toBottomOf="@id/stepIcon2" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/separator"
+                app:layout_constraintBottom_toTopOf="@id/stepIcon4"
+                app:layout_constraintEnd_toEndOf="@id/stepIcon4"
+                app:layout_constraintStart_toStartOf="@id/stepIcon4"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/stepDate3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="10-08\n15:23 PM"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line2" />
+            <TextView
+                android:id="@+id/stepDate4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="10-08\n15:23 PM"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/stepIcon3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:src="@drawable/ic_check_1"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate3"
-            app:layout_constraintStart_toEndOf="@id/stepDate3" />
+            <ImageView
+                android:id="@+id/stepIcon4"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="30dp"
+                android:src="@drawable/ic_check_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepDate4"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="En cours de livraison"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate3"
-            app:layout_constraintStart_toEndOf="@id/stepIcon3" />
-
-        <View
-            android:id="@+id/line3"
-            android:layout_width="1dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/separator"
-            app:layout_constraintEnd_toEndOf="@id/stepIcon3"
-            app:layout_constraintStart_toStartOf="@id/stepIcon3"
-            app:layout_constraintTop_toBottomOf="@id/stepIcon3" />
-
-        <TextView
-            android:id="@+id/stepDate4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="10-08\n15:23 PM"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line3" />
-
-        <ImageView
-            android:id="@+id/stepIcon4"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:src="@drawable/ic_check_1"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate4"
-            app:layout_constraintStart_toEndOf="@id/stepDate4" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="Livrée"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/stepDate4"
-            app:layout_constraintStart_toEndOf="@id/stepIcon4" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Livrée"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stepIcon4"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancelBtn"
@@ -278,7 +322,7 @@
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/montserrat_medium"
         android:stateListAnimator="@null"
-        android:text="@string/cancel_command_btn"
+        android:text="@string/share_command_btn"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="13sp"

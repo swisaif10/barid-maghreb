@@ -20,6 +20,8 @@ public class Category implements Serializable {
     private String name;
     @Expose
     private String position;
+    @Expose
+    private String image;
 
     public Boolean getActive() {
         return active;
@@ -69,4 +71,11 @@ public class Category implements Serializable {
         this.position = position;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

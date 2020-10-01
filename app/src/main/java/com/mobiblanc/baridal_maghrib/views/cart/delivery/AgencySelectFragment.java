@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.payment.PaymentFragment;
 
 import butterknife.ButterKnife;
@@ -64,7 +65,7 @@ public class AgencySelectFragment extends Fragment {
                 getActivity().onBackPressed();
                 break;
             case R.id.nextBtn:
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new PaymentFragment()).addToBackStack(null).commit();
+                ((CartActivity) getActivity()).replaceFragment(new PaymentFragment());
                 break;
         }
     }

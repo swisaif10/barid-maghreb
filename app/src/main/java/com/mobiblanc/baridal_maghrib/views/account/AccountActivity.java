@@ -2,44 +2,45 @@ package com.mobiblanc.baridal_maghrib.views.account;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.views.account.connexion.AuthenticationFragment;
-import com.mobiblanc.baridal_maghrib.views.account.connexion.InscriptionFragment;
+import com.mobiblanc.baridal_maghrib.views.account.connexion.RegistrationFragment;
+import com.mobiblanc.baridal_maghrib.views.account.help.HelpFragment;
 import com.mobiblanc.baridal_maghrib.views.account.profile.ProfileFragment;
-import com.mobiblanc.baridal_maghrib.views.main.help.HelpFragment;
+import com.mobiblanc.baridal_maghrib.views.base.BaseActivity;
 
-public class ConnexionActivity extends AppCompatActivity {
+public class AccountActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connexion);
+        setContentView(R.layout.activity_account);
 
         if (getIntent() != null) {
+            Fragment fragment;
             switch (getIntent().getIntExtra("destination", -1)) {
                 case 0:
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, new AuthenticationFragment()).commit();
+                    fragment = new AuthenticationFragment();
                     break;
                 case 1:
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, new ProfileFragment()).commit();
+                    fragment = new ProfileFragment();
                     break;
                 case 2:
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, new HelpFragment()).commit();
-
+                    fragment = new HelpFragment();
                     break;
                 default:
-                    getSupportFragmentManager().beginTransaction().add(R.id.container, new InscriptionFragment()).commit();
+                    fragment = new RegistrationFragment();
                     break;
-
             }
+            replaceFragment(fragment);
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1)
             getSupportFragmentManager().popBackStack();
         else
             finish();

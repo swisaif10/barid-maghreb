@@ -1,6 +1,7 @@
 package com.mobiblanc.baridal_maghrib.views.account.profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.models.Item;
-import com.mobiblanc.baridal_maghrib.views.account.ConnexionActivity;
+import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
+import com.mobiblanc.baridal_maghrib.views.account.help.HelpFragment;
 import com.mobiblanc.baridal_maghrib.views.account.history.MyHistoryFragment;
-import com.mobiblanc.baridal_maghrib.views.main.help.HelpFragment;
+import com.mobiblanc.baridal_maghrib.views.tracking.TrackingActivity;
 
 import java.util.List;
 
@@ -47,13 +49,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         holder.itemView.setOnClickListener(v -> {
             switch (arrayList.get(position).getTitle()) {
                 case "Mes informations personnelles":
-                    ((ConnexionActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new UpdatePersonalInformationsFragment()).addToBackStack(null).commit();
+                    ((AccountActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new UpdatePersonalInformationFragment()).addToBackStack(null).commit();
                     break;
                 case "Mon historique":
-                    ((ConnexionActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new MyHistoryFragment()).addToBackStack(null).commit();
+                    ((AccountActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new MyHistoryFragment()).addToBackStack(null).commit();
                     break;
                 case "Assistance":
-                    ((ConnexionActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new HelpFragment()).addToBackStack(null).commit();
+                    ((AccountActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, new HelpFragment()).addToBackStack(null).commit();
+                    break;
+                case "Suivi de commande":
+                    context.startActivity(new Intent(context, TrackingActivity.class));
                     break;
             }
         });

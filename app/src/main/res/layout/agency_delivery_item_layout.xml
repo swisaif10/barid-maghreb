@@ -12,24 +12,23 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="Agence Fida - Casablanca"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/logo"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="10dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:text="17 Km"
-        android:textColor="@color/grey"
-        android:textSize="14sp"
+        android:src="@drawable/logo11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,12 +49,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/montserrat_regular"
             android:text="la colline 4, sidi Maarouf, casablanca 20100"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
@@ -74,11 +73,11 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
         android:drawablePadding="15dp"
-        android:gravity="bottom"
         android:fontFamily="@font/montserrat_regular"
+        android:gravity="bottom"
         android:text="06 22 32 95 57"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="13sp"
         app:drawableStartCompat="@drawable/ic_phone"
         app:layout_constraintBottom_toBottomOf="@id/verticalSeparator"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,11 +102,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:drawablePadding="15dp"
-        android:gravity="bottom"
         android:fontFamily="@font/montserrat_regular"
+        android:gravity="bottom"
         android:text="06 22 32 95 57"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="13sp"
         app:drawableStartCompat="@drawable/ic_fax"
         app:layout_constraintBottom_toBottomOf="@id/verticalSeparator"
         app:layout_constraintEnd_toEndOf="parent"

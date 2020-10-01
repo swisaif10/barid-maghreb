@@ -2,20 +2,25 @@ package com.mobiblanc.baridal_maghrib.views.cart;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.views.base.BaseActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.cartdetails.CartDetailsFragment;
+import com.mobiblanc.baridal_maghrib.views.cart.delivery.StandardDeliveryFragment;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, new CartDetailsFragment()).addToBackStack("").commit();
+        if (getIntent() != null && getIntent().getIntExtra("destination", -1) == 1) {
+            replaceFragment(new StandardDeliveryFragment());
+        } else {
+            replaceFragment(new CartDetailsFragment());
+        }
     }
+
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1)

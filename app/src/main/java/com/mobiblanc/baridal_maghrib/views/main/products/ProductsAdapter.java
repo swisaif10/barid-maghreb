@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.listeners.OnProductSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.products.Product;
-import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 
 import java.util.List;
 
@@ -24,10 +24,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     private Context context;
     private List<Product> arrayList;
+    private OnProductSelectedListener onProductSelectedListener;
 
-    public ProductsAdapter(Context context, List<Product> arrayList) {
+    public ProductsAdapter(Context context, List<Product> arrayList, OnProductSelectedListener onProductSelectedListener) {
         this.context = context;
         this.arrayList = arrayList;
+        this.onProductSelectedListener = onProductSelectedListener;
     }
 
     @NonNull
@@ -44,9 +46,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.title.setText(arrayList.get(position).getName());
         holder.size.setText(arrayList.get(position).getShortDescription());
 
-        holder.itemView.setOnClickListener(v -> {
-            ((MainActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.container, ProductDetailsFragment.newInstance(arrayList.get(position))).addToBackStack(null).commit();
-        });
+        holder.itemView.setOnClickListener(v -> onProductSelectedListener.onProductSelected(arrayList.get(position)));
     }
 
     @Override

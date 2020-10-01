@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,12 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnItemSelectedListener;
 
-import java.util.ArrayList;
-
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AgencyDeliveryAdapter extends RecyclerView.Adapter<AgencyDeliveryAdapter.ViewHolder> {
 
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.logo)
+    ImageView logo;
     private Context context;
     private OnItemSelectedListener onItemSelectedListener;
 
@@ -34,6 +39,13 @@ public class AgencyDeliveryAdapter extends RecyclerView.Adapter<AgencyDeliveryAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (position == 0){
+            holder.title.setText("Agence Fida - Casablanca");
+            holder.logo.setImageResource(R.drawable.logo11);
+        }else {
+            holder.title.setText("Agence Hay Chrifa - Casablanca");
+            holder.logo.setImageResource(R.drawable.logo2);
+        }
         holder.itemView.setOnClickListener(v -> onItemSelectedListener.onItemSelected(position));
     }
 
@@ -45,7 +57,10 @@ public class AgencyDeliveryAdapter extends RecyclerView.Adapter<AgencyDeliveryAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.logo)
+        ImageView logo;
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
