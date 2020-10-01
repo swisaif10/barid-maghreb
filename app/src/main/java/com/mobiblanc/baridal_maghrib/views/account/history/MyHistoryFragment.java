@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.models.HistoryItem;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +54,23 @@ public class MyHistoryFragment extends Fragment {
     }
 
     private void init() {
+        ArrayList<HistoryItem> arrayList = new ArrayList<HistoryItem>(){{
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.greenStatus,"En cours de traitement"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.redStatus,"Annulée"));
+            add(new HistoryItem(R.color.blue,"Confirmée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+            add(new HistoryItem(R.color.yellow,"Livrée"));
+        }};
         myHistoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        myHistoryRecycler.setAdapter(new MyHistoryAdapter(getContext()));
+        myHistoryRecycler.setAdapter(new MyHistoryAdapter(getContext(),arrayList));
     }
 }

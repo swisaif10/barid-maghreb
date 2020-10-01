@@ -9,4 +9,7 @@
     <color name="yellow">#EDC571</color>
     <color name="separator">#ADADAD</color>
     <color name="red">#FF0707</color>
+    <color name="greenStatus">#45AD4D</color>
+    <color name="redStatus">#D11C1C</color>
+
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.mobiblanc.baridal_maghrib.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StandardDeliveryAdapter extends RecyclerView.Adapter<StandardDeliveryAdapter.ViewHolder> {
@@ -33,6 +35,10 @@ public class StandardDeliveryAdapter extends RecyclerView.Adapter<StandardDelive
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (position == 0)
+            holder.title.setText("Chez moi");
+        else
+            holder.title.setText("Bureau");
 
     }
 
@@ -44,7 +50,8 @@ public class StandardDeliveryAdapter extends RecyclerView.Adapter<StandardDelive
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-
+        @BindView(R.id.title)
+        TextView title;
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

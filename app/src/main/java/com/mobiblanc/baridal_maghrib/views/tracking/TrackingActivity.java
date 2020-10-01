@@ -32,6 +32,12 @@ public class TrackingActivity extends AppCompatActivity {
                 .build();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(TrackingActivity.this, MainActivity.class));
+        finish();
+    }
+
     @OnClick({R.id.loginBtn, R.id.cartBtn, R.id.cancelBtn, R.id.container, R.id.logo})
     public void onViewClicked(View view) {
         switch (view.getId()) {

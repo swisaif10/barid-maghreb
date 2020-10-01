@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@id/footer"
@@ -47,7 +48,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_1"
                 android:orientation="vertical"
-                android:padding="30dp">
+                android:padding="20dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -189,124 +190,95 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_75sdp"
-            android:layout_marginTop="10dp"
+            android:id="@+id/addComment"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="5dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
-                android:layout_weight="0.3"
-                android:background="@drawable/selector_home_horizontal_item_background"
-                android:clickable="true"
-                android:focusable="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Ajouter un commentaire"
+                android:textColor="@color/black"
+                android:textSize="8sp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_edit" />
+        </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:src="@drawable/ic_cart_bancaire" />
+        <LinearLayout
+            android:id="@+id/bankCardChoice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/selected_payment_item_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Carte bancaire"
-                        android:textColor="@color/black"
-                        android:textSize="8sp" />
-                </LinearLayout>
-            </RelativeLayout>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_cart_bancaire" />
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
-                android:layout_weight="0.3"
-                android:background="@drawable/selector_home_horizontal_item_background"
-                android:clickable="true"
-                android:focusable="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/bank_card"
+                android:textColor="@color/black"
+                android:textSize="11sp" />
+        </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/cashChoice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/unselected_payment_item_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-                    <ImageView
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:src="@drawable/ic_espece" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_espece" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Espèce"
-                        android:textColor="@color/black"
-                        android:textSize="8sp" />
-                </LinearLayout>
-            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/money_cash"
+                android:textColor="@color/black"
+                android:textSize="11sp" />
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
-                android:layout_weight="0.3"
-                android:background="@drawable/selector_home_horizontal_item_background"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:id="@+id/image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:src="@drawable/ic_cheque" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="Chéque"
-                        android:textColor="@color/black"
-                        android:textSize="8sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/image"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="(à partir de 300dh)"
-                    android:textColor="@color/black"
-                    android:textSize="6sp" />
-            </RelativeLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/delivery"
+                android:textColor="@color/black"
+                android:textSize="8sp" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -314,7 +286,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"

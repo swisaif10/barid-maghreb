@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
+import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.tracking.TrackingActivity;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +30,10 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.itemsRecycler)
     RecyclerView itemsRecycler;
+    @BindView(R.id.bankCardChoice)
+    LinearLayout bankCardChoice;
+    @BindView(R.id.cashChoice)
+    LinearLayout cashChoice;
 
     public PaymentFragment() {
         // Required empty public constructor
@@ -49,11 +59,22 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
         init();
     }
 
-    @OnClick({R.id.backBtn, R.id.payBtn})
+    @OnClick({R.id.backBtn, R.id.addComment, R.id.bankCardChoice, R.id.cashChoice, R.id.payBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.backBtn:
                 getActivity().onBackPressed();
+                break;
+            case R.id.addComment:
+                ((CartActivity) getActivity()).addFragment(new AddNewCommentFragment());
+                break;
+            case R.id.bankCardChoice:
+                bankCardChoice.setBackground(getContext().getDrawable(R.drawable.selected_payment_item_background));
+                cashChoice.setBackground(getContext().getDrawable(R.drawable.unselected_payment_item_background));
+                break;
+            case R.id.cashChoice:
+                cashChoice.setBackground(getContext().getDrawable(R.drawable.selected_payment_item_background));
+                bankCardChoice.setBackground(getContext().getDrawable(R.drawable.unselected_payment_item_background));
                 break;
             case R.id.payBtn:
                 Utilities.showConfirmationDialog(getContext(), this::onClick);
