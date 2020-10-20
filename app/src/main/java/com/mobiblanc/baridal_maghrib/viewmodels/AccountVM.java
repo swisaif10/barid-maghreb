@@ -9,8 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.mobiblanc.baridal_maghrib.datamanager.retrofit.ApiUrls;
 import com.mobiblanc.baridal_maghrib.datamanager.retrofit.RestService;
 import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
-import com.mobiblanc.baridal_maghrib.models.login.LoginData;
-import com.mobiblanc.baridal_maghrib.models.registration.RegistrationData;
+import com.mobiblanc.baridal_maghrib.models.authentication.login.LoginData;
+import com.mobiblanc.baridal_maghrib.models.authentication.registration.RegistrationData;
 import com.mobiblanc.baridal_maghrib.utilities.Constants;
 
 import retrofit2.Call;
@@ -41,8 +41,8 @@ public class AccountVM extends AndroidViewModel {
         loginLiveData = new MutableLiveData<>();
     }
 
-    public void register(String email, String firstname, String lastname, String password, String number, String raison, String address, String comment) {
-        Call<RegistrationData> call = RestService.getInstance().endpoint().registration(ApiUrls.AUTHORIZATION, email, firstname, lastname, password, number, raison, address, comment);
+    public void register(String email, String firstName, String lastName,String phoneNumber) {
+        Call<RegistrationData> call = RestService.getInstance().endpoint().registration(ApiUrls.AUTHORIZATION, email, firstName, lastName, phoneNumber);
         call.enqueue(new Callback<RegistrationData>() {
             @Override
             public void onResponse(Call<RegistrationData> call, Response<RegistrationData> response) {

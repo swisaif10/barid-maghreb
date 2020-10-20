@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
-import com.mobiblanc.baridal_maghrib.listeners.OnProductSelectedListener;
+import com.mobiblanc.baridal_maghrib.listeners.OnObjectSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.products.Product;
 
 import java.util.List;
@@ -24,12 +24,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     private Context context;
     private List<Product> arrayList;
-    private OnProductSelectedListener onProductSelectedListener;
+    private OnObjectSelectedListener onObjectSelectedListener;
 
-    public ProductsAdapter(Context context, List<Product> arrayList, OnProductSelectedListener onProductSelectedListener) {
+    public ProductsAdapter(Context context, List<Product> arrayList, OnObjectSelectedListener onObjectSelectedListener) {
         this.context = context;
         this.arrayList = arrayList;
-        this.onProductSelectedListener = onProductSelectedListener;
+        this.onObjectSelectedListener = onObjectSelectedListener;
     }
 
     @NonNull
@@ -46,7 +46,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.title.setText(arrayList.get(position).getName());
         holder.size.setText(arrayList.get(position).getShortDescription());
 
-        holder.itemView.setOnClickListener(v -> onProductSelectedListener.onProductSelected(arrayList.get(position)));
+        holder.itemView.setOnClickListener(v -> onObjectSelectedListener.onObjectSelected(arrayList.get(position)));
     }
 
     @Override

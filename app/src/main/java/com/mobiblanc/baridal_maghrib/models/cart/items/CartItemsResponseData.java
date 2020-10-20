@@ -2,6 +2,7 @@
 package com.mobiblanc.baridal_maghrib.models.cart.items;
 
 import com.google.gson.annotations.Expose;
+import com.mobiblanc.baridal_maghrib.models.common.Item;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class CartItemsResponseData {
     @Expose
     private int fees;
     @Expose
-    private List<CartItem> items;
+    private List<Item> items;
     @Expose
     private int productsPrice;
     @Expose
@@ -24,11 +25,11 @@ public class CartItemsResponseData {
         this.fees = fees;
     }
 
-    public List<CartItem> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<CartItem> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 

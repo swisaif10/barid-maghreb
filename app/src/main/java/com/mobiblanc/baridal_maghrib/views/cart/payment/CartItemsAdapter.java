@@ -4,24 +4,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
+import com.mobiblanc.baridal_maghrib.models.common.Item;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.ViewHolder> {
 
-    @BindView(R.id.separator)
-    View separator;
     private Context context;
+    private List<Item> items;
 
-
-    public CartItemsAdapter(Context context) {
+    public CartItemsAdapter(Context context, List<Item> items) {
         this.context = context;
+        this.items = items;
     }
 
     @NonNull
@@ -33,18 +38,34 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position == 2)
+
+        Glide.with(context).load(items.get(position).getImage()).into(holder.image);
+        holder.title.setText(items.get(position).getName());
+        holder.subtitle.setText(items.get(position).getShortDescription());
+        holder.quantity.setText(items.get(position).getQty());
+        holder.price.setText(String.valueOf(items.get(position).getPrice()));
+        if (position ==items.size() - 1)
             holder.separator.setVisibility(View.GONE);
     }
 
 
     @Override
     public int getItemCount() {
-        return 3;
+        return items.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.image)
+        ImageView image;
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.subtitle)
+        TextView subtitle;
+        @BindView(R.id.quantity)
+        TextView quantity;
+        @BindView(R.id.price)
+        TextView price;
         @BindView(R.id.separator)
         View separator;
 

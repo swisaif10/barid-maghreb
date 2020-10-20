@@ -14,8 +14,8 @@ import butterknife.OnClick;
 
 public class LoginDialog extends Dialog {
 
-    private Activity context;
-    private OnDialogButtonsClickListener onDialogButtonsClickListener;
+    private final Activity context;
+    private final OnDialogButtonsClickListener onDialogButtonsClickListener;
 
 
     public LoginDialog(Activity context, OnDialogButtonsClickListener onDialogButtonsClickListener) {
@@ -33,7 +33,7 @@ public class LoginDialog extends Dialog {
     }
 
 
-    @OnClick({R.id.loginBtn, R.id.signUpBtn, R.id.cancelBtn})
+    @OnClick({R.id.loginBtn, R.id.signUpBtn, R.id.container})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.loginBtn:

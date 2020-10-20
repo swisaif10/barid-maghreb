@@ -15,23 +15,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnDashboardItemSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.dashboard.DashboardResponseData;
+import com.mobiblanc.baridal_maghrib.utilities.Constants;
+import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
 import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
+import com.mobiblanc.baridal_maghrib.views.main.products.ProductsFragment;
 import com.mobiblanc.baridal_maghrib.views.tracking.TrackingActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DashboardFragment extends Fragment implements OnDashboardItemSelectedListener {
 
-
-    @BindView(R.id.categoriesRecycler)
-    SnappingRecyclerView categoriesRecycler;
     @BindView(R.id.servicesRecycler)
     RecyclerView servicesRecycler;
     DashboardResponseData responseData;
-
 
     public static DashboardFragment newInstance(DashboardResponseData responseData) {
         DashboardFragment fragment = new DashboardFragment();
@@ -64,41 +64,52 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((MainActivity) getActivity()).showHideLoader(View.GONE);
         init();
     }
 
     @Override
-    public void onDashboardItemSelected(int index, int type) {
-        if (type == 0) {
-            ((MainActivity) getActivity()).selectTab(responseData.getCategories().get(index).getId(), responseData.getCategories().get(index).getName());
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).showHideBackBtn(false);
+    }
 
-        } else if (type == 1) {
-            Intent intent;
-            switch (responseData.getServices().get(index).getView()) {
-                case "assistance":
-                    intent = new Intent(getActivity(), AccountActivity.class);
-                    intent.putExtra("destination", 2);
-                    startActivity(intent);
-                    break;
-                case "tracking":
-                    startActivity(new Intent(getActivity(), TrackingActivity.class));
-                    getActivity().finish();
-                    break;
-                case "adresse":
-                    intent = new Intent(getActivity(), CartActivity.class);
-                    intent.putExtra("destination", 1);
-                    startActivity(intent);
-                    break;
-            }
+    @OnClick({R.id.discoverBtn, R.id.portraitBtn, R.id.stampBtn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.discoverBtn:
+                Utilities.showDiscoverDialog(getContext(), v -> ((MainActivity) getActivity()).replaceFragment(ProductsFragment.newInstance("0", "")));
+            case R.id.portraitBtn:
+                ((MainActivity) getActivity()).replaceFragment(ProductsFragment.newInstance("0", ""));
+                break;
+            case R.id.stampBtn:
+                ((MainActivity) getActivity()).replaceFragment(ProductsFragment.newInstance("0", ""));
+                break;
+        }
+    }
+
+    @Override
+    public void onDashboardItemSelected(int index) {
+        Intent intent;
+        switch (responseData.getServices().get(index).getView()) {
+            case "assistance":
+                intent = new Intent(getActivity(), AccountActivity.class);
+                intent.putExtra("destination", 2);
+                startActivity(intent);
+                break;
+            case "tracking":
+                startActivity(new Intent(getActivity(), TrackingActivity.class));
+                getActivity().finish();
+                break;
+            case "adresse":
+                intent = new Intent(getActivity(), CartActivity.class);
+                intent.putExtra("destination", 1);
+                startActivity(intent);
+                break;
         }
     }
 
     private void init() {
-        ((MainActivity) getActivity()).showHideLoader(View.GONE);
-        categoriesRecycler.enableViewScaling(true);
-        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoriesRecycler.setAdapter(new CategoriesAdapter(getContext(), responseData.getCategories(), this::onDashboardItemSelected));
-
         servicesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         servicesRecycler.setAdapter(new ServicesAdapter(getContext(), responseData.getServices(), this::onDashboardItemSelected));
         servicesRecycler.setNestedScrollingEnabled(false);

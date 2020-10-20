@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,17 +10,16 @@
         android:layout_width="55dp"
         android:layout_height="75dp"
         android:layout_marginHorizontal="10dp"
-        android:src="@drawable/timbre"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/timbre" />
 
     <LinearLayout
-        android:id="@+id/quantityLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="70dp"
         android:orientation="vertical"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,9 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Timbre"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="Timbre" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -39,52 +39,75 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_regular"
-            android:text="Véhicule circulant au Maroc"
             android:textColor="@color/black"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            tools:text="Véhicule circulant au Maroc" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/quuantity_title"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    tools:text="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    tools:text="7,50" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/price_unity"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="15dp"
+            android:alpha="0.3"
+            android:background="#707070" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/details"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image"
-        app:layout_constraintTop_toBottomOf="@id/quantityLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Quantité : 1"
-            android:textColor="@color/black"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="7,50 MAD"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/separator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="15dp"
-        android:alpha="0.3"
-        android:background="#707070"
-        app:layout_constraintTop_toBottomOf="@+id/details" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

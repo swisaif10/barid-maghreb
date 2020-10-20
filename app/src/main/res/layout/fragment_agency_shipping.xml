@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/agency_delivery_title"
+                android:textColor="@color/darkGrey"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/citiesDropDownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/bg_dropdown"
+                android:completionThreshold="0"
+                android:focusable="false"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Quelle ville recherchez-vous?"
+                android:overScrollMode="never"
+                android:padding="20dp"
+                android:textColorHint="#818181"
+                android:textSize="13sp"
+                app:drawableEndCompat="@drawable/arrow" />
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/provincesDropDownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/bg_dropdown"
+                android:completionThreshold="0"
+                android:focusable="false"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Province"
+                android:overScrollMode="never"
+                android:padding="20dp"
+                android:textColorHint="#818181"
+                android:textSize="13sp"
+                app:drawableEndCompat="@drawable/arrow" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/deliveryRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                tools:itemCount="2"
+                tools:listitem="@layout/agency_item_layout" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/loader"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/loader"
+        android:visibility="gone" />
+
+</RelativeLayout>

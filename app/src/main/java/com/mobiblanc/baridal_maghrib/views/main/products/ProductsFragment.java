@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
-import com.mobiblanc.baridal_maghrib.listeners.OnProductSelectedListener;
+import com.mobiblanc.baridal_maghrib.listeners.OnObjectSelectedListener;
 import com.mobiblanc.baridal_maghrib.models.products.Product;
 import com.mobiblanc.baridal_maghrib.models.products.ProductsData;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.droidsonroids.gif.GifImageView;
 
-public class ProductsFragment extends Fragment implements OnProductSelectedListener {
+public class ProductsFragment extends Fragment implements OnObjectSelectedListener {
 
     @BindView(R.id.portraitsRecycler)
     RecyclerView portraitsRecycler;
@@ -87,19 +87,25 @@ public class ProductsFragment extends Fragment implements OnProductSelectedListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getProducts();
+        //getProducts();
     }
 
     @Override
-    public void onProductSelected(Product product) {
-        ((MainActivity) getActivity()).replaceFragment(ProductDetailsFragment.newInstance(product));
-        ((MainActivity) getActivity()).isMenu(false);
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).showHideBackBtn(true);
+    }
+
+
+    @Override
+    public void onObjectSelected(Object object) {
+        ((MainActivity) getActivity()).replaceFragment(ProductDetailsFragment.newInstance((Product) object));
     }
 
     private void init(List<Product> products) {
         title.setText(titleTxt);
         portraitsRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        portraitsRecycler.setAdapter(new ProductsAdapter(getContext(), products, this::onProductSelected));
+        portraitsRecycler.setAdapter(new ProductsAdapter(getContext(), products, this::onObjectSelected));
     }
 
     private void getProducts() {
@@ -118,7 +124,13 @@ public class ProductsFragment extends Fragment implements OnProductSelectedListe
             int code = productsData.getHeader().getCode();
             if (code == 200) {
                 init(productsData.getResponse());
-            } else {
+            }  else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), productsData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    getProducts();
+                });
+
+            }else {
                 Utilities.showErrorPopup(getContext(), productsData.getHeader().getMessage());
             }
         }

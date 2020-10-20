@@ -1,17 +1,18 @@
 <resources>
-    <string name="app_name">APSM</string>
-    <string name="login_title">Authentification</string>
-    <string name="login_subtitle">connectez-vous pour continuer</string>
+    <string name="app_name">Portrait Royal</string>
+    <string name="login_title">Identification</string>
+    <string name="login_subtitle">Saisissez votre numéro de téléphone</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Mot de passe</string>
     <string name="forgotten_password_btn">Mot de passe oublié ?</string>
     <string name="login_btn">Se connecter</string>
     <string name="signup_btn_description">vous n’avez pas de compte?</string>
     <string name="sigin_title">Inscription</string>
+    <string name="signin_subtitle">connectez-vous pour continuer</string>
     <string name="lastname_hint">Nom</string>
     <string name="firstname_hint">Prénom</string>
     <string name="social_hint">Raison sociale</string>
-    <string name="number_hint">Num contact</string>
+    <string name="number_hint">Numéro de téléphone</string>
     <string name="comment_hint">Complément</string>
     <string name="services_title">Services</string>
     <string name="categories_title">Catégories</string>
@@ -20,7 +21,7 @@
     <string name="add_btn">Ajouter</string>
     <string name="login_dialog_title">Finaliser votre commande</string>
     <string name="login_dialog_subtitle">Vous devez vous identifier\npour continuer</string>
-    <string name="dialog_login_btn">Connexion</string>
+    <string name="dialog_login_btn">J’ai déjà un compte</string>
     <string name="cancel_btn">Annuler</string>
     <string name="delivery_mode_title">Mode de livraison</string>
     <string name="update_btn">Modifier</string>
@@ -70,15 +71,15 @@
     <string name="no_internet_msg">Aucune connexion internet détectée. Veuillez vérifier vos paramètres de connexion puis réessayer.</string>
     <string name="generic_error">Une erreur est survenue!</string>
     <string name="price_unity">MAD</string>
-    <string name="logout_btn">Se déconnecter</string>
+    <string name="logout_btn">Se Déconnecter</string>
     <string name="update_infos_title">Mes informations personnelles</string>
     <string name="birthdate_hint">Date de naissance</string>
     <string name="address_hint">Adresse postale</string>
     <string name="my_address_hint">Mon adresse</string>
     <string name="confirm_btn">Confirmer</string>
     <string name="my_history_title">Mon historique</string>
-    <string name="cgu_text"><![CDATA[<font color="#000000">J’accepte </font><font color="#EDC571"><u>les conditions générales</u></font>]]></string>
-    <string name="rules_text"><![CDATA[<font color="#000000">La Loi </font><font color="#EDC571"><u>0809</u></font>]]></string>
+    <string name="cgu_text"><![CDATA[<font color="#000000">J’accepte </font><font color="#00428D"><u>les conditions générales</u></font>]]></string>
+    <string name="rules_text"><![CDATA[<font color="#000000">La Loi </font><font color="#00428D"><u>0809</u></font>]]></string>
     <string name="total_price">Prix total :</string>
     <string name="fee">Prix d\'envoi:</string>
     <string name="price">Prix produits:</string>
@@ -91,7 +92,19 @@
     <string name="delivery">( à la livraison )</string>
     <string name="add_comment_title">Commentaire</string>
     <string name="hint_comment">Ecrire votre commentaire</string>
+    <string name="next1_btn">Suivant</string>
+    <string name="sms_confirmation_dialog_title">SMS confirmation</string>
+    <string name="sms_confirmation_dialog_subtitle">Saisissez le code reçu par SMS</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="standard_shipping_title">Livraison standard</string>
+    <string name="agency_shipping_title">Livraison en agence</string>
+    <string name="quuantity_title">Quantité :</string>
+    <string name="shipping_fee">Frais d\'envoi</string>
+    <string name="shipping_method">Mode de livraison</string>
+    <string name="discover_btn">Découvrir</string>
+    <string name="purchaseBtn">Commander</string>
+    <string name="register_dialog_btn">Je m’inscris</string>
+    <string name="welcome">Bienvenue</string>
 
 </resources>

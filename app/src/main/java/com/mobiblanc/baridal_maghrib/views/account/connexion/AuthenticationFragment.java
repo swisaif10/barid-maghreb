@@ -18,7 +18,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
-import com.mobiblanc.baridal_maghrib.models.login.LoginData;
+import com.mobiblanc.baridal_maghrib.models.authentication.login.LoginData;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
 import com.mobiblanc.baridal_maghrib.utilities.Constants;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;

@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment {
             add(new Item(R.drawable.ic_user, "Mes informations personnelles"));
             add(new Item(R.drawable.ic_bag_profile, "Mon historique"));
             add(new Item(R.drawable.ic_tracking, "Suivi de commande"));
-            add(new Item(R.drawable.ic_aide, "Assistance"));
+            add(new Item(R.drawable.ic_aide, "Contact"));
         }};
 
         profileRecycler.setLayoutManager(new LinearLayoutManager(getContext()));

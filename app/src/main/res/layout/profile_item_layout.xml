@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/profile_backgroundtint_selector"
+    android:background="@drawable/profile_background_tint_selector"
     android:clickable="true"
     android:focusable="true"
     android:padding="20dp">
@@ -13,6 +14,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
+        app:tint="#cacaca"
         tools:src="@drawable/ic_user" />
 
     <TextView
@@ -32,6 +34,7 @@
         android:layout_height="15dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_arrow_profile" />
+        android:src="@drawable/ic_arrow_profile"
+        app:tint="@color/black" />
 
 </RelativeLayout>

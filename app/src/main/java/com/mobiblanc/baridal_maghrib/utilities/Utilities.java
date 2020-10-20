@@ -96,7 +96,7 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showUpdateDialog(Context context, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+    static void showUpdateDialog(Context context, String status, OnDialogButtonsClickListener onDialogButtonsClickListener) {
 
         if (context == null) {
             return;
@@ -115,6 +115,29 @@ public interface Utilities {
             dialog.dismiss();
             onDialogButtonsClickListener.onSecondButtonClick();
         });
+        if (status.equalsIgnoreCase("blocked"))
+            cancel.setVisibility(View.GONE);
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    static void showDiscoverDialog(Context context, View.OnClickListener onClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.discover_dialog, null, false);
+        Button next = view.findViewById(R.id.nextBtn);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        next.setOnClickListener(v -> {
+            dialog.dismiss();
+            onClickListener.onClick(v);
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(view);
         dialog.show();
     }

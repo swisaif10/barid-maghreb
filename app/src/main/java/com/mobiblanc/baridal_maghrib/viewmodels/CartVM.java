@@ -8,6 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.mobiblanc.baridal_maghrib.datamanager.retrofit.ApiUrls;
 import com.mobiblanc.baridal_maghrib.datamanager.retrofit.RestService;
+import com.mobiblanc.baridal_maghrib.models.payment.PaymentRecapData;
+import com.mobiblanc.baridal_maghrib.models.shipping.address.AddressData;
+import com.mobiblanc.baridal_maghrib.models.shipping.agencies.AgenciesData;
 import com.mobiblanc.baridal_maghrib.models.cart.add.AddItemData;
 import com.mobiblanc.baridal_maghrib.models.cart.delete.DeleteItemData;
 import com.mobiblanc.baridal_maghrib.models.cart.guest.GuestCartData;
@@ -24,6 +27,9 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<AddItemData> addItemLiveData;
     private MutableLiveData<AddItemData> updateItemLiveData;
     private MutableLiveData<DeleteItemData> deleteItemLiveData;
+    private MutableLiveData<AgenciesData> agenciesLiveData;
+    private MutableLiveData<AddressData> addressLiveData;
+    private MutableLiveData<PaymentRecapData> paymentRecapLiveData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -51,12 +57,27 @@ public class CartVM extends AndroidViewModel {
         return deleteItemLiveData;
     }
 
+    public MutableLiveData<AgenciesData> getAgenciesLiveData() {
+        return agenciesLiveData;
+    }
+
+    public MutableLiveData<PaymentRecapData> getPaymentRecapLiveData() {
+        return paymentRecapLiveData;
+    }
+
+    public MutableLiveData<AddressData> getAddressLiveData() {
+        return addressLiveData;
+    }
+
     private void init() {
         guestCartLiveData = new MutableLiveData<>();
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
         updateItemLiveData = new MutableLiveData<>();
         deleteItemLiveData = new MutableLiveData<>();
+        agenciesLiveData = new MutableLiveData<>();
+        addressLiveData = new MutableLiveData<>();
+        paymentRecapLiveData = new MutableLiveData<>();
     }
 
     public void createCart(String token) {
@@ -151,6 +172,51 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(Call<DeleteItemData> call, Throwable t) {
                 deleteItemLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getAgencies(String token) {
+        Call<AgenciesData> call = RestService.getInstance().endpoint().getAgencies(token);
+        call.enqueue(new Callback<AgenciesData>() {
+            @Override
+            public void onResponse(Call<AgenciesData> call, Response<AgenciesData> response) {
+                agenciesLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AgenciesData> call, Throwable t) {
+                agenciesLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getAddress(String token) {
+        Call<AddressData> call = RestService.getInstance().endpoint().getAddress(token);
+        call.enqueue(new Callback<AddressData>() {
+            @Override
+            public void onResponse(Call<AddressData> call, Response<AddressData> response) {
+                addressLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AddressData> call, Throwable t) {
+                addressLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getPaymentRecap(String token, String paymentMethod, int addressId, int agencyId) {
+        Call<PaymentRecapData> call = RestService.getInstance().endpoint().getPaymentRecap(token,paymentMethod,addressId,agencyId);
+        call.enqueue(new Callback<PaymentRecapData>() {
+            @Override
+            public void onResponse(Call<PaymentRecapData> call, Response<PaymentRecapData> response) {
+                paymentRecapLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PaymentRecapData> call, Throwable t) {
+                paymentRecapLiveData.setValue(null);
             }
         });
     }
