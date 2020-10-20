@@ -54,7 +54,7 @@ public class OrderDetailsFragment extends Fragment {
 
     private void init() {
         itemsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        itemsRecycler.setAdapter(new CartItemsAdapter(getContext()));
-        itemsRecycler.setNestedScrollingEnabled(false);
+        //itemsRecycler.setAdapter(new CartItemsAdapter(getContext()));
+        //itemsRecycler.setNestedScrollingEnabled(false);
     }
 }

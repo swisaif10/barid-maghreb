@@ -77,7 +77,6 @@ public class ProductDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).hideShowHeader(View.GONE);
 
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
         connectivity = new Connectivity(getContext(), this);
@@ -138,7 +137,6 @@ public class ProductDetailsFragment extends Fragment {
                     createCart();
                 else
                     addItemToCart(id);
-
                 break;
         }
     }
@@ -171,6 +169,11 @@ public class ProductDetailsFragment extends Fragment {
             if (code == 200) {
                 makeFlyAnimation();
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + Integer.valueOf(quantity.getText().toString()));
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    //((MainActivity) getActivity()).selectTab(0, null);
+                });
             } else
                 Utilities.showErrorPopup(getContext(), addItemData.getHeader().getMessage());
         }
@@ -192,6 +195,11 @@ public class ProductDetailsFragment extends Fragment {
             if (code == 200) {
                 preferenceManager.putValue(Constants.CART_ID, guestCartData.getResponse().getQuoteId());
                 addItemToCart(guestCartData.getResponse().getQuoteId());
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), guestCartData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    //((MainActivity) getActivity()). selectDashboard();
+                });
             } else {
                 Utilities.showErrorPopup(getContext(), guestCartData.getHeader().getMessage());
             }

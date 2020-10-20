@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.baridal_maghrib.listeners.OnDialogButtonsClickListener;
@@ -24,7 +21,7 @@ import com.mobiblanc.baridal_maghrib.listeners.OnItemQuantityChangedListener;
 import com.mobiblanc.baridal_maghrib.models.cart.add.AddItemData;
 import com.mobiblanc.baridal_maghrib.models.cart.delete.DeleteItemData;
 import com.mobiblanc.baridal_maghrib.models.cart.guest.GuestCartData;
-import com.mobiblanc.baridal_maghrib.models.cart.items.CartItem;
+import com.mobiblanc.baridal_maghrib.models.common.Item;
 import com.mobiblanc.baridal_maghrib.models.cart.items.CartItemsData;
 import com.mobiblanc.baridal_maghrib.models.cart.items.CartItemsResponseData;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
@@ -33,10 +30,9 @@ import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.viewmodels.CartVM;
 import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
 import com.mobiblanc.baridal_maghrib.views.cart.CartActivity;
-import com.mobiblanc.baridal_maghrib.views.cart.delivery.DeliveryModeFragment;
-
+import com.mobiblanc.baridal_maghrib.views.cart.shipping.ShippingMethodFragment;
+import com.mobiblanc.baridal_maghrib.views.main.MainActivity;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,15 +50,15 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     TextView total;
     @BindView(R.id.loader)
     GifImageView loader;
-    @BindView(R.id.backBtn)
-    RelativeLayout backBtn;
+
     private CartAdapter cartAdapter;
     private Boolean started = false;
     private Connectivity connectivity;
     private CartVM cartVM;
     private PreferenceManager preferenceManager;
-    private List<CartItem> items;
+    private List<Item> items;
     private int itemsToAddInCart;
+    private int position;
 
     public CartDetailsFragment() {
         // Required empty public constructor
@@ -96,7 +92,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     public void onResume() {
         super.onResume();
         if (started && preferenceManager.getValue(Constants.TOKEN, null) != null) {
-            ((CartActivity) getActivity()).replaceFragment(new DeliveryModeFragment());
+            ((CartActivity) getActivity()).replaceFragment(new ShippingMethodFragment());
             started = false;
         }
     }
@@ -111,20 +107,13 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             getCartItems(id);
     }
 
-    @OnClick({R.id.backBtn, R.id.nextBtn})
+    @OnClick({R.id.nextBtn})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.backBtn:
-                getActivity().onBackPressed();
-                break;
-            case R.id.nextBtn:
-                started = true;
-                if (preferenceManager.getValue(Constants.TOKEN, null) != null)
-                    ((CartActivity) getActivity()).replaceFragment(new DeliveryModeFragment());
-                else
-                    new LoginDialog(getActivity(), this).show();
-                break;
-        }
+            started = true;
+            if (preferenceManager.getValue(Constants.TOKEN, null) != null)
+                ((CartActivity) getActivity()).replaceFragment(new ShippingMethodFragment());
+            else
+                new LoginDialog(getActivity(), this).show();
     }
 
     @Override
@@ -179,6 +168,15 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             if (code == 200) {
                 preferenceManager.putValue(Constants.CART_ID, guestCartData.getResponse().getQuoteId());
                 getCartItems(guestCartData.getResponse().getQuoteId());
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), guestCartData.getHeader().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        preferenceManager.clearValue(Constants.TOKEN);
+                        getActivity().finishAffinity();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                    }
+                });
             } else {
                 Utilities.showErrorPopup(getContext(), guestCartData.getHeader().getMessage());
             }
@@ -195,13 +193,21 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
     private void handleCartItemsData(CartItemsData cartItemsData) {
         loader.setVisibility(View.GONE);
-        backBtn.setClickable(true);
         if (cartItemsData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
             int code = cartItemsData.getHeader().getCode();
             if (code == 200) {
                 init(cartItemsData.getResponse());
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), cartItemsData.getHeader().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        preferenceManager.clearValue(Constants.TOKEN);
+                        getActivity().finishAffinity();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                    }
+                });
             } else {
                 Utilities.showErrorPopup(getContext(), cartItemsData.getHeader().getMessage());
             }
@@ -210,7 +216,6 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
     private void updateItemQty(int index, int qty) {
         if (connectivity.isConnected()) {
-            backBtn.setClickable(false);
             cartVM.updateItem(preferenceManager.getValue(Constants.TOKEN, null), preferenceManager.getValue(Constants.CART_ID, ""), items.get(index).getItemId(), qty);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
@@ -225,6 +230,15 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             if (code == 200) {
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + itemsToAddInCart);
                 getCartItems(preferenceManager.getValue(Constants.CART_ID, null));
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        preferenceManager.clearValue(Constants.TOKEN);
+                        getActivity().finishAffinity();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                    }
+                });
             } else
                 Utilities.showErrorPopup(getContext(), addItemData.getHeader().getMessage());
         }
@@ -232,7 +246,6 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
     private void deleteItem(int index) {
         if (connectivity.isConnected()) {
-            backBtn.setClickable(false);
             cartVM.deleteItem(preferenceManager.getValue(Constants.TOKEN, null), preferenceManager.getValue(Constants.CART_ID, ""), items.get(index).getItemId());
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
@@ -246,7 +259,18 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             int code = deleteItemData.getHeader().getCode();
             if (code == 200 && deleteItemData.getResponse()) {
                 getCartItems(preferenceManager.getValue(Constants.CART_ID, null));
+                cartAdapter.removeItem(position);
+                itemsToAddInCart = -Integer.valueOf(items.get(position).getQty());
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + itemsToAddInCart);
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), deleteItemData.getHeader().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        preferenceManager.clearValue(Constants.TOKEN);
+                        getActivity().finishAffinity();
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                    }
+                });
             } else
                 Utilities.showErrorPopup(getContext(), deleteItemData.getHeader().getMessage());
         }
@@ -257,10 +281,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-                final int position = viewHolder.getAdapterPosition();
+                position = viewHolder.getAdapterPosition();
                 deleteItem(position);
-                itemsToAddInCart = -Integer.valueOf(items.get(position).getQty());
-                cartAdapter.removeItem(position);
             }
         };
 

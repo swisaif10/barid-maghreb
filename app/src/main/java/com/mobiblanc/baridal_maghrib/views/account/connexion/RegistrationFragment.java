@@ -9,22 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.datamanager.sharedpref.PreferenceManager;
-import com.mobiblanc.baridal_maghrib.models.registration.RegistrationData;
+import com.mobiblanc.baridal_maghrib.models.authentication.registration.RegistrationData;
 import com.mobiblanc.baridal_maghrib.utilities.Connectivity;
 import com.mobiblanc.baridal_maghrib.utilities.Utilities;
 import com.mobiblanc.baridal_maghrib.viewmodels.AccountVM;
 import com.mobiblanc.baridal_maghrib.views.account.AccountActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,24 +31,14 @@ public class RegistrationFragment extends Fragment {
 
     @BindView(R.id.cguBtn)
     TextView cguBtn;
-    @BindView(R.id.lastname)
-    TextInputEditText lastname;
-    @BindView(R.id.firstname)
-    TextInputEditText firstname;
-    @BindView(R.id.social)
-    TextInputEditText social;
-    @BindView(R.id.address)
-    TextInputEditText address;
+    @BindView(R.id.lastName)
+    TextInputEditText lastName;
+    @BindView(R.id.firstName)
+    TextInputEditText firstName;
     @BindView(R.id.email)
     TextInputEditText email;
-    @BindView(R.id.password)
-    TextInputEditText password;
-    @BindView(R.id.number)
-    TextInputEditText number;
-    @BindView(R.id.comment)
-    TextInputEditText comment;
-    @BindView(R.id.confirmPassword)
-    TextInputEditText confirmPassword;
+    @BindView(R.id.phoneNumber)
+    TextInputEditText phoneNumber;
     @BindView(R.id.rulesBtn)
     TextView rulesBtn;
     @BindView(R.id.signUpBtn)
@@ -64,10 +51,7 @@ public class RegistrationFragment extends Fragment {
     CheckBox rulesCheck;
     @BindView(R.id.emailError)
     TextView emailError;
-    @BindView(R.id.passwordError)
-    TextView passwordError;
-    @BindView(R.id.confirmPasswordError)
-    TextView confirmPasswordError;
+
     private Connectivity connectivity;
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
@@ -139,11 +123,8 @@ public class RegistrationFragment extends Fragment {
             }
         };
 
-        lastname.addTextChangedListener(textWatcher);
-        firstname.addTextChangedListener(textWatcher);
-        social.addTextChangedListener(textWatcher);
-        address.addTextChangedListener(textWatcher);
-        number.addTextChangedListener(textWatcher);
+        lastName.addTextChangedListener(textWatcher);
+        firstName.addTextChangedListener(textWatcher);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -167,51 +148,6 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                checkForm();
-                if (!Utilities.isPasswordValid(s.toString()) && !s.toString().equalsIgnoreCase("")) {
-                    passwordError.setText("Mot de passe invalide");
-                    passwordError.setVisibility(View.VISIBLE);
-                } else {
-                    passwordError.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        confirmPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                checkForm();
-                if (!s.toString().equalsIgnoreCase(password.getText().toString()) && !s.toString().equalsIgnoreCase("")) {
-                    confirmPasswordError.setText("Les mots de passe ne sont pas similaires");
-                    confirmPasswordError.setVisibility(View.VISIBLE);
-                } else {
-                    confirmPasswordError.setVisibility(View.GONE);
-                }
-            }
-        });
 
         cguCheck.setOnCheckedChangeListener((buttonView, isChecked) -> checkForm());
         rulesCheck.setOnCheckedChangeListener((buttonView, isChecked) -> checkForm());
@@ -221,13 +157,9 @@ public class RegistrationFragment extends Fragment {
         if (connectivity.isConnected()) {
             loader.setVisibility(View.VISIBLE);
             accountVM.register(email.getText().toString().trim(),
-                    firstname.getText().toString().trim(),
-                    lastname.getText().toString().trim(),
-                    password.getText().toString().trim(),
-                    number.getText().toString().trim(),
-                    social.getText().toString(),
-                    address.getText().toString(),
-                    comment.getText().toString());
+                    firstName.getText().toString().trim(),
+                    lastName.getText().toString().trim(),
+                    phoneNumber.getText().toString().trim());
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -247,12 +179,8 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void checkForm() {
-        signUpBtn.setEnabled(!Utilities.isEmpty(firstname) && !Utilities.isEmpty(lastname)
-                && !Utilities.isEmpty(social) && !Utilities.isEmpty(address)
+        signUpBtn.setEnabled(!Utilities.isEmpty(firstName) && !Utilities.isEmpty(lastName)
                 && !Utilities.isEmpty(email) && Utilities.isEmailValid(email.getText().toString())
-                && !Utilities.isEmpty(password) && !Utilities.isEmpty(confirmPassword)
-                && Utilities.isPasswordValid(password.toString().trim())
-                && password.getText().toString().trim().equalsIgnoreCase(confirmPassword.getText().toString().trim())
-                && !Utilities.isEmpty(number) && cguCheck.isChecked() && rulesCheck.isChecked());
+                && !Utilities.isEmpty(phoneNumber) && cguCheck.isChecked() && rulesCheck.isChecked());
     }
 }

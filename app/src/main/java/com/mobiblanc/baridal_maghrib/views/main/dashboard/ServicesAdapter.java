@@ -44,7 +44,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         Glide.with(context).load(arrayList.get(position).getIcon()).fitCenter().into(holder.image);
         holder.title.setText(arrayList.get(position).getTitle());
 
-        holder.itemView.setOnClickListener(v -> onDashboardItemSelectedListener.onDashboardItemSelected(position, 1));
+        holder.itemView.setOnClickListener(v -> onDashboardItemSelectedListener.onDashboardItemSelected(position));
     }
 
     @Override

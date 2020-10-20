@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.mobiblanc.baridal_maghrib.R;
 import com.mobiblanc.baridal_maghrib.listeners.OnItemQuantityChangedListener;
-import com.mobiblanc.baridal_maghrib.models.cart.items.CartItem;
+import com.mobiblanc.baridal_maghrib.models.common.Item;
 
 import java.util.List;
 
@@ -24,10 +24,10 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private Context context;
-    private List<CartItem> arrayList;
+    private List<Item> arrayList;
     private OnItemQuantityChangedListener onItemQuantityChangedListener;
 
-    public CartAdapter(Context context, List<CartItem> arrayList, OnItemQuantityChangedListener onItemQuantityChangedListener) {
+    public CartAdapter(Context context, List<Item> arrayList, OnItemQuantityChangedListener onItemQuantityChangedListener) {
         this.context = context;
         this.arrayList = arrayList;
         this.onItemQuantityChangedListener = onItemQuantityChangedListener;
