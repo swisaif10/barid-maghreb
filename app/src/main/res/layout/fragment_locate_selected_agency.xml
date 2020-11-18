@@ -28,7 +28,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextBtn"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="20dp"
@@ -62,7 +62,7 @@
             android:fontFamily="@font/montserrat_semibold"
             android:textColor="@color/black"
             android:textSize="15sp"
-            tools:text="Agence Fida - Casablanca" />
+            android:text="Agence Fida - Casablanca" />
 
         <TextView
             android:id="@+id/address"
@@ -72,7 +72,7 @@
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@color/black"
             android:textSize="12sp"
-            tools:text="Boulevard El Fida, Casablanca 20554" />
+            android:text="Boulevard El Fida, Casablanca 20554" />
 
         <View
             android:layout_width="match_parent"

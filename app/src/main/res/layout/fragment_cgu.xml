@@ -1,74 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/backBtn"
-            android:layout_width="50dp"
-            android:layout_height="60dp">
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_back" />
-        </RelativeLayout>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/cgu_title"
-            android:textColor="@color/darkGrey"
-            android:textSize="22sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="تذكير هام :"
-            android:textColor="@color/darkGrey"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="60dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="تخضع كل العمليات المتمثلة في اعداد وعرض وإذاعة وتقديم للبيع الصور الفوتوغرافية التي يتمثل فيها جلالة الملك وبصفة عامة جميع ما يستخرج منها، لمقتضيات الظهير الشريف رقم 204-56-1 بتاريخ 16 جمادى الأولى 1376 ( 19 ديسمبر 1956 (يضبط بمقتضاه استخراج صور صاحب الجلالة وصور أصحاب السمو الملكي أنجاله (ج. ر. بتاريخ 11 يناير 1957) ولمنشور السيد رئيس الحكومة رقم 15/2019 الصادر بتاريخ 23 محرم 1441 (23 شتنبر 2019) المتعلق بالصورة الرسمية لصاحب الجلالة الملك محمد السادس أيده الله ونصره."
-            android:textColor="@color/darkGrey"
-            android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_back" />
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="@string/cgu_description_title"
-            android:textColor="@color/darkGrey"
-            android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/cgu_title"
+                android:textColor="@color/darkGrey"
+                android:textSize="22sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="@string/cgu_description_body"
-            android:textColor="@color/darkGrey"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/vgu_description_title_ar"
+                android:textColor="@color/darkGrey"
+                android:textSize="18sp" />
 
-</ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/cgu_description_ar"
+                android:textColor="@color/darkGrey"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/cgu_description_title"
+                android:textColor="@color/darkGrey"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/cgu_description_body"
+                android:textColor="@color/darkGrey"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

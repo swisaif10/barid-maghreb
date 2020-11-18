@@ -52,7 +52,7 @@
             android:includeFontPadding="false"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
-            android:text="@string/add_btn"
+            android:text="Ajouter"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp"

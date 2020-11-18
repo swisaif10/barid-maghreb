@@ -43,8 +43,8 @@
         app:layout_constraintTop_toBottomOf="@id/title">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="25dp"
+            android:layout_width="12dp"
+            android:layout_height="17dp"
             android:src="@drawable/ic_localisation"
             app:tint="#cacaca" />
 
@@ -70,23 +70,36 @@
         android:background="#707070"
         app:layout_constraintTop_toBottomOf="@id/addressLayout" />
 
-    <TextView
-        android:id="@+id/phone"
+    <LinearLayout
+        android:id="@+id/phoneLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
-        android:drawablePadding="15dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:gravity="bottom"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        app:drawableStartCompat="@drawable/ic_phone"
-        app:drawableTint="#cacaca"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/verticalSeparator"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/verticalSeparator"
-        tools:text="06 22 32 95 57" />
+        app:layout_constraintTop_toTopOf="@id/verticalSeparator">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_phone"
+            app:tint="#cacaca" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="15dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="bottom"
+            android:text="05 22 32 95 57"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:drawableTint="#cacaca" />
+    </LinearLayout>
 
     <View
         android:id="@+id/verticalSeparator"
@@ -100,23 +113,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/separator" />
 
-    <TextView
-        android:id="@+id/fax"
+
+    <LinearLayout
+        android:id="@+id/faxLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:drawablePadding="15dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:gravity="bottom"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        app:drawableStartCompat="@drawable/ic_fax"
-        app:drawableTint="#cacaca"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/verticalSeparator"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/verticalSeparator"
-        tools:text="06 22 32 95 57" />
+        app:layout_constraintTop_toTopOf="@id/verticalSeparator">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_fax"
+            app:tint="#cacaca" />
+
+        <TextView
+            android:id="@+id/fax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:drawablePadding="15dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="bottom"
+            android:text="05 22 32 95 57"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Portrait Royal</string>
+    <string name="app_name">Barid Al Maghrib</string>
     <string name="login_title">Identification</string>
     <string name="login_subtitle">Saisissez votre numéro de téléphone</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Mot de passe</string>
     <string name="forgotten_password_btn">Mot de passe oublié ?</string>
     <string name="login_btn">Se connecter</string>
-    <string name="signup_btn_description">vous n’avez pas de compte?</string>
+    <string name="identification_description">vous n’avez pas de compte?</string>
     <string name="sigin_title">Inscription</string>
     <string name="signin_subtitle">connectez-vous pour continuer</string>
     <string name="lastname_hint">Nom</string>
@@ -18,7 +18,7 @@
     <string name="categories_title">Catégories</string>
     <string name="portraits_title">Portraits</string>
     <string name="cart_title">Panier</string>
-    <string name="add_btn">Ajouter</string>
+    <string name="add_btn">Ajouter au panier</string>
     <string name="login_dialog_title">Finaliser votre commande</string>
     <string name="login_dialog_subtitle">Vous devez vous identifier\npour continuer</string>
     <string name="dialog_login_btn">J’ai déjà un compte</string>
@@ -79,10 +79,11 @@
     <string name="confirm_btn">Confirmer</string>
     <string name="my_history_title">Mon historique</string>
     <string name="cgu_text"><![CDATA[<font color="#000000">J’accepte </font><font color="#00428D"><u>les conditions générales</u></font>]]></string>
-    <string name="rules_text"><![CDATA[<font color="#000000">La Loi </font><font color="#00428D"><u>0809</u></font>]]></string>
+    <string name="cgu_sell_text"><![CDATA[<font color="#000000">J’accepte </font><font color="#00428D"><u>les conditions générales de vente</u></font>]]></string>
+    <string name="rules_text"><![CDATA[<font color="#000000">J’accepte les conditions de la loi </font><font color="#00428D"><u>0809</u></font>]]></string>
     <string name="total_price">Prix total :</string>
-    <string name="fee">Prix d\'envoi:</string>
-    <string name="price">Prix produits:</string>
+    <string name="fee">Frais d\'envoi :</string>
+    <string name="price">Prix produits :</string>
     <string name="cgu_title">Conditions générales</string>
     <string name="cgu_description_title">Rappel important :</string>
     <string name="cgu_description_body">Toutes les opérations portant sur l’exposition, la diffusion et la mise en vente des photographies, et en général de toutes les reproductions y compris en dessin ou photographie, des traits de Sa Majesté le Roi, doivent se conformer aux dispositions du Dahir n° 1-56-204 du 16 joumada I 1376 (19 décembre 1956) réglementant la reproduction des traits de Sa Majesté le Roi et de leurs Altesses Royales, Ses Enfants (B.O n° 2307 du 11 janvier 1957) et à la circulaire de Monsieur le Chef du Gouvernement n° 15/2019 du 23 Moharrem 1441 (23 septembre 2019) relative au portrait officiel de de Sa Majesté le Roi Mohammed VI, que Dieu le Glorifie.</string>
@@ -95,8 +96,6 @@
     <string name="next1_btn">Suivant</string>
     <string name="sms_confirmation_dialog_title">SMS confirmation</string>
     <string name="sms_confirmation_dialog_subtitle">Saisissez le code reçu par SMS</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="standard_shipping_title">Livraison standard</string>
     <string name="agency_shipping_title">Livraison en agence</string>
     <string name="quuantity_title">Quantité :</string>
@@ -106,5 +105,19 @@
     <string name="purchaseBtn">Commander</string>
     <string name="register_dialog_btn">Je m’inscris</string>
     <string name="welcome">Bienvenue</string>
+    <string name="resend_otp_btn">Renvoyer le code</string>
+    <string name="discover_description">Fort de votre confiance, Barid Al-Maghrib, entreprise citoyenne innove pour vous satisfaire au quotidien.\n\n<b>Confiance</b>\nFort de votre confiance, nous accomplissons notre mission avec éthique et professionnalisme.\n\n<b>Citoyenneté</b>\nNous sommes une entreprise citoyenne assurant un service public de qualité et de proximité, dans le cadre de nos engagements RSE.\n\n<b>Innovation</b>\nNous anticipons les attentes de nos clients et nous nous adaptons en permanence au changement.\n\n<b>Satisfaction clients</b>\nNous veillons à maintenir une relation privilégiée et pérenne avec nos clients en plaçant leurs exigences au centre de nos préoccupations.</string>
+    <string name="company_choice_title">Entreprise</string>
+    <string name="particular_choice_title">particuliers / institutions publiQUES</string>
+    <string name="cni_hint">CNI</string>
+    <string name="additional_address_hint">Complément d’adresse</string>
+    <string name="address_name_hint">Nom de l’adresse</string>
+    <string name="register_btn_title">S\'inscrire</string>
+    <string name="ice_hint">ICE</string>
+    <string name="id_fiscal_hint">Identifiant fiscal</string>
+    <string name="price_unit">Dirhams TTC</string>
+    <string name="vgu_description_title_ar">تذكير هام :</string>
+    <string name="cgu_description_ar">تخضع كل العمليات المتمثلة في اعداد وعرض وإذاعة وتقديم للبيع الصور الفوتوغرافية التي يتمثل فيها جلالة الملك وبصفة عامة جميع ما يستخرج منها، لمقتضيات الظهير الشريف رقم 204-56-1 بتاريخ 16 جمادى الأولى 1376 ( 19 ديسمبر 1956 (يضبط بمقتضاه استخراج صور صاحب الجلالة وصور أصحاب السمو الملكي أنجاله (ج. ر. بتاريخ 11 يناير 1957) ولمنشور السيد رئيس الحكومة رقم 15/2019 الصادر بتاريخ 23 محرم 1441 (23 شتنبر 2019) المتعلق بالصورة الرسمية لصاحب الجلالة الملك محمد السادس أيده الله ونصره.</string>
+    <string name="invalid_email_error">Format email invalide</string>
 
 </resources>

@@ -56,7 +56,7 @@
         android:id="@+id/addNewAddressBtn"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_above="@+id/nextBtn"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="-20dp"
@@ -66,14 +66,14 @@
         android:text="@string/add_new_Address_btn"
         android:textAllCaps="false"
         android:textColor="@color/blue"
-        android:textSize="15sp"
+        android:textSize="13sp"
         app:cornerRadius="20dp"
         app:strokeColor="@color/blue" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/nextBtn"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="20dp"

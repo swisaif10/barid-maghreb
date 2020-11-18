@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mobiblanc.baridal_maghrib">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mobiblanc.gbam">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".APSM"
+        android:name="com.mobiblanc.gbam.BaridAlMaghrib"
         android:allowBackup="false"
         android:icon="@mipmap/appicone"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_traffic_config"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".views.tracking.TrackingActivity" />
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".views.splashscreen.SplashScreenActivity"
+            android:name="com.mobiblanc.gbam.views.splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
@@ -29,16 +31,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.cart.CartActivity"
+            android:name="com.mobiblanc.gbam.views.cart.CartActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".views.main.MainActivity"
+            android:name="com.mobiblanc.gbam.views.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".views.account.AccountActivity"
+            android:name="com.mobiblanc.gbam.views.account.AccountActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name="com.mobiblanc.gbam.views.tracking.TrackingActivity" />
+
+
+        <service
+            android:name=".firebase.FirebaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
