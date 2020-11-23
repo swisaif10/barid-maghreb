@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +28,7 @@ import com.mobiblanc.gbam.models.cart.items.CartItemsResponseData;
 import com.mobiblanc.gbam.models.common.Item;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
+import com.mobiblanc.gbam.utilities.SwipeHelper;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
@@ -58,13 +59,13 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
 
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
 
         cartVM.getCartItemsLiveData().observe(this, this::handleCartItemsData);
         cartVM.getUpdateItemLiveData().observe(this, this::handleUpdateItemInCartData);
         cartVM.getDeleteItemLiveData().observe(this, this::handleDeleteItemFromCartData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -81,7 +82,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     public void onResume() {
         super.onResume();
         if (started && preferenceManager.getValue(Constants.TOKEN, null) != null) {
-            ((CartActivity) getActivity()).replaceFragment(new ShippingMethodFragment());
+            ((CartActivity) requireActivity()).replaceFragment(new ShippingMethodFragment());
             started = false;
         }
     }
@@ -117,7 +118,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         fragmentCartDetailsBinding.nextBtn.setOnClickListener(v -> {
             started = true;
             if (preferenceManager.getValue(Constants.TOKEN, null) != null)
-                ((CartActivity) getActivity()).replaceFragment(new ShippingMethodFragment());
+                ((CartActivity) requireActivity()).replaceFragment(new ShippingMethodFragment());
             else
                 new LoginDialog(getActivity(), CartDetailsFragment.this).show();
         });
@@ -154,7 +155,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), cartItemsData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else {
@@ -182,7 +183,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else
@@ -210,7 +211,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), deleteItemData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else
@@ -219,16 +220,19 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     }
 
     private void enableSwipeToDelete() {
-        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
+
+        new SwipeHelper(requireContext(), fragmentCartDetailsBinding.cartRecycler) {
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                position = viewHolder.getAdapterPosition();
-                deleteItem(position);
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new SwipeHelper.UnderlayButton(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.supp),
+                        pos -> {
+                            position = pos;
+                            deleteItem(position);
+                        }
+                ));
             }
         };
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
-        itemTouchhelper.attachToRecyclerView(fragmentCartDetailsBinding.cartRecycler);
     }
 
 }

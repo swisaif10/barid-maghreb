@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +17,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentHelpBinding;
-import com.mobiblanc.gbam.databinding.FragmentProfileBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
+import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
-import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class HelpFragment extends Fragment {
 
@@ -62,7 +59,6 @@ public class HelpFragment extends Fragment {
         return fragmentBinding.getRoot();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -73,6 +69,9 @@ public class HelpFragment extends Fragment {
         fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
         fragmentBinding.sendBtn.setOnClickListener(v -> sendContact());
+
+        fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.phoneNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -91,8 +90,29 @@ public class HelpFragment extends Fragment {
             }
         };
 
+        fragmentBinding.email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkForm();
+                if (!Utilities.isEmailValid(s.toString().trim()) && !s.toString().equalsIgnoreCase("")) {
+                    fragmentBinding.emailError.setVisibility(View.VISIBLE);
+                    fragmentBinding.emailError.setText(R.string.invalid_email_error);
+                } else {
+                    fragmentBinding.emailError.setVisibility(View.GONE);
+                }
+            }
+        });
+
         fragmentBinding.name.addTextChangedListener(textWatcher);
-        fragmentBinding.email.addTextChangedListener(textWatcher);
         fragmentBinding.phoneNumber.addTextChangedListener(textWatcher);
         fragmentBinding.object.addTextChangedListener(textWatcher);
         fragmentBinding.message.addTextChangedListener(textWatcher);
@@ -100,6 +120,7 @@ public class HelpFragment extends Fragment {
 
     private void checkForm() {
         fragmentBinding.sendBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.name) && !Utilities.isEmpty(fragmentBinding.email)
+                && Utilities.isEmailValid(fragmentBinding.email.getText().toString().trim())
                 && !Utilities.isEmpty(fragmentBinding.phoneNumber) && !Utilities.isEmpty(fragmentBinding.object) && !Utilities.isEmpty(fragmentBinding.message));
     }
 
@@ -124,9 +145,7 @@ public class HelpFragment extends Fragment {
         } else {
             int code = otpData.getHeader().getCode();
             if (code == 200) {
-                Utilities.showErrorPopupWithClick(getContext(), otpData.getHeader().getMessage(), view -> {
-                    getActivity().onBackPressed();
-                });
+                Utilities.showErrorPopupWithClick(getContext(), otpData.getHeader().getMessage(), view -> getActivity().onBackPressed());
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), otpData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);

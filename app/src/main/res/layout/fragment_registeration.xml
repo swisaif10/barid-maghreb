@@ -175,6 +175,7 @@
                     app:boxCornerRadiusTopEnd="25dp"
                     app:boxCornerRadiusTopStart="25dp"
                     app:boxStrokeColor="@color/blue"
+
                     app:boxStrokeWidthFocused="1dp"
                     app:hintTextColor="@color/hintGrey">
 
@@ -184,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:inputType="phone"
+                        android:maxLength="11"
                         android:paddingStart="30dp"
                         android:text=" "
                         android:textColor="@color/black"

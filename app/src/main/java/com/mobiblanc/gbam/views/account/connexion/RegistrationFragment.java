@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
+import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
@@ -42,11 +45,11 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
         super.onCreate(savedInstanceState);
 
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         accountVM.getRegistrationLiveData().observe(this, this::handleRegistrationData);
         accountVM.getConfirmRegistrationLiveData().observe(this, this::handleConfirmRegistrationData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -71,17 +74,20 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
 
     @Override
     public void onSecondButtonClick() {
-        //resend otp
+        register();
     }
 
     private void init() {
-        fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
-        fragmentBinding.cguBtn.setOnClickListener(v -> ((AccountActivity) getActivity()).replaceFragment(new CGUFragment()));
+        fragmentBinding.cguBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(new CGUFragment()));
         fragmentBinding.registerBtn.setOnClickListener(v -> register());
 
-        fragmentBinding.cguBtn.setText(Html.fromHtml(getActivity().getResources().getString(R.string.cgu_text)));
-        fragmentBinding.rulesBtn.setText(Html.fromHtml(getActivity().getResources().getString(R.string.rules_text)));
+        fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.phoneNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
+
+        fragmentBinding.cguBtn.setText(Html.fromHtml(requireActivity().getResources().getString(R.string.cgu_text)));
+        fragmentBinding.rulesBtn.setText(Html.fromHtml(requireActivity().getResources().getString(R.string.rules_text)));
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -91,7 +97,12 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
+                    int maxLength = 10;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    fragmentBinding.phoneNumber.setFilters(fArray);
+                }
             }
 
             @Override
@@ -102,6 +113,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
 
         fragmentBinding.lastName.addTextChangedListener(textWatcher);
         fragmentBinding.firstName.addTextChangedListener(textWatcher);
+        fragmentBinding.phoneNumber.addTextChangedListener(textWatcher);
 
         fragmentBinding.email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -132,17 +144,17 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
 
     private void checkForm() {
         fragmentBinding.registerBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.firstName) && !Utilities.isEmpty(fragmentBinding.lastName)
-                && !Utilities.isEmpty(fragmentBinding.email) && Utilities.isEmailValid(fragmentBinding.email.getText().toString().trim())
+                && !Utilities.isEmpty(fragmentBinding.email) && Utilities.isEmailValid(String.valueOf(fragmentBinding.email.getText()).trim())
                 && !Utilities.isEmpty(fragmentBinding.phoneNumber) && fragmentBinding.cguCheck.isChecked() && fragmentBinding.rulesCheck.isChecked());
     }
 
     private void register() {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.register(fragmentBinding.email.getText().toString().trim(),
-                    fragmentBinding.firstName.getText().toString().trim(),
-                    fragmentBinding.lastName.getText().toString().trim(),
-                    fragmentBinding.phoneNumber.getText().toString().trim());
+            accountVM.register(String.valueOf(fragmentBinding.email.getText()).trim(),
+                    String.valueOf(fragmentBinding.firstName.getText()).trim(),
+                    String.valueOf(fragmentBinding.lastName.getText()).trim(),
+                    String.valueOf(fragmentBinding.phoneNumber.getText()).trim());
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -154,7 +166,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
         } else {
             int code = otpData.getHeader().getCode();
             if (code == 200) {
-                new SendOTPDialog(getActivity(), this).show();
+                new SendOTPDialog(requireActivity(), this).show();
             } else {
                 Utilities.showErrorPopup(getContext(), otpData.getHeader().getMessage());
             }
@@ -164,7 +176,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
     private void confirmRegistration(String otp) {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.confirmRegistration(fragmentBinding.phoneNumber.getText().toString().trim(),
+            accountVM.confirmRegistration(String.valueOf(fragmentBinding.phoneNumber.getText()).trim(),
                     otp, preferenceManager.getValue(Constants.CART_ID, ""));
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
@@ -177,7 +189,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
         } else {
             int code = checkOTPData.getHeader().getCode();
             if (code == 200) {
-                getActivity().finish();
+                requireActivity().finish();
             } else {
                 Utilities.showErrorPopup(getContext(), checkOTPData.getHeader().getMessage());
             }

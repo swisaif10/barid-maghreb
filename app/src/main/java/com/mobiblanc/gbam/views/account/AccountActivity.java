@@ -41,7 +41,8 @@ public class AccountActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 1)
-            getSupportFragmentManager().popBackStack();
+            super.onBackPressed();
+            //getSupportFragmentManager().popBackStack();
         else
             finish();
     }

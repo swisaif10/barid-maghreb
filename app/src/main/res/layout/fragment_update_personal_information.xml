@@ -69,7 +69,7 @@
                 android:visibility="invisible">
 
                 <EditText
-                    android:id="@+id/username"
+                    android:id="@+id/lastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -77,14 +77,14 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/name_hint"
+                    android:hint="@string/lastname_hint"
                     android:paddingBottom="15dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/hintGrey"
                     android:textSize="14sp" />
 
                 <EditText
-                    android:id="@+id/birthDate"
+                    android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -92,7 +92,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/birthdate_hint"
+                    android:hint="@string/firstname_hint"
                     android:paddingBottom="15dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/hintGrey"
@@ -108,21 +108,6 @@
                     android:focusableInTouchMode="false"
                     android:fontFamily="@font/montserrat_medium"
                     android:hint="@string/email_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/my_address_hint"
                     android:paddingBottom="15dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/hintGrey"
@@ -166,6 +151,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="16sp"
+                    android:visibility="gone"
                     app:cornerRadius="25dp" />
             </RelativeLayout>
 

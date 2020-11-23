@@ -3,14 +3,18 @@ package com.mobiblanc.gbam.views.account.connexion;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentAuthenticationBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
@@ -19,6 +23,7 @@ import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
+import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
@@ -39,11 +44,11 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
         super.onCreate(savedInstanceState);
 
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         accountVM.getSendOTPLiveData().observe(this, this::handleSendOTPData);
         accountVM.getLoginLiveData().observe(this, this::handleLoginData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -68,14 +73,17 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
 
     @Override
     public void onSecondButtonClick() {
-        //resend otp
+        sendOtp();
     }
 
     private void init() {
-        fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.loginBtn.setOnClickListener(v -> sendOtp());
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
-        fragmentBinding.registerBtn.setOnClickListener(v -> ((AccountActivity) getActivity()).replaceFragment(new RegistrationFragment()));
+        fragmentBinding.registerBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(new RegistrationFragment()));
+
+        fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.phoneNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
 
         fragmentBinding.phoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,7 +93,12 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
+                    int maxLength = 10;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    fragmentBinding.phoneNumber.setFilters(fArray);
+                }
             }
 
             @Override
@@ -103,7 +116,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     private void sendOtp() {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.sendOtp(fragmentBinding.phoneNumber.getText().toString().trim(), Utilities.getUUID(getContext()));
+            accountVM.sendOtp(String.valueOf(fragmentBinding.phoneNumber.getText()).trim(), Utilities.getUUID(requireContext()));
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -115,7 +128,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
         } else {
             int code = otpData.getHeader().getCode();
             if (code == 200) {
-                new SendOTPDialog(getActivity(), this).show();
+                new SendOTPDialog(requireActivity(), this).show();
             } else {
                 fragmentBinding.error.setText(otpData.getHeader().getMessage());
                 fragmentBinding.error.setVisibility(View.VISIBLE);
@@ -126,7 +139,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     private void login(String otp) {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.login(fragmentBinding.phoneNumber.getText().toString().trim(), otp, preferenceManager.getValue(Constants.CART_ID, ""));
+            accountVM.login(String.valueOf(fragmentBinding.phoneNumber.getText()).trim(), otp, preferenceManager.getValue(Constants.CART_ID, ""));
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -140,7 +153,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
             if (code == 200) {
                 preferenceManager.putValue(Constants.TOKEN, checkOTPData.getResponse().getToken());
                 preferenceManager.putValue(Constants.CART_ID, checkOTPData.getResponse().getQuoteId());
-                getActivity().finish();
+                requireActivity().finish();
             } else {
                 fragmentBinding.error.setText(checkOTPData.getHeader().getMessage());
                 fragmentBinding.error.setVisibility(View.VISIBLE);

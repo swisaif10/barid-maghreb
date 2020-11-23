@@ -1,6 +1,5 @@
 package com.mobiblanc.gbam.views.account.profile;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -32,6 +32,7 @@ public class UpdatePersonalInformationFragment extends Fragment {
     private Connectivity connectivity;
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
+    private Boolean editEnabled = false;
 
     public UpdatePersonalInformationFragment() {
         // Required empty public constructor
@@ -44,12 +45,12 @@ public class UpdatePersonalInformationFragment extends Fragment {
 
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
 
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
 
         accountVM.getProfileLiveData().observe(this, this::handleProfileData);
         accountVM.getUpdateProfileLiveData().observe(this, this::handleUpdateProfilesData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -67,15 +68,35 @@ public class UpdatePersonalInformationFragment extends Fragment {
         getProfile();
     }
 
-    @SuppressLint("SetTextI18n")
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (editEnabled)
+                    disableUpdate();
+                else
+                    requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
+
     private void init(UserInfo userInfo) {
-        fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        fragmentBinding.backBtn.setOnClickListener(v -> {
+            if (editEnabled) {
+                Utilities.hideSoftKeyboard(getContext(), getView());
+                disableUpdate();
+            } else
+                requireActivity().getSupportFragmentManager().popBackStack();
+        });
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
         fragmentBinding.updateBtn.setOnClickListener(v -> enableUpdate());
         fragmentBinding.nextBtn.setOnClickListener(v -> updateProfile());
 
         fragmentBinding.inputsLayout.setVisibility(View.VISIBLE);
-        fragmentBinding.username.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
+        fragmentBinding.lastName.setText(userInfo.getLastName());
+        fragmentBinding.firstName.setText(userInfo.getFirstName());
         fragmentBinding.email.setText(userInfo.getEmail());
         fragmentBinding.phoneNumber.setText(userInfo.getUsername());
 
@@ -96,30 +117,39 @@ public class UpdatePersonalInformationFragment extends Fragment {
             }
         };
 
-        fragmentBinding.username.addTextChangedListener(textWatcher);
+        fragmentBinding.lastName.addTextChangedListener(textWatcher);
+        fragmentBinding.firstName.addTextChangedListener(textWatcher);
         fragmentBinding.email.addTextChangedListener(textWatcher);
 
     }
 
     private void enableUpdate() {
-        fragmentBinding.updateBtn.setTextColor(getResources().getColor(R.color.hintGrey));
-        fragmentBinding.username.setFocusable(true);
-        fragmentBinding.username.setFocusableInTouchMode(true);
+        editEnabled = true;
+        fragmentBinding.lastName.setFocusable(true);
+        fragmentBinding.lastName.setFocusableInTouchMode(true);
+        fragmentBinding.firstName.setFocusable(true);
+        fragmentBinding.firstName.setFocusableInTouchMode(true);
         fragmentBinding.email.setFocusable(true);
         fragmentBinding.email.setFocusableInTouchMode(true);
+        fragmentBinding.nextBtn.setVisibility(View.VISIBLE);
+        fragmentBinding.updateBtn.setVisibility(View.GONE);
     }
 
     private void disableUpdate() {
-        fragmentBinding.updateBtn.setTextColor(getResources().getColor(R.color.black));
-        fragmentBinding.username.setFocusable(false);
-        fragmentBinding.username.setFocusableInTouchMode(false);
+        editEnabled = false;
+        fragmentBinding.lastName.setFocusable(false);
+        fragmentBinding.lastName.setFocusableInTouchMode(false);
+        fragmentBinding.firstName.setFocusable(false);
+        fragmentBinding.firstName.setFocusableInTouchMode(false);
         fragmentBinding.email.setFocusable(false);
         fragmentBinding.email.setFocusableInTouchMode(false);
         fragmentBinding.nextBtn.setEnabled(false);
+        fragmentBinding.nextBtn.setVisibility(View.GONE);
+        fragmentBinding.updateBtn.setVisibility(View.VISIBLE);
     }
 
     private void checkForm() {
-        fragmentBinding.nextBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.username) && !Utilities.isEmpty(fragmentBinding.email)
+        fragmentBinding.nextBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.lastName) && !Utilities.isEmpty(fragmentBinding.lastName) && !Utilities.isEmpty(fragmentBinding.email)
                 && !Utilities.isEmpty(fragmentBinding.phoneNumber));
     }
 
@@ -142,7 +172,7 @@ public class UpdatePersonalInformationFragment extends Fragment {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), profileData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else {
@@ -153,12 +183,11 @@ public class UpdatePersonalInformationFragment extends Fragment {
 
     private void updateProfile() {
         if (connectivity.isConnected()) {
-            String fullName = fragmentBinding.username.getText().toString();
             fragmentBinding.loader.setVisibility(View.VISIBLE);
             accountVM.updateProfile(preferenceManager.getValue(Constants.TOKEN, null)
                     , fragmentBinding.email.getText().toString(),
-                    fullName.substring(0, fullName.indexOf(" ")),
-                    fullName.substring(fullName.indexOf(" ") + 1));
+                    fragmentBinding.firstName.getText().toString(),
+                    fragmentBinding.lastName.getText().toString());
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -174,7 +203,7 @@ public class UpdatePersonalInformationFragment extends Fragment {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), profileData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else {
