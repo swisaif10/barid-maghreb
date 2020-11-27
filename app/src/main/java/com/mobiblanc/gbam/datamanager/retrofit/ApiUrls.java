@@ -22,10 +22,13 @@ public interface ApiUrls {
     String UPDATE_PROFILE_URL = "api/account/edit";
     String LOGOUT_URL = "api/account/logout";
     String GET_AGENCIES_URL = "api/shipping/agencies";
-    String GET_ADDRESS_URL = "api/shipping/addresses";
+    String GET_ADDRESSES_URL = "api/shipping/addresses";
+    String ADD_ADDRESS_URL = "/api/shipping/add-address";
     String GET_RECAP_URL = "api/shipping/get-recap";
     String TRACKING_COMMAND_URL = "api/shipping/tracking-command";
     String CONTACT_URL = "api/contact/message";
+    String CGU_URL = "api/dashboard/cgv";
+    String DASHBOARD_DESCRIPTION_URL = "api/dashboard/description";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 

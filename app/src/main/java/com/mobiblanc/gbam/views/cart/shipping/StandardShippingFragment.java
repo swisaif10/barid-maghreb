@@ -18,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.databinding.FragmentProfileBinding;
+import com.mobiblanc.gbam.databinding.FragmentStandardShippingBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
+import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.listeners.OnObjectSelectedListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
@@ -31,27 +34,30 @@ import com.mobiblanc.gbam.views.cart.payment.PaymentFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.droidsonroids.gif.GifImageView;
 
-public class StandardShippingFragment extends Fragment implements OnObjectSelectedListener {
+public class StandardShippingFragment extends Fragment implements OnItemSelectedListener {
 
     private static final int REQUEST_CODE = 100;
 
-    @BindView(R.id.addressRecycler)
-    RecyclerView addressRecycler;
-    @BindView(R.id.loader)
-    GifImageView loader;
-    @BindView(R.id.nextBtn)
-    MaterialButton nextBtn;
-    private Connectivity connectivity;
-    private CartVM cartVM;
-    private PreferenceManager preferenceManager;
+    private FragmentStandardShippingBinding fragmentBinding;
+
     private AddressAdapter addressAdapter;
+    private List<Address> addressList;
     private Address address;
+
+    public static StandardShippingFragment newInstance(AddressData addressData) {
+        StandardShippingFragment fragment = new StandardShippingFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("addressData", addressData);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public StandardShippingFragment() {
         // Required empty public constructor
@@ -61,102 +67,57 @@ public class StandardShippingFragment extends Fragment implements OnObjectSelect
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        cartVM = ViewModelProviders.of(this).get(CartVM.class);
-        connectivity = new Connectivity(getContext(), this);
-        cartVM.getAddressLiveData().observe(this, this::handleAddressData);
-
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
-                .name(Constants.SHARED_PREFS_NAME)
-                .build();
+        if (getArguments() != null) {
+            addressList = ((AddressData) getArguments().getSerializable("addressData")).getResponse().getAddresses();
+        }
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_standard_shipping, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        fragmentBinding = FragmentStandardShippingBinding.inflate(inflater, container, false);
+        return fragmentBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //getAddress();
-        init(null);
+        if (addressList.isEmpty()) {
+            AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
+            addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
+            ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
+        }
+        init();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            //standardDeliveryAdapter.notifyItemInserted(arrayList.size() - 1);
+            this.addressList = ((AddressData) data.getSerializableExtra("addresses")).getResponse().getAddresses();
             addressAdapter.notifyDataSetChanged();
         }
     }
 
-    @OnClick({R.id.addNewAddressBtn, R.id.nextBtn})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.addNewAddressBtn:
-                AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
-                addNewAddressFragment.setTargetFragment(this, REQUEST_CODE);
-                ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
-                break;
-            case R.id.nextBtn:
-                ((CartActivity) getActivity()).replaceFragment(PaymentFragment.newInstance(address.getId()));
-                break;
-        }
-    }
-
     @Override
-    public void onObjectSelected(Object object, ImageView imageView) {
-        if (object == null)
-            nextBtn.setEnabled(false);
-        else {
-            address = (Address) object;
-            nextBtn.setEnabled(true);
-        }
-
+    public void onItemSelected(int position, Object object) {
+        boolean selected = (Boolean) object;
+        if (selected)
+            address = addressList.get(position);
+        fragmentBinding.nextBtn.setEnabled(selected);
     }
 
-    private void init(AddressData addressData) {
+    private void init() {
+        fragmentBinding.addNewAddressBtn.setOnClickListener(v -> {
+            AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
+            addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
+            ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
+        });
+        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) getActivity()).replaceFragment(PaymentFragment.newInstance(address.getId())));
 
-        ArrayList arrayList = new ArrayList<Address>(){{
-           add(new Address("",0,"",false));
-           add(new Address("",1,"",false));
-        }};
-        addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        addressAdapter = new AddressAdapter(getContext(), arrayList, this);
-        addressRecycler.setAdapter(addressAdapter);
-
-    }
-
-    private void getAddress() {
-        if (connectivity.isConnected()) {
-            loader.setVisibility(View.VISIBLE);
-            cartVM.getAddress(preferenceManager.getValue(Constants.TOKEN, null));
-        } else
-            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
-    }
-
-    private void handleAddressData(AddressData addressData) {
-        loader.setVisibility(View.GONE);
-        if (addressData == null) {
-            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
-        } else {
-            int code = addressData.getHeader().getCode();
-            if (code == 200) {
-                init(addressData);
-            } else if (code == 403) {
-                Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
-                    preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                });
-            } else {
-                Utilities.showErrorPopup(getContext(), addressData.getHeader().getMessage());
-            }
-        }
+        fragmentBinding.addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        addressAdapter = new AddressAdapter(addressList, this);
+        fragmentBinding.addressRecycler.setAdapter(addressAdapter);
     }
 }

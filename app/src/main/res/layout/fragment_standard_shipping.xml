@@ -1,100 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@id/addNewAddressBtn"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-<!--        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp">
+            android:layout_height="0dp"
+            android:layout_above="@id/addNewAddressBtn"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <!--        <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp">
+
+                        <TextView
+                            android:id="@+id/updateBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:text="@string/update_btn"
+                            android:textColor="@color/darkGrey"
+                            android:textSize="14sp" />
+                    </RelativeLayout>-->
 
             <TextView
-                android:id="@+id/updateBtn"
-                android:layout_width="wrap_content"
+                android:id="@+id/title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/update_btn"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/standard_delivery_title"
                 android:textColor="@color/darkGrey"
-                android:textSize="14sp" />
-        </RelativeLayout>-->
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/title"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addressRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:overScrollMode="never"
+                tools:itemCount="2"
+                tools:listitem="@layout/address_item_layout" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addNewAddressBtn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/standard_delivery_title"
-            android:textColor="@color/darkGrey"
-            android:textSize="20sp" />
+            android:layout_height="55dp"
+            android:layout_above="@+id/nextBtn"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="-20dp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/montserrat_semibold"
+            android:stateListAnimator="@null"
+            android:text="@string/add_new_Address_btn"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:textSize="13sp"
+            app:cornerRadius="20dp"
+            app:strokeColor="@color/blue" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/addressRecycler"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/nextBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:overScrollMode="never"
-            tools:itemCount="2"
-            tools:listitem="@layout/address_item_layout" />
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/button_background_selector"
+            android:enabled="false"
+            android:fontFamily="@font/montserrat_semibold"
+            android:stateListAnimator="@null"
+            android:text="@string/next_btn"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:cornerRadius="20dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
+</layout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addNewAddressBtn"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_above="@+id/nextBtn"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="-20dp"
-        android:backgroundTint="@color/white"
-        android:fontFamily="@font/montserrat_semibold"
-        android:stateListAnimator="@null"
-        android:text="@string/add_new_Address_btn"
-        android:textAllCaps="false"
-        android:textColor="@color/blue"
-        android:textSize="13sp"
-        app:cornerRadius="20dp"
-        app:strokeColor="@color/blue" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/nextBtn"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/button_background_selector"
-        android:enabled="false"
-        android:fontFamily="@font/montserrat_semibold"
-        android:stateListAnimator="@null"
-        android:text="@string/next_btn"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:cornerRadius="20dp" />
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/loader"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/loader"
-        android:visibility="gone" />
-</RelativeLayout>

@@ -154,7 +154,7 @@ public interface Utilities {
     }
 
     static boolean isEmailValid(String email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return email.equals("") || Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     static boolean isPasswordValid(String password) {

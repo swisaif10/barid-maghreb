@@ -1,16 +1,14 @@
-package com.mobiblanc.gbam.models.shipping.address;
+package com.mobiblanc.gbam.models.html;
 
 import com.google.gson.annotations.Expose;
 import com.mobiblanc.gbam.models.common.Header;
 
-import java.io.Serializable;
-
-public class AddressData implements Serializable {
+public class HtmlData {
 
     @Expose
     private Header header;
     @Expose
-    private AddressResponse response;
+    private HtmlResponse response;
 
     public Header getHeader() {
         return header;
@@ -20,12 +18,11 @@ public class AddressData implements Serializable {
         this.header = header;
     }
 
-    public AddressResponse getResponse() {
+    public HtmlResponse getResponse() {
         return response;
     }
 
-    public void setResponse(AddressResponse response) {
+    public void setResponse(HtmlResponse response) {
         this.response = response;
     }
-
 }

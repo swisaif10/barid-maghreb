@@ -1,70 +1,41 @@
 package com.mobiblanc.gbam.views.cart.shipping;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.gbam.R;
-import com.mobiblanc.gbam.listeners.OnObjectSelectedListener;
+import com.mobiblanc.gbam.databinding.AddressItemLayoutBinding;
+import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
 
-public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
+    private final List<Address> arrayList;
+    private final OnItemSelectedListener onItemSelectedListener;
 
-    private Context context;
-    private List<Address> arrayList;
-    private OnObjectSelectedListener onObjectSelectedListener;
-
-    public AddressAdapter(Context context, List<Address> arrayList, OnObjectSelectedListener onObjectSelectedListener) {
-        this.context = context;
+    public AddressAdapter(List<Address> arrayList, OnItemSelectedListener onItemSelectedListener) {
         this.arrayList = arrayList;
-        this.onObjectSelectedListener = onObjectSelectedListener;
-        //this.arrayList.add(new Address("test123", 123, "123456789", false));
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.address_item_layout, parent, false);
-        return new ViewHolder(view);
+    public AddressViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AddressAdapter.AddressViewHolder(AddressItemLayoutBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false
+        ));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (position == 0)
-            holder.title.setText("Chez moi");
-        else
-            holder.title.setText("Bureau");
-
-        if (arrayList.get(position).getSelected() == null)
-            arrayList.get(position).setSelected(false);
-        holder.background.setBackgroundResource(arrayList.get(position).getSelected() ? R.drawable.bg_yellow : R.drawable.bg_1);
- /*       holder.address.setText(arrayList.get(position).getAdresse());
-        holder.phoneNumber.setText(arrayList.get(position).getTelephone());
-*/
-        holder.background.setOnClickListener(view -> {
-            if (arrayList.get(position).getSelected()) {
-                arrayList.get(position).setSelected(false);
-                onObjectSelectedListener.onObjectSelected(arrayList.get(position), null);
-            } else {
-                for (Address address : arrayList) {
-                    address.setSelected(false);
-                }
-                arrayList.get(position).setSelected(true);
-                onObjectSelectedListener.onObjectSelected(arrayList.get(position), null);
-            }
-            notifyDataSetChanged();
-        });
+    public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
+        holder.bind(arrayList.get(position));
     }
 
     @Override
@@ -73,20 +44,37 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class AddressViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.address)
-        TextView address;
-        @BindView(R.id.phoneNumber)
-        TextView phoneNumber;
-        @BindView(R.id.background)
-        ConstraintLayout background;
+        private final AddressItemLayoutBinding itemBinding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        AddressViewHolder(AddressItemLayoutBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.itemBinding = itemBinding;
+        }
+
+        private void bind(Address address) {
+            itemBinding.title.setText(address.getName());
+            itemBinding.address.setText(address.getAdresse());
+            itemBinding.phoneNumber.setText(address.getTelephone());
+
+            if (address.getSelected() == null)
+                address.setSelected(false);
+            itemBinding.background.setBackgroundResource(address.getSelected() ? R.drawable.bg_yellow : R.drawable.bg_1);
+
+            itemBinding.background.setOnClickListener(view -> {
+                if (address.getSelected()) {
+                    address.setSelected(false);
+                    onItemSelectedListener.onItemSelected(getAdapterPosition(), false);
+                } else {
+                    for (Address item : arrayList) {
+                        item.setSelected(false);
+                    }
+                    address.setSelected(true);
+                    onItemSelectedListener.onItemSelected(getAdapterPosition(), true);
+                }
+                notifyDataSetChanged();
+            });
         }
     }
 }

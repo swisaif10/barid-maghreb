@@ -1,56 +1,92 @@
 package com.mobiblanc.gbam.views.main.discover;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.databinding.FragmentDiscoverBinding;
+import com.mobiblanc.gbam.models.html.HtmlData;
+import com.mobiblanc.gbam.models.html.HtmlResponse;
+import com.mobiblanc.gbam.utilities.Connectivity;
+import com.mobiblanc.gbam.utilities.Utilities;
+import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class DiscoverFragment extends Fragment {
+
+    private FragmentDiscoverBinding fragmentBinding;
+    private Connectivity connectivity;
+    private MainVM mainVM;
 
     public DiscoverFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mainVM = ViewModelProviders.of(this).get(MainVM.class);
+        connectivity = new Connectivity(requireContext(), this);
+        mainVM.getDescriptionLiveData().observe(this, this::handleDescriptionDAta);
+    }
+
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_discover, container, false);
-        ButterKnife.bind(this,view);
-        return view;
+        fragmentBinding = FragmentDiscoverBinding.inflate(inflater, container, false);
+        return fragmentBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        getDescription();
     }
 
-    @OnClick({R.id.backBtn, R.id.cartBtn})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.backBtn:
-                getActivity().onBackPressed();
-                break;
-            case R.id.cartBtn:
-                startActivity(new Intent(getActivity(), CartActivity.class));
-                break;
+    private void init(HtmlResponse htmlResponse) {
+        fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        fragmentBinding.cartBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
+        fragmentBinding.title.setText(htmlResponse.getTitle());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            fragmentBinding.body.setText(Html.fromHtml(htmlResponse.getHtml(), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            fragmentBinding.body.setText(Html.fromHtml(htmlResponse.getHtml()));
         }
     }
 
-    private void init() {
 
+    private void getDescription() {
+        if (connectivity.isConnected()) {
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            mainVM.getDescription();
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleDescriptionDAta(HtmlData htmlData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (htmlData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = htmlData.getHeader().getCode();
+            if (code == 200) {
+                init(htmlData.getResponse());
+            } else {
+                Utilities.showErrorPopup(getContext(), htmlData.getHeader().getMessage());
+            }
+        }
     }
 
 }

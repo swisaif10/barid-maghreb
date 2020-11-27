@@ -98,8 +98,14 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
                 startActivity(new Intent(getActivity(), TrackingActivity.class));
                 break;
             case "adresse":
-                intent = new Intent(getActivity(), CartActivity.class);
-                intent.putExtra("destination", 1);
+                if (preferenceManager.getValue(Constants.TOKEN, null) != null) {
+                    intent = new Intent(getActivity(), CartActivity.class);
+                    intent.putExtra("destination", 1);
+                } else {
+                    intent = new Intent(getActivity(), AccountActivity.class);
+                    intent.putExtra("destination", 0);
+                    intent.putExtra("newAddress", "new_address");
+                }
                 startActivity(intent);
                 break;
         }

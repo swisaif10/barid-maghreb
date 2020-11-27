@@ -2,8 +2,11 @@
 package com.mobiblanc.gbam.models.shipping.address;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
 
     @Expose
     private String adresse;
@@ -11,6 +14,8 @@ public class Address {
     private int id;
     @Expose
     private String telephone;
+    @SerializedName("address_name")
+    private String name;
     private Boolean selected;
 
     public Address(String address, int id, String telephone, Boolean selected) {
@@ -50,5 +55,13 @@ public class Address {
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

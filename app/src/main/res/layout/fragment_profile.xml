@@ -75,7 +75,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Mohammed Benjelloun"
+                tools:text="Mohammed Benjelloun"
                 android:textColor="@color/grey"
                 android:textSize="18sp" />
 

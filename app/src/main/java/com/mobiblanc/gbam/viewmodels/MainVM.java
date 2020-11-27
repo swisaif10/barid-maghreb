@@ -10,6 +10,7 @@ import com.mobiblanc.gbam.datamanager.retrofit.ApiUrls;
 import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;
+import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.products.ProductsData;
 
 import retrofit2.Call;
@@ -21,6 +22,7 @@ public class MainVM extends AndroidViewModel {
     private MutableLiveData<DashboardData> dashboardLiveData;
     private MutableLiveData<GuestCartData> guestCartLiveData;
     private MutableLiveData<ProductsData> productsLiveData;
+    private MutableLiveData<HtmlData> descriptionLiveData;
 
     public MainVM(@NonNull Application application) {
         super(application);
@@ -40,10 +42,15 @@ public class MainVM extends AndroidViewModel {
         return productsLiveData;
     }
 
+    public MutableLiveData<HtmlData> getDescriptionLiveData() {
+        return descriptionLiveData;
+    }
+
     private void init() {
         dashboardLiveData = new MutableLiveData<>();
         guestCartLiveData = new MutableLiveData<>();
         productsLiveData = new MutableLiveData<>();
+        descriptionLiveData = new MutableLiveData<>();
     }
 
     public void getDashboardDetails(String token) {
@@ -89,6 +96,21 @@ public class MainVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<ProductsData> call, @NonNull Throwable t) {
                 productsLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getDescription() {
+        Call<HtmlData> call = RestService.getInstance().endpoint().getDashboardDescription();
+        call.enqueue(new Callback<HtmlData>() {
+            @Override
+            public void onResponse(@NonNull Call<HtmlData> call, @NonNull Response<HtmlData> response) {
+                descriptionLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HtmlData> call, @NonNull Throwable t) {
+                descriptionLiveData.setValue(null);
             }
         });
     }

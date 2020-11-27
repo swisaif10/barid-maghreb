@@ -1,298 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:overScrollMode="never">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/body"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
-            <TextView
-                android:id="@+id/title"
+            <RelativeLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="@string/add_new_address_title"
-                android:textColor="@color/darkGrey"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/companyChoice"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/selected_payment_item_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="@string/company_choice_title"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/particularChoice"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/unselected_payment_item_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="@string/particular_choice_title"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/CompanyForm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <EditText
+                <LinearLayout
+                    android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/address_name_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
+                    android:orientation="vertical">
 
-                <EditText
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="@string/add_new_address_title"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:id="@+id/companyChoice"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/selected_payment_item_background"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:text="@string/company_choice_title"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/particularChoice"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/unselected_payment_item_background"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:text="@string/particular_choice_title"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/CompanyForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/addressName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/address_name_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/streetNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/street_number_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/addressComplement"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/additional_address_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/city_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/postalCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/postal_code_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/phoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/phonenumber_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/ice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/ice_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/fiscalId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/id_fiscal_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/cni"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:backgroundTint="@color/hintGrey"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:hint="@string/cni_hint"
+                            android:paddingBottom="15dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/hintGrey"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/street_number_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
+                    android:layout_below="@id/body"
+                    android:layout_alignParentBottom="true">
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/additional_address_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/saveBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:backgroundTint="@color/button_background_selector"
+                        android:enabled="false"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:stateListAnimator="@null"
+                        android:text="@string/save_btn"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        app:cornerRadius="20dp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </ScrollView>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/city_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/postal_code_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/phonenumber_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/ice_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/id_fiscal_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ParticularForm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/address_name_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/street_number_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/additional_address_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/city_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/postal_code_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/phonenumber_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/hintGrey"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:hint="@string/cni_hint"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hintGrey"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/body"
-            android:layout_alignParentBottom="true">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/saveBtn"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/blue"
-                android:fontFamily="@font/montserrat_medium"
-                android:stateListAnimator="@null"
-                android:text="@string/save_btn"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:cornerRadius="20dp" />
-        </RelativeLayout>
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/loader"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/loader"
+            android:visibility="gone" />
     </RelativeLayout>
-</ScrollView>
+</layout>

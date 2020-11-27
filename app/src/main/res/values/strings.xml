@@ -119,5 +119,9 @@
     <string name="vgu_description_title_ar">تذكير هام :</string>
     <string name="cgu_description_ar">تخضع كل العمليات المتمثلة في اعداد وعرض وإذاعة وتقديم للبيع الصور الفوتوغرافية التي يتمثل فيها جلالة الملك وبصفة عامة جميع ما يستخرج منها، لمقتضيات الظهير الشريف رقم 204-56-1 بتاريخ 16 جمادى الأولى 1376 ( 19 ديسمبر 1956 (يضبط بمقتضاه استخراج صور صاحب الجلالة وصور أصحاب السمو الملكي أنجاله (ج. ر. بتاريخ 11 يناير 1957) ولمنشور السيد رئيس الحكومة رقم 15/2019 الصادر بتاريخ 23 محرم 1441 (23 شتنبر 2019) المتعلق بالصورة الرسمية لصاحب الجلالة الملك محمد السادس أيده الله ونصره.</string>
     <string name="invalid_email_error">Format email invalide</string>
+    <string name="personal_info_btn">Mes informations personnelles</string>
+    <string name="history_btn">Mon historique</string>
+    <string name="tracking_btn">Suivi de commande</string>
+    <string name="contact_btn">Contact</string>
 
 </resources>

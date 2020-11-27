@@ -1,5 +1,6 @@
 package com.mobiblanc.gbam.datamanager.retrofit;
 
+import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
@@ -112,8 +113,22 @@ public interface RestEndpoint {
     @POST(ApiUrls.GET_AGENCIES_URL)
     Call<AgenciesData> getAgencies(@Header("x-auth-token") String token);
 
-    @POST(ApiUrls.GET_ADDRESS_URL)
+    @POST(ApiUrls.GET_ADDRESSES_URL)
     Call<AddressData> getAddress(@Header("x-auth-token") String token);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.ADD_ADDRESS_URL)
+    Call<AddressData> addAddress(@Header("x-auth-token") String token,
+                                 @Field("address_name") String addressName,
+                                 @Field("street_number") String streetNumber,
+                                 @Field("complement_address") String complementAddress,
+                                 @Field("city") String city,
+                                 @Field("postcode") String postCode,
+                                 @Field("phone_number") String phoneNumber,
+                                 @Field("ice") String ice,
+                                 @Field("tax_identification") String taxIdentification,
+                                 @Field("cni") String cni,
+                                 @Field("type") String type);
 
     @FormUrlEncoded
     @POST(ApiUrls.GET_RECAP_URL)
@@ -126,6 +141,12 @@ public interface RestEndpoint {
     @POST(ApiUrls.TRACKING_COMMAND_URL)
     Call<TrackingData> trackCommand(@Header("x-auth-token") String token,
                                     @Field("tracking_command_id ") String tracking_command_id);
+
+    @POST(ApiUrls.CGU_URL)
+    Call<HtmlData> getCGU();
+
+    @POST(ApiUrls.DASHBOARD_DESCRIPTION_URL)
+    Call<HtmlData> getDashboardDescription();
 
 
 

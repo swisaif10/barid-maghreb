@@ -11,6 +11,7 @@ import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
+import com.mobiblanc.gbam.models.html.HtmlData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +28,7 @@ public class AccountVM extends AndroidViewModel {
     private MutableLiveData<ProfileData> updateProfileLiveData;
     private MutableLiveData<OTPData> logoutLiveData;
     private MutableLiveData<OTPData> contactLiveData;
-
+    private MutableLiveData<HtmlData> cguLiveData;
 
     public AccountVM(@NonNull Application application) {
         super(application);
@@ -67,6 +68,10 @@ public class AccountVM extends AndroidViewModel {
         return contactLiveData;
     }
 
+    public MutableLiveData<HtmlData> getCguLiveData() {
+        return cguLiveData;
+    }
+
     private void init() {
         registrationLiveData = new MutableLiveData<>();
         confirmRegistrationLiveData = new MutableLiveData<>();
@@ -76,6 +81,7 @@ public class AccountVM extends AndroidViewModel {
         updateProfileLiveData = new MutableLiveData<>();
         logoutLiveData = new MutableLiveData<>();
         contactLiveData = new MutableLiveData<>();
+        cguLiveData = new MutableLiveData<>();
     }
 
     public void register(String email, String firstName, String lastName, String phoneNumber) {
@@ -201,4 +207,20 @@ public class AccountVM extends AndroidViewModel {
             }
         });
     }
+
+    public void getCGU() {
+        Call<HtmlData> call = RestService.getInstance().endpoint().getCGU();
+        call.enqueue(new Callback<HtmlData>() {
+            @Override
+            public void onResponse(@NonNull Call<HtmlData> call, @NonNull Response<HtmlData> response) {
+                cguLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HtmlData> call, @NonNull Throwable t) {
+                cguLiveData.setValue(null);
+            }
+        });
+    }
+
 }

@@ -199,6 +199,8 @@ public class UpdatePersonalInformationFragment extends Fragment {
         } else {
             int code = profileData.getHeader().getCode();
             if (code == 200) {
+                preferenceManager.putValue(Constants.NAME, fragmentBinding.firstName.getText().toString() +
+                        " " + fragmentBinding.lastName.getText().toString());
                 disableUpdate();
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), profileData.getHeader().getMessage(), view -> {

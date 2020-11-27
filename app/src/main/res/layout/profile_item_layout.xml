@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/profile_background_tint_selector"
-    android:clickable="true"
-    android:focusable="true"
-    android:padding="20dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_centerVertical="true"
-        app:tint="#cacaca"
-        tools:src="@drawable/ic_user" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/icon"
-        android:fontFamily="@font/montserrat_medium"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        tools:text="Mes informations personnelles" />
+        android:background="@drawable/profile_background_tint_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="20dp">
 
-    <ImageView
-        android:layout_width="10dp"
-        android:layout_height="15dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_arrow_profile"
-        app:tint="@color/black" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            app:tint="#cacaca"
+            tools:src="@drawable/ic_user" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/icon"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Mes informations personnelles" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_profile"
+            app:tint="@color/black" />
+
+    </RelativeLayout>
+</layout>

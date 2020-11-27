@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.views.base.BaseActivity;
 import com.mobiblanc.gbam.views.cart.cartdetails.CartDetailsFragment;
+import com.mobiblanc.gbam.views.cart.shipping.AddNewAddressFragment;
 import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 
 import butterknife.BindView;
@@ -27,7 +28,7 @@ public class CartActivity extends BaseActivity {
         setContentView(R.layout.activity_cart);
         ButterKnife.bind(this);
         if (getIntent() != null && getIntent().getIntExtra("destination", -1) == 1) {
-            replaceFragment(new StandardShippingFragment());
+            replaceFragment(new AddNewAddressFragment());
         } else {
             replaceFragment(new CartDetailsFragment());
         }

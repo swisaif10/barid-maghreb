@@ -8,6 +8,8 @@ public class CheckOTPResponseData {
     private Boolean assignToCart;
     @Expose
     private String quoteId;
+    @Expose
+    private String name;
 
     private String token;
 
@@ -33,5 +35,13 @@ public class CheckOTPResponseData {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

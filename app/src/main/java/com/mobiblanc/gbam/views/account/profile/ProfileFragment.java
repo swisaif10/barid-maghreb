@@ -8,34 +8,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentProfileBinding;
-import com.mobiblanc.gbam.databinding.FragmentUpdatePersonalInformationBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
+import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.Item;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
-import com.mobiblanc.gbam.models.account.profile.ProfileData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
+import com.mobiblanc.gbam.views.account.help.HelpFragment;
+import com.mobiblanc.gbam.views.account.history.MyHistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
+import com.mobiblanc.gbam.views.tracking.TrackingActivity;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements OnItemSelectedListener {
 
     private FragmentProfileBinding fragmentBinding;
     private Connectivity connectivity;
@@ -69,9 +65,27 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
         init();
+    }
+
+    @Override
+    public void onItemSelected(int position, Object object) {
+        switch (position) {
+            case 0:
+                ((AccountActivity) requireActivity()).replaceFragment(new UpdatePersonalInformationFragment());
+                break;
+            case 1:
+                ((AccountActivity) requireActivity()).replaceFragment(new MyHistoryFragment());
+                break;
+            case 3:
+                ((AccountActivity) requireActivity()).replaceFragment(new HelpFragment());
+                break;
+            case 2:
+                startActivity(new Intent(requireActivity(), TrackingActivity.class));
+                break;
+        }
     }
 
     private void init() {
@@ -79,15 +93,17 @@ public class ProfileFragment extends Fragment {
         fragmentBinding.cartBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
         fragmentBinding.logoutBtn.setOnClickListener(v -> logout());
 
+        fragmentBinding.name.setText(preferenceManager.getValue(Constants.NAME, ""));
+
         ArrayList<Item> items = new ArrayList<Item>() {{
-            add(new Item(R.drawable.ic_user, "Mes informations personnelles"));
-            add(new Item(R.drawable.ic_bag_profile, "Mon historique"));
-            add(new Item(R.drawable.ic_tracking, "Suivi de commande"));
-            add(new Item(R.drawable.ic_aide, "Contact"));
+            add(new Item(R.drawable.ic_user, getString(R.string.personal_info_btn)));
+            add(new Item(R.drawable.ic_bag_profile, getString(R.string.history_btn)));
+            add(new Item(R.drawable.ic_tracking, getString(R.string.tracking_btn)));
+            add(new Item(R.drawable.ic_aide, getString(R.string.contact_btn)));
         }};
 
         fragmentBinding.profileRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentBinding.profileRecycler.setAdapter(new ProfileAdapter(getContext(), items));
+        fragmentBinding.profileRecycler.setAdapter(new ProfileAdapter(items, this));
     }
 
     private void logout() {
@@ -124,4 +140,5 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+
 }
