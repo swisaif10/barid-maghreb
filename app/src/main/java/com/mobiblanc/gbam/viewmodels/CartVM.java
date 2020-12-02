@@ -141,8 +141,24 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getAgencies(String token) {
-        Call<AgenciesData> call = RestService.getInstance().endpoint().getAgencies(token);
+    public void getAgencies(String token, int page) {
+        Call<AgenciesData> call = RestService.getInstance().endpoint().getAgencies(token, page);
+        call.enqueue(new Callback<AgenciesData>() {
+            @Override
+            public void onResponse(@NonNull Call<AgenciesData> call, @NonNull Response<AgenciesData> response) {
+                agenciesLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AgenciesData> call, @NonNull Throwable t) {
+                agenciesLiveData.setValue(null);
+            }
+        });
+    }
+
+
+    public void getAgencies(String token, int page, String region) {
+        Call<AgenciesData> call = RestService.getInstance().endpoint().getAgencies(token, page, region);
         call.enqueue(new Callback<AgenciesData>() {
             @Override
             public void onResponse(@NonNull Call<AgenciesData> call, @NonNull Response<AgenciesData> response) {

@@ -32,7 +32,7 @@ public class TrackingVM extends AndroidViewModel {
         TrackingLiveData = new MutableLiveData<>();
     }
 
-    public void trackCommand(String id) {
+    public void trackCommand(String token, String id) {
         Call<TrackingData> call = RestService.getInstance().endpoint().trackCommand(ApiUrls.AUTHORIZATION, id);
 
         call.enqueue(new Callback<TrackingData>() {

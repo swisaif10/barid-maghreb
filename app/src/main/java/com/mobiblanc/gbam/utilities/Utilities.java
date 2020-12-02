@@ -83,6 +83,33 @@ public interface Utilities {
         dialog.show();
     }
 
+    static void showTrackingDialog(Context context, String message, View.OnClickListener onClickListener, Boolean canSendCall) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.tracking_dialog, null, false);
+        Button ok = view.findViewById(R.id.callBtn);
+        TextView msg = view.findViewById(R.id.message);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        if (canSendCall)
+            ok.setVisibility(View.VISIBLE);
+
+        msg.setText(message);
+
+        ok.setOnClickListener(v -> {
+            dialog.dismiss();
+            onClickListener.onClick(v);
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
     static void showConfirmationDialog(Context context, View.OnClickListener onClickListener) {
 
         if (context == null) {

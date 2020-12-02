@@ -15,5 +15,4 @@
     <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
     </style>
-
 </resources>

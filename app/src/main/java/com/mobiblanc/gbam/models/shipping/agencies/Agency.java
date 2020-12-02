@@ -9,8 +9,6 @@ public class Agency implements Serializable {
     @Expose
     private String address;
     @Expose
-    private String distance;
-    @Expose
     private String faxe;
     @Expose
     private int id;
@@ -24,6 +22,12 @@ public class Agency implements Serializable {
     private String telephone;
     @Expose
     private String title;
+    @Expose
+    private String province;
+    @Expose
+    private String time;
+    @Expose
+    private String region;
 
     public String getAddress() {
         return address;
@@ -31,14 +35,6 @@ public class Agency implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
     }
 
     public String getFaxe() {
@@ -97,4 +93,27 @@ public class Agency implements Serializable {
         this.title = title;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 }

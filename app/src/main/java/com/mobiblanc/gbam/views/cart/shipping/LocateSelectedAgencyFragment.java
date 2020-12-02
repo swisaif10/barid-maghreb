@@ -1,11 +1,11 @@
 package com.mobiblanc.gbam.views.cart.shipping;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,20 +19,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.databinding.FragmentLocateSelectedAgencyBinding;
 import com.mobiblanc.gbam.models.shipping.agencies.Agency;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.cart.payment.PaymentFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class LocateSelectedAgencyFragment extends Fragment {
 
-    @BindView(R.id.title)
-    TextView title;
-    @BindView(R.id.address)
-    TextView address;
+    private FragmentLocateSelectedAgencyBinding fragmentBinding;
     private Agency agency;
 
     public static LocateSelectedAgencyFragment newInstance(Agency agency) {
@@ -56,9 +50,8 @@ public class LocateSelectedAgencyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_locate_selected_agency, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        fragmentBinding = FragmentLocateSelectedAgencyBinding.inflate(inflater, container, false);
+        return fragmentBinding.getRoot();
     }
 
     @Override
@@ -69,31 +62,21 @@ public class LocateSelectedAgencyFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-        //init();
+        init();
     }
 
-    @OnClick({R.id.backBtn, R.id.nextBtn})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.backBtn:
-                getActivity().onBackPressed();
-                break;
-            case R.id.nextBtn:
-                ((CartActivity) getActivity()).replaceFragment(new PaymentFragment());
-                break;
-        }
+    private void init() {
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
+        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(PaymentFragment.newInstance(agency.getId(), "en_agence")));
+        fragmentBinding.title.setText(agency.getTitle());
+        fragmentBinding.address.setText(agency.getAddress());
     }
 
-    private void init(){
-        title.setText(agency.getTitle());
-        address.setText(agency.getAddress());
-    }
-
-    private OnMapReadyCallback callback = googleMap -> {
-        //LatLng location = new LatLng(Float.valueOf(agency.getLatitude()), Float.valueOf(agency.getLongitude()));
-        LatLng location = new LatLng(33.567758, -7.604903);
+    @SuppressLint("InflateParams")
+    private final OnMapReadyCallback callback = googleMap -> {
+        LatLng location = new LatLng(Float.parseFloat(agency.getLatitude()), Float.parseFloat(agency.getLongitude()));
         View view = LayoutInflater.from(getContext()).inflate(R.layout.marker_view, null);
-        IconGenerator generator = new IconGenerator(getContext());
+        IconGenerator generator = new IconGenerator(requireContext());
         generator.setContentView(view);
         generator.setBackground(new ColorDrawable(0));
         googleMap.addMarker(new MarkerOptions().position(location).icon(BitmapDescriptorFactory.fromBitmap(generator.makeIcon())));

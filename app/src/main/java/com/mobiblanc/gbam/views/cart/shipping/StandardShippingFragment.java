@@ -114,7 +114,7 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
             addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
             ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
         });
-        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) getActivity()).replaceFragment(PaymentFragment.newInstance(address.getId())));
+        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) getActivity()).replaceFragment(PaymentFragment.newInstance(address.getId(), "standard")));
 
         fragmentBinding.addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         addressAdapter = new AddressAdapter(addressList, this);

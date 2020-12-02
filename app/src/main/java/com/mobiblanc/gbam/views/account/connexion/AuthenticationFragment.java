@@ -66,7 +66,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                 .build();
 
         if (getArguments() != null) {
-            destination = getArguments().getString("destination");
+            destination = getArguments().getString("destination","");
         }
     }
 

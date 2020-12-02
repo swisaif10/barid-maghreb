@@ -4,23 +4,33 @@ import com.google.gson.annotations.Expose;
 
 public class TrackingItem {
     @Expose
-    private String status;
+    private String etat;
     @Expose
-    private String date;
+    private String dateEtat;
+    @Expose
+    private String lieu;
 
     public String getStatus() {
-        return status;
+        return etat;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.etat = status;
     }
 
     public String getDate() {
-        return date;
+        return dateEtat;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.dateEtat = date;
+    }
+
+    public String getLocation() {
+        return lieu;
+    }
+
+    public void setLocation(String lieu) {
+        this.lieu = lieu;
     }
 }

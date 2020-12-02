@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:overScrollMode="never">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +23,41 @@
                 android:textColor="@color/darkGrey"
                 android:textSize="20sp" />
 
+<!--
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dropdown"
+                app:boxBackgroundColor="@color/white"
+                android:hint="Quelle ville recherchez-vous?"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:endIconTint="@color/blue"
+                android:elevation="2dp"
+                app:endIconDrawable="@drawable/arrow"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="20dp"
+                android:textColorHint="#818181">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dropDownHeight="300dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:paddingStart="30dp"
+                    android:scrollbarSize="5dp"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+-->
+
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/citiesDropDownMenu"
                 android:layout_width="match_parent"
@@ -35,7 +66,6 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_dropdown"
                 android:completionThreshold="0"
-                android:focusable="false"
                 android:fontFamily="@font/montserrat_regular"
                 android:hint="Quelle ville recherchez-vous?"
                 android:overScrollMode="never"
@@ -44,24 +74,8 @@
                 android:textSize="13sp"
                 app:drawableEndCompat="@drawable/arrow" />
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/provincesDropDownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:background="@drawable/bg_dropdown"
-                android:completionThreshold="0"
-                android:focusable="false"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="Province"
-                android:overScrollMode="never"
-                android:padding="20dp"
-                android:textColorHint="#818181"
-                android:textSize="13sp"
-                app:drawableEndCompat="@drawable/arrow" />
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/deliveryRecycler"
+                android:id="@+id/agenciesRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
@@ -71,15 +85,15 @@
                 tools:listitem="@layout/agency_item_layout" />
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/loader"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/loader"
-        android:visibility="gone" />
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/loader"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/loader"
+            android:visibility="gone" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

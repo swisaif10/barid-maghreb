@@ -130,7 +130,7 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="20dp"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/button_background_selector"
             android:fontFamily="@font/montserrat_semibold"
             android:stateListAnimator="@null"
             android:text="@string/pay_btn"

@@ -106,12 +106,19 @@ public interface RestEndpoint {
                           @Field("name") String name,
                           @Field("email") String email,
                           @Field("phoneNumber") String phoneNumber,
-                          @Field("objet") String objet,
+                          @Field("objet") String object,
                           @Field("message") String message);
 
-    //not yet
+    @FormUrlEncoded
     @POST(ApiUrls.GET_AGENCIES_URL)
-    Call<AgenciesData> getAgencies(@Header("x-auth-token") String token);
+    Call<AgenciesData> getAgencies(@Header("x-auth-token") String token,
+                                   @Field("page") int page);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_AGENCIES_URL)
+    Call<AgenciesData> getAgencies(@Header("x-auth-token") String token,
+                                   @Field("page") int page,
+                                   @Field("region") String region);
 
     @POST(ApiUrls.GET_ADDRESSES_URL)
     Call<AddressData> getAddress(@Header("x-auth-token") String token);
@@ -140,7 +147,7 @@ public interface RestEndpoint {
     @FormUrlEncoded
     @POST(ApiUrls.TRACKING_COMMAND_URL)
     Call<TrackingData> trackCommand(@Header("x-auth-token") String token,
-                                    @Field("tracking_command_id ") String tracking_command_id);
+                                    @Field("tracking_command_id") String commandId);
 
     @POST(ApiUrls.CGU_URL)
     Call<HtmlData> getCGU();

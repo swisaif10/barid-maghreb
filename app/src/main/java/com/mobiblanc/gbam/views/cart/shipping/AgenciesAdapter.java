@@ -2,101 +2,69 @@ package com.mobiblanc.gbam.views.cart.shipping;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mobiblanc.gbam.R;
-import com.mobiblanc.gbam.listeners.OnObjectSelectedListener;
+import com.bumptech.glide.Glide;
+import com.mobiblanc.gbam.databinding.AgencyItemLayoutBinding;
+import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.shipping.agencies.Agency;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class AgenciesAdapter extends RecyclerView.Adapter<AgenciesAdapter.AgencyViewHolder> {
 
-public class AgenciesAdapter extends RecyclerView.Adapter<AgenciesAdapter.ViewHolder> {
+    private final Context context;
+    private final List<Agency> agencies;
+    private final OnItemSelectedListener onItemSelectedListener;
 
-    private Context context;
-    private OnObjectSelectedListener onObjectSelectedListener;
-    private List<Agency> agencies;
-
-    public AgenciesAdapter(Context context, OnObjectSelectedListener onObjectSelectedListener, List<Agency> agencies) {
+    public AgenciesAdapter(Context context, List<Agency> agencies, OnItemSelectedListener onItemSelectedListener) {
         this.context = context;
-        this.onObjectSelectedListener = onObjectSelectedListener;
         this.agencies = agencies;
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.agency_item_layout, parent, false);
-        return new ViewHolder(view);
+    public AgencyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AgenciesAdapter.AgencyViewHolder(AgencyItemLayoutBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false
+        ));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //Agency agency = agencies.get(position);
-
-        /*holder.title.setText(agency.getTitle());
-        holder.address.setText(agency.getAddress());
-        holder.phone.setText(agency.getTelephone());
-        holder.fax.setText(agency.getFaxe());
-        holder.logo.setImageResource(R.drawable.logo11);
-        holder.itemView.setOnClickListener(v -> onObjectSelectedListener.onObjectSelected(agency));*/
-
-        switch (position){
-            case 0:
-                holder.title.setText("Agence Fida - Casablanca");
-                holder.address.setText("Boulevard El Fida, Casablanca 20554");
-                holder.logo.setImageResource(R.drawable.logo11);
-                break;
-            case 1:
-                holder.title.setText("Agence Hay Chrifa - Casablanca");
-                holder.address.setText("CASA 2 MARS, Bd La Martine C.U Mers Sultan 20502 CASABLANCA");
-                holder.logo.setImageResource(R.drawable.logo2);
-                break;
-            case 2:
-                holder.title.setText("Agence Hay Inara - Casablanca");
-                holder.address.setText("CASA 2 MARS, Bd La Martine C.U Mers Sultan 20502 CASABLANCA");
-                holder.logo.setImageResource(R.drawable.logo2);
-                break;
-            case 3:
-                holder.title.setText("Agence Belvedere - Casablanca");
-                holder.address.setText("Boulevard El Fida, Casablanca 20554");
-                holder.logo.setImageResource(R.drawable.logo11);
-                break;
-        }
-
-        holder.itemView.setOnClickListener(v -> onObjectSelectedListener.onObjectSelected(null, null ));
+    public void onBindViewHolder(@NonNull AgencyViewHolder holder, int position) {
+        holder.bind(agencies.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return agencies.size();
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class AgencyViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.logo)
-        ImageView logo;
-        @BindView(R.id.address)
-        TextView address;
-        @BindView(R.id.phone)
-        TextView phone;
-        @BindView(R.id.fax)
-        TextView fax;
+        private final AgencyItemLayoutBinding itemBinding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        AgencyViewHolder(AgencyItemLayoutBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.itemBinding = itemBinding;
+        }
+
+        private void bind(Agency agency) {
+
+            itemBinding.title.setText(agency.getTitle());
+            itemBinding.address.setText(agency.getAddress());
+            itemBinding.phone.setText(agency.getTelephone());
+            itemBinding.fax.setText(agency.getFaxe());
+            Glide.with(context).load(agency.getLogo()).into(itemBinding.logo);
+            itemBinding.getRoot().setOnClickListener(v -> onItemSelectedListener.onItemSelected(getAdapterPosition(), agency));
         }
     }
 }

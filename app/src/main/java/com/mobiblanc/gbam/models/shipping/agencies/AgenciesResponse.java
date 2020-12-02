@@ -2,11 +2,16 @@ package com.mobiblanc.gbam.models.shipping.agencies;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class AgenciesResponse {
 
     @Expose
     private List<Agency> agencies;
+    @SerializedName("nbr_pages")
+    private int totalPage;
+    @Expose
+    private List<String> regions;
 
     public List<Agency> getAgencies() {
         return agencies;
@@ -16,4 +21,19 @@ public class AgenciesResponse {
         this.agencies = agencies;
     }
 
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public List<String> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<String> regions) {
+        this.regions = regions;
+    }
 }
