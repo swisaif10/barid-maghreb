@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".views.account.history.OrderDetailsFragment">
+    tools:context=".views.account.history.HistoryDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

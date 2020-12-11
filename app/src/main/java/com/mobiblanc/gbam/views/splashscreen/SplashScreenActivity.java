@@ -1,5 +1,6 @@
 package com.mobiblanc.gbam.views.splashscreen;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnDialogButtonsClickListener;
 import com.mobiblanc.gbam.models.controlversion.ControlVersionData;
 import com.mobiblanc.gbam.utilities.Connectivity;
+import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.SplashVM;
 import com.mobiblanc.gbam.views.main.MainActivity;
@@ -20,6 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity implements OnDialogB
 
     private SplashVM splashVM;
     private Connectivity connectivity;
+    private PreferenceManager preferenceManager;
     private String link;
 
     @Override
@@ -31,9 +35,12 @@ public class SplashScreenActivity extends AppCompatActivity implements OnDialogB
 
         splashVM.getControlVersionLiveData().observe(this, this::handleVersionCheckResponse);
 
+        preferenceManager = new PreferenceManager.Builder(this, Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
+
+
         new Handler().postDelayed(this::controlVersion, 3000);
-
-
     }
 
     @Override
@@ -49,7 +56,7 @@ public class SplashScreenActivity extends AppCompatActivity implements OnDialogB
 
     private void controlVersion() {
         if (connectivity.isConnected()) {
-            splashVM.controlVersion();
+            splashVM.controlVersion(preferenceManager.getValue(Constants.FIREBASE_TOKEN,""));
         } else
             Utilities.showErrorPopup(this, getString(R.string.no_internet_msg));
     }

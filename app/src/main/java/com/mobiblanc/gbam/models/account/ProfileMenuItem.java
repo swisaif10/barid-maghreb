@@ -1,10 +1,10 @@
-package com.mobiblanc.gbam.models;
+package com.mobiblanc.gbam.models.account;
 
-public class Item {
+public class ProfileMenuItem {
     private int image;
     private String title;
 
-    public Item(int image, String title) {
+    public ProfileMenuItem(int image, String title) {
         this.image = image;
         this.title = title;
     }

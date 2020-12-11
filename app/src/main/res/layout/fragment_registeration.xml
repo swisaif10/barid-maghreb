@@ -175,7 +175,6 @@
                     app:boxCornerRadiusTopEnd="25dp"
                     app:boxCornerRadiusTopStart="25dp"
                     app:boxStrokeColor="@color/blue"
-
                     app:boxStrokeWidthFocused="1dp"
                     app:hintTextColor="@color/hintGrey">
 
@@ -193,6 +192,17 @@
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/phoneError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="Non ergo erunt homines deliciis diffluentes audiend" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

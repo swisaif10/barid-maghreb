@@ -1,5 +1,6 @@
 package com.mobiblanc.gbam.datamanager.retrofit;
 
+import com.mobiblanc.gbam.models.history.HistoryData;
 import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
@@ -10,7 +11,9 @@ import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.controlversion.ControlVersionData;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;
-import com.mobiblanc.gbam.models.payment.PaymentRecapData;
+import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
+import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
+import com.mobiblanc.gbam.models.pdf.PDFData;
 import com.mobiblanc.gbam.models.products.ProductsData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
@@ -24,8 +27,9 @@ import retrofit2.http.POST;
 
 public interface RestEndpoint {
 
+    @FormUrlEncoded
     @POST(ApiUrls.CONTROL_VERSION_URL)
-    Call<ControlVersionData> controlVersion();
+    Call<ControlVersionData> controlVersion(@Field("firebase_id") String firebaseToken);
 
     @FormUrlEncoded
     @POST(ApiUrls.REGISTRATION_URL)
@@ -155,39 +159,14 @@ public interface RestEndpoint {
     @POST(ApiUrls.DASHBOARD_DESCRIPTION_URL)
     Call<HtmlData> getDashboardDescription();
 
-
-
-    /*@POST(ApiUrls.GET_DASHBOARD_URL)
-    Call<DashboardData> getGuestDashboard(@Header("Authorization") String credentials);
+    @POST(ApiUrls.PDF_URL)
+    Call<PDFData> getPDF();
 
     @FormUrlEncoded
-    @POST(ApiUrls.GET_PRODUCTS_URL)
-    Call<ProductsData> getGuestProductsList(@Header("Authorization") String credentials,
-                                            @Field("idCategory") int id);
+    @POST(ApiUrls.PAY_URL)
+    Call<PaymentOperationData> payCart(@Header("x-auth-token") String token,
+                                       @Field("quoteId") String quoteId);
 
-    @FormUrlEncoded
-    @POST(ApiUrls.ADD_ITEM_TO_CART_URL)
-    Call<AddItemData> addItemToCartByGuest(@Header("Authorization") String credentials,
-                                           @Field("quoteId") String idCart,
-                                           @Field("sku") String sku,
-                                           @Field("qty") int quantity);
-
-    @FormUrlEncoded
-    @POST(ApiUrls.GET_CART_ITEMS_URL)
-    Call<CartItemsData> getGuestCartItems(@Header("Authorization") String credentials,
-                                          @Field("quoteId") String idCart);
-
-    @FormUrlEncoded
-    @POST(ApiUrls.ADD_ITEM_TO_CART_URL)
-    Call<AddItemData> updateItemQtyByGuest(@Header("Authorization") String credentials,
-                                           @Field("quoteId") String cartId,
-                                           @Field("itemId") int itemId,
-                                           @Field("qty") int quantity);
-
-    @FormUrlEncoded
-    @POST(ApiUrls.DELETE_ITEM_FROM_CART_URL)
-    Call<DeleteItemData> deleteItemByGuest(@Header("Authorization") String credentials,
-                                           @Field("quoteId") String cartId,
-                                           @Field("itemId") int itemId);*/
-
+    @POST(ApiUrls.GET_HISTORY_URL)
+    Call<HistoryData> getHistory();
 }

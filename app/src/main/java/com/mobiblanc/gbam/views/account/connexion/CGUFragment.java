@@ -16,15 +16,28 @@ import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentCguBinding;
 import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.html.HtmlResponse;
+import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
+import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
+
+import java.util.ArrayList;
 
 public class CGUFragment extends Fragment {
 
     private FragmentCguBinding fragmentCguBinding;
     private Connectivity connectivity;
     private AccountVM accountVM;
+    private Boolean showHeader;
+
+    public static CGUFragment newInstance(Boolean showHeader) {
+        CGUFragment fragment = new CGUFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("showHeader", showHeader);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public CGUFragment() {
         // Required empty public constructor
@@ -37,6 +50,9 @@ public class CGUFragment extends Fragment {
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
         connectivity = new Connectivity(requireContext(), this);
         accountVM.getCguLiveData().observe(this, this::handleCGUData);
+
+        if (getArguments() != null)
+            showHeader = getArguments().getBoolean(("showHeader"));
     }
 
     @Override
@@ -49,6 +65,8 @@ public class CGUFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (showHeader)
+            fragmentCguBinding.backBtn.setVisibility(View.VISIBLE);
         getCGU();
     }
 

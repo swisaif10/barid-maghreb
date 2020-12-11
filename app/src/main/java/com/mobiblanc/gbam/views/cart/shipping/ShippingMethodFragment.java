@@ -39,11 +39,11 @@ public class ShippingMethodFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         cartVM.getAddressLiveData().observe(this, this::handleAddressData);
 
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
 
@@ -64,7 +64,7 @@ public class ShippingMethodFragment extends Fragment {
 
     private void init() {
         fragmentBinding.standardShipping.setOnClickListener(v -> getAddress());
-        fragmentBinding.agencyShipping.setOnClickListener(v -> ((CartActivity) getActivity()).replaceFragment(new AgencyShippingFragment()));
+        fragmentBinding.agencyShipping.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(new AgencyShippingFragment()));
     }
 
     private void getAddress() {
@@ -82,11 +82,11 @@ public class ShippingMethodFragment extends Fragment {
         } else {
             int code = addressData.getHeader().getCode();
             if (code == 200) {
-                ((CartActivity) getActivity()).replaceFragment(StandardShippingFragment.newInstance(addressData));
+                ((CartActivity) requireActivity()).replaceFragment(StandardShippingFragment.newInstance(addressData.getResponse().getAddresses(), true));
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else {

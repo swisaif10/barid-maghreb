@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,6 +22,7 @@
         app:layout_constraintWidth_percent="0.85">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
@@ -31,10 +33,11 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
-            android:text="En application des dispositions de la Circulaire de Monsieur le Chef du Gouvernement n°15/2019 du 23 Moharram 1441 (23 Septembre 2019), relative au nouveau Portrait Officiel de Sa Majesté le Roi Mohammed VI que Dieu le glorifie, il a été décidé de confier au Groupe Barid Al-Maghrib la gestion des commandes et la distribution de ce Portrait aux administrations, établissements et entreprises publics.\n\nans ce cadre, le Groupe Barid Al-Maghrib met cette application mobile à la disposition de ces institutions pour effectuer leurs commandes en ligne du Portrait de Sa Majesté le Roi.\n\nCette application mobile vous permet de mentionner vos coordonnées, les spécifications du Portrait et le nombre d’exemplaires souhaités ainsi que les adresses de livraison."
+            tools:text="En application des dispositions de la Circulaire de Monsieur le Chef du Gouvernement n°15/2019 du 23 Moharram 1441 (23 Septembre 2019), relative au nouveau Portrait Officiel de Sa Majesté le Roi Mohammed VI que Dieu le glorifie, il a été décidé de confier au Groupe Barid Al-Maghrib la gestion des commandes et la distribution de ce Portrait aux administrations, établissements et entreprises publics.\n\nans ce cadre, le Groupe Barid Al-Maghrib met cette application mobile à la disposition de ces institutions pour effectuer leurs commandes en ligne du Portrait de Sa Majesté le Roi.\n\nCette application mobile vous permet de mentionner vos coordonnées, les spécifications du Portrait et le nombre d’exemplaires souhaités ainsi que les adresses de livraison."
             android:textColor="@color/black"
             android:textSize="13sp" />
 

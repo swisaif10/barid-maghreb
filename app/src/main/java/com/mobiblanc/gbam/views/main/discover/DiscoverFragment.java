@@ -57,7 +57,6 @@ public class DiscoverFragment extends Fragment {
 
     private void init(HtmlResponse htmlResponse) {
         fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
-        fragmentBinding.cartBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
         fragmentBinding.title.setText(htmlResponse.getTitle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             fragmentBinding.body.setText(Html.fromHtml(htmlResponse.getHtml(), Html.FROM_HTML_MODE_LEGACY));

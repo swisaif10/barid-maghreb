@@ -104,6 +104,14 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/hintGrey"
                         android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/phoneError"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textColor="@color/red"
+                        android:textSize="12sp"
+                        android:visibility="gone"/>
 
                     <EditText
                         android:id="@+id/object"

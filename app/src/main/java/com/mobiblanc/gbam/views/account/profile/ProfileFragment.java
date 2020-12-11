@@ -16,15 +16,17 @@ import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentProfileBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
-import com.mobiblanc.gbam.models.Item;
+import com.mobiblanc.gbam.models.account.ProfileMenuItem;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
+import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
+import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.help.HelpFragment;
-import com.mobiblanc.gbam.views.account.history.MyHistoryFragment;
+import com.mobiblanc.gbam.views.account.history.HistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.tracking.TrackingActivity;
@@ -37,6 +39,7 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
     private Connectivity connectivity;
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
+    private CartVM cartVM;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -47,12 +50,14 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
         super.onCreate(savedInstanceState);
 
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
-
-        connectivity = new Connectivity(getContext(), this);
-
         accountVM.getLogoutLiveData().observe(this, this::handleLogoutData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        cartVM = ViewModelProviders.of(this).get(CartVM.class);
+        cartVM.getAddressLiveData().observe(this, this::handleAddressData);
+
+        connectivity = new Connectivity(requireContext(), this);
+
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -77,7 +82,7 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
                 ((AccountActivity) requireActivity()).replaceFragment(new UpdatePersonalInformationFragment());
                 break;
             case 1:
-                ((AccountActivity) requireActivity()).replaceFragment(new MyHistoryFragment());
+                getAddress();
                 break;
             case 3:
                 ((AccountActivity) requireActivity()).replaceFragment(new HelpFragment());
@@ -95,15 +100,15 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
 
         fragmentBinding.name.setText(preferenceManager.getValue(Constants.NAME, ""));
 
-        ArrayList<Item> items = new ArrayList<Item>() {{
-            add(new Item(R.drawable.ic_user, getString(R.string.personal_info_btn)));
-            add(new Item(R.drawable.ic_bag_profile, getString(R.string.history_btn)));
-            add(new Item(R.drawable.ic_tracking, getString(R.string.tracking_btn)));
-            add(new Item(R.drawable.ic_aide, getString(R.string.contact_btn)));
+        ArrayList<ProfileMenuItem> profileMenuItems = new ArrayList<ProfileMenuItem>() {{
+            add(new ProfileMenuItem(R.drawable.ic_user, getString(R.string.personal_info_btn)));
+            add(new ProfileMenuItem(R.drawable.mes_adresses, getString(R.string.my_addresses_btn)));
+            add(new ProfileMenuItem(R.drawable.ic_tracking, getString(R.string.tracking_btn)));
+            add(new ProfileMenuItem(R.drawable.ic_aide, getString(R.string.contact_btn)));
         }};
 
         fragmentBinding.profileRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentBinding.profileRecycler.setAdapter(new ProfileAdapter(items, this));
+        fragmentBinding.profileRecycler.setAdapter(new ProfileAdapter(profileMenuItems, this));
     }
 
     private void logout() {
@@ -137,6 +142,38 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
                 });
             } else {
                 Utilities.showErrorPopup(getContext(), otpData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void getAddress() {
+        if (connectivity.isConnected()) {
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.getAddress(preferenceManager.getValue(Constants.TOKEN, null));
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleAddressData(AddressData addressData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (addressData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = addressData.getHeader().getCode();
+            if (code == 200) {
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                intent.putExtra("destination", 1);
+                intent.putExtra("addresses", addressData.getResponse().getAddresses());
+                intent.putExtra("canPay", false);
+                startActivity(intent);
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), addressData.getHeader().getMessage());
             }
         }
     }

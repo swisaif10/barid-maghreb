@@ -47,7 +47,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     private PreferenceManager preferenceManager;
     private List<Item> items;
     private int itemsToAddInCart;
-    private int position;
+    private int deletedItemId;
+    private CartAdapter cartAdapter;
 
     public CartDetailsFragment() {
         // Required empty public constructor
@@ -90,6 +91,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        enableSwipeToDelete();
         getCartItems();
     }
 
@@ -126,16 +128,12 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         });
         items = response.getItems();
         fragmentCartDetailsBinding.cartRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        CartAdapter cartAdapter = new CartAdapter(getContext(), items, this);
+        cartAdapter = new CartAdapter(getContext(), items, this);
         fragmentCartDetailsBinding.cartRecycler.setAdapter(cartAdapter);
 
         fragmentCartDetailsBinding.price.setText(response.getProductsPrice() + " MAD");
         fragmentCartDetailsBinding.fee.setText(response.getFees() + " MAD");
         fragmentCartDetailsBinding.total.setText(response.getTotalPrice() + " MAD");
-
-
-        enableSwipeToDelete();
-
     }
 
     private void getCartItems() {
@@ -193,23 +191,26 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         }
     }
 
-    private void deleteItem(int index) {
+    private void deleteItem() {
         if (connectivity.isConnected()) {
-            cartVM.deleteItem(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.CART_ID, ""), items.get(index).getItemId());
+            fragmentCartDetailsBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.deleteItem(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.CART_ID, ""), deletedItemId);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
+    @SuppressLint("SetTextI18n")
     private void handleDeleteItemFromCartData(DeleteItemData deleteItemData) {
-
+        fragmentCartDetailsBinding.loader.setVisibility(View.GONE);
         if (deleteItemData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
             int code = deleteItemData.getHeader().getCode();
-            if (code == 200 && deleteItemData.getResponse()) {
-                getCartItems();
-                itemsToAddInCart = -Integer.parseInt(items.get(position).getQty());
+            if (code == 200 && deleteItemData.getResponse().getDeleted()) {
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + itemsToAddInCart);
+                fragmentCartDetailsBinding.price.setText(deleteItemData.getResponse().getPanier().getProductsPrice() + " MAD");
+                fragmentCartDetailsBinding.fee.setText(deleteItemData.getResponse().getPanier().getFees() + " MAD");
+                fragmentCartDetailsBinding.total.setText(deleteItemData.getResponse().getPanier().getTotalPrice() + " MAD");
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), deleteItemData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
@@ -229,8 +230,10 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                 underlayButtons.add(new SwipeHelper.UnderlayButton(
                         ContextCompat.getDrawable(requireContext(), R.drawable.supp),
                         pos -> {
-                            position = pos;
-                            deleteItem(position);
+                            deletedItemId = items.get(pos).getItemId();
+                            itemsToAddInCart = -Integer.parseInt(items.get(pos).getQty());
+                            cartAdapter.removeItem(pos);
+                            deleteItem();
                         }
                 ));
             }

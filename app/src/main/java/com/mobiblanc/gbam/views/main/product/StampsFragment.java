@@ -100,7 +100,7 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
         if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0) {
             fragmentStampsBinding.count.setVisibility(View.VISIBLE);
             fragmentStampsBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
-        }
+        } else fragmentStampsBinding.count.setVisibility(View.GONE);
     }
 
     @Override

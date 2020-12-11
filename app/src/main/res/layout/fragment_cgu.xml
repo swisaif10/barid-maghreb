@@ -10,8 +10,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:overScrollMode="never"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -21,7 +21,8 @@
                 <RelativeLayout
                     android:id="@+id/backBtn"
                     android:layout_width="50dp"
-                    android:layout_height="60dp">
+                    android:layout_height="60dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="10dp"

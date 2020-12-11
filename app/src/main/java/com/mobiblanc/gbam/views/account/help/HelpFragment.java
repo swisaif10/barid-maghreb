@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -26,12 +27,15 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
+import java.util.Objects;
+
 public class HelpFragment extends Fragment {
 
     private FragmentHelpBinding fragmentBinding;
     private Connectivity connectivity;
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
+    private int phoneNumberLength = 11;
 
     public HelpFragment() {
         // Required empty public constructor
@@ -113,7 +117,34 @@ public class HelpFragment extends Fragment {
         });
 
         fragmentBinding.name.addTextChangedListener(textWatcher);
-        fragmentBinding.phoneNumber.addTextChangedListener(textWatcher);
+        fragmentBinding.phoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
+                    int maxLength = 10;
+                    phoneNumberLength = maxLength;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    fragmentBinding.phoneNumber.setFilters(fArray);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkForm();
+                if (!Utilities.isEmailValid(s.toString().trim()) && !s.toString().equalsIgnoreCase("")) {
+                    fragmentBinding.phoneError.setVisibility(View.VISIBLE);
+                    fragmentBinding.phoneError.setText(R.string.invalid_email_error);
+                } else {
+                    fragmentBinding.phoneError.setVisibility(View.GONE);
+                }
+            }
+        });
         fragmentBinding.object.addTextChangedListener(textWatcher);
         fragmentBinding.message.addTextChangedListener(textWatcher);
     }
@@ -121,6 +152,7 @@ public class HelpFragment extends Fragment {
     private void checkForm() {
         fragmentBinding.sendBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.name) && !Utilities.isEmpty(fragmentBinding.email)
                 && Utilities.isEmailValid(fragmentBinding.email.getText().toString().trim())
+                && Objects.requireNonNull(fragmentBinding.phoneNumber.getText()).toString().length() == phoneNumberLength
                 && !Utilities.isEmpty(fragmentBinding.phoneNumber) && !Utilities.isEmpty(fragmentBinding.object) && !Utilities.isEmpty(fragmentBinding.message));
     }
 

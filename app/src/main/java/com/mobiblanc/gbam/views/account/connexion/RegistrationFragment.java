@@ -29,12 +29,15 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 
+import java.util.Objects;
+
 public class RegistrationFragment extends Fragment implements OnDialogButtonsClickListener {
 
     private FragmentRegisterationBinding fragmentBinding;
     private Connectivity connectivity;
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
+    private int phoneNumberLength = 11;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -80,7 +83,8 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
     private void init() {
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
-        fragmentBinding.cguBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(new CGUFragment()));
+        fragmentBinding.cguBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(CGUFragment.newInstance(true)));
+        fragmentBinding.rulesBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(new PDFFragment()));
         fragmentBinding.registerBtn.setOnClickListener(v -> register());
 
         fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
@@ -99,6 +103,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
                     int maxLength = 10;
+                    phoneNumberLength = maxLength;
                     InputFilter[] fArray = new InputFilter[1];
                     fArray[0] = new InputFilter.LengthFilter(maxLength);
                     fragmentBinding.phoneNumber.setFilters(fArray);
@@ -113,7 +118,34 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
 
         fragmentBinding.lastName.addTextChangedListener(textWatcher);
         fragmentBinding.firstName.addTextChangedListener(textWatcher);
-        fragmentBinding.phoneNumber.addTextChangedListener(textWatcher);
+        fragmentBinding.phoneNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
+                    int maxLength = 10;
+                    phoneNumberLength = maxLength;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    fragmentBinding.phoneNumber.setFilters(fArray);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                checkForm();
+                if (!Utilities.isEmailValid(s.toString().trim()) && !s.toString().equalsIgnoreCase("")) {
+                    fragmentBinding.phoneError.setVisibility(View.VISIBLE);
+                    fragmentBinding.phoneError.setText(R.string.invalid_email_error);
+                } else {
+                    fragmentBinding.phoneError.setVisibility(View.GONE);
+                }
+            }
+        });
 
         fragmentBinding.email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,7 +177,9 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
     private void checkForm() {
         fragmentBinding.registerBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.firstName) && !Utilities.isEmpty(fragmentBinding.lastName)
                 && !Utilities.isEmpty(fragmentBinding.email) && Utilities.isEmailValid(String.valueOf(fragmentBinding.email.getText()).trim())
-                && !Utilities.isEmpty(fragmentBinding.phoneNumber) && fragmentBinding.cguCheck.isChecked() && fragmentBinding.rulesCheck.isChecked());
+                && !Utilities.isEmpty(fragmentBinding.phoneNumber)
+                && Objects.requireNonNull(fragmentBinding.phoneNumber.getText()).toString().length() == phoneNumberLength
+                && fragmentBinding.cguCheck.isChecked() && fragmentBinding.rulesCheck.isChecked());
     }
 
     private void register() {

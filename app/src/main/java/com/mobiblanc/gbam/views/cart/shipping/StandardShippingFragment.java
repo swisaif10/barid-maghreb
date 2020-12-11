@@ -1,45 +1,24 @@
 package com.mobiblanc.gbam.views.cart.shipping;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-import com.mobiblanc.gbam.R;
-import com.mobiblanc.gbam.databinding.FragmentProfileBinding;
 import com.mobiblanc.gbam.databinding.FragmentStandardShippingBinding;
-import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
-import com.mobiblanc.gbam.listeners.OnObjectSelectedListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
-import com.mobiblanc.gbam.models.shipping.address.AddressData;
-import com.mobiblanc.gbam.utilities.Connectivity;
-import com.mobiblanc.gbam.utilities.Constants;
-import com.mobiblanc.gbam.utilities.Utilities;
-import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
-import com.mobiblanc.gbam.views.cart.payment.PaymentFragment;
-import com.mobiblanc.gbam.views.main.MainActivity;
+import com.mobiblanc.gbam.views.cart.payment.RecapPaymentFragment;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import pl.droidsonroids.gif.GifImageView;
 
 public class StandardShippingFragment extends Fragment implements OnItemSelectedListener {
 
@@ -48,13 +27,16 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     private FragmentStandardShippingBinding fragmentBinding;
 
     private AddressAdapter addressAdapter;
-    private List<Address> addressList;
+    private ArrayList<Address> addressList;
     private Address address;
+    private Boolean canPay;
+    private static Boolean initialized = false;
 
-    public static StandardShippingFragment newInstance(AddressData addressData) {
+    public static StandardShippingFragment newInstance(ArrayList<Address> addressList, Boolean canPay) {
         StandardShippingFragment fragment = new StandardShippingFragment();
         Bundle args = new Bundle();
-        args.putSerializable("addressData", addressData);
+        args.putSerializable("addresses", addressList);
+        args.putBoolean("canPay", canPay);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,9 +50,9 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            addressList = ((AddressData) getArguments().getSerializable("addressData")).getResponse().getAddresses();
+            addressList = (ArrayList<Address>) getArguments().getSerializable("addresses");
+            canPay = getArguments().getBoolean("canPay");
         }
-
     }
 
     @Override
@@ -83,10 +65,11 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (addressList.isEmpty()) {
+        if (addressList.isEmpty() && !initialized) {
             AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
             addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
-            ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
+            ((CartActivity) requireActivity()).replaceFragment(addNewAddressFragment);
+            initialized = true;
         }
         init();
     }
@@ -95,7 +78,8 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            this.addressList = ((AddressData) data.getSerializableExtra("addresses")).getResponse().getAddresses();
+            assert data != null;
+            this.addressList = (ArrayList<Address>) data.getSerializableExtra("addresses");
             addressAdapter.notifyDataSetChanged();
         }
     }
@@ -112,9 +96,13 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         fragmentBinding.addNewAddressBtn.setOnClickListener(v -> {
             AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
             addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
-            ((CartActivity) getActivity()).replaceFragment(addNewAddressFragment);
+            ((CartActivity) requireActivity()).replaceFragment(addNewAddressFragment);
         });
-        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) getActivity()).replaceFragment(PaymentFragment.newInstance(address.getId(), "standard")));
+
+        if (canPay)
+            fragmentBinding.nextBtn.setVisibility(View.VISIBLE);
+
+        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(RecapPaymentFragment.newInstance(address.getId(), "standard")));
 
         fragmentBinding.addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         addressAdapter = new AddressAdapter(addressList, this);

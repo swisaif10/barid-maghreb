@@ -20,12 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OrderDetailsFragment extends Fragment {
+public class HistoryDetailsFragment extends Fragment {
 
     @BindView(R.id.itemsRecycler)
     RecyclerView itemsRecycler;
 
-    public OrderDetailsFragment() {
+    public HistoryDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -38,7 +38,7 @@ public class OrderDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_history_details, container, false);
         ButterKnife.bind(this, view);
         return view;
     }

@@ -25,7 +25,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/standardShipping"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="130dp"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="-5dp"
@@ -37,12 +37,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -60,9 +60,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/montserrat_regular"
-                        android:text="Non ergo erunt homines deliciis difflu audiendi, si quando"
+                        android:text="@string/standard_shipping_method_description"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -80,7 +80,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/agencyShipping"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="130dp"
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/delivery_backgroundtint_selector"
                 android:clickable="true"
@@ -90,12 +90,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
@@ -113,9 +113,9 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/montserrat_regular"
-                        android:text="Non ergo erunt homines deliciis difflu audiendi, si quando"
+                        android:text="@string/agency_shipping_method_description"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

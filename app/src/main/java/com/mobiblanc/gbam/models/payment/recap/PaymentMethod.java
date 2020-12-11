@@ -1,4 +1,4 @@
-package com.mobiblanc.gbam.models.payment;
+package com.mobiblanc.gbam.models.payment.recap;
 
 import com.google.gson.annotations.Expose;
 

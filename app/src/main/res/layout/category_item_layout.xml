@@ -16,12 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/icon"
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@color/blue"
             android:textSize="14sp"
             tools:text="Portrait de Sa\nMajesté le Roi Mohammed VI" />
 
         <ImageView
+            android:id="@+id/icon"
             android:layout_width="35dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"

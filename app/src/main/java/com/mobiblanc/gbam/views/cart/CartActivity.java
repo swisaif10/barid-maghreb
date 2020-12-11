@@ -5,11 +5,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.databinding.ActivityCartBinding;
+import com.mobiblanc.gbam.models.shipping.address.Address;
+import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.views.base.BaseActivity;
 import com.mobiblanc.gbam.views.cart.cartdetails.CartDetailsFragment;
 import com.mobiblanc.gbam.views.cart.shipping.AddNewAddressFragment;
 import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,21 +24,21 @@ import butterknife.OnClick;
 
 public class CartActivity extends BaseActivity {
 
-    @BindView(R.id.backBtn)
-    RelativeLayout backBtn;
-    @BindView(R.id.logo)
-    ImageView logo;
-
+    private ActivityCartBinding activityBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
-        ButterKnife.bind(this);
+        activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_cart);
+
         if (getIntent() != null && getIntent().getIntExtra("destination", -1) == 1) {
-            replaceFragment(new AddNewAddressFragment());
+            replaceFragment(StandardShippingFragment.newInstance((ArrayList<Address>) getIntent().getSerializableExtra("addresses"),
+                    getIntent().getBooleanExtra("canPay", false)));
         } else {
             replaceFragment(new CartDetailsFragment());
         }
+
+        activityBinding.backBtn.setOnClickListener(v -> onBackPressed());
+
     }
 
     @Override
@@ -42,13 +49,8 @@ public class CartActivity extends BaseActivity {
             finish();
     }
 
-    @OnClick({R.id.backBtn})
-    public void onViewClicked(View view) {
-        onBackPressed();
-    }
-
-    public void showHideHeader(int visibility){
-        backBtn.setVisibility(visibility);
-        logo.setVisibility(visibility);
+    public void showHideHeader(int visibility) {
+        activityBinding.backBtn.setVisibility(visibility);
+        activityBinding.logo.setVisibility(visibility);
     }
 }

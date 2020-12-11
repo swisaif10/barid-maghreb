@@ -22,15 +22,17 @@ import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnDialogButtonsClickListener;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
-import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
+import com.mobiblanc.gbam.views.account.history.HistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
-import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
+import com.mobiblanc.gbam.views.main.MainActivity;
+
+import java.util.Objects;
 
 public class AuthenticationFragment extends Fragment implements OnDialogButtonsClickListener {
 
@@ -39,6 +41,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
     private String destination = "";
+    private int phoneNumberLength = 11;
 
     public static AuthenticationFragment newInstance(String destination) {
         AuthenticationFragment fragment = new AuthenticationFragment();
@@ -66,7 +69,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                 .build();
 
         if (getArguments() != null) {
-            destination = getArguments().getString("destination","");
+            destination = getArguments().getString("destination", "");
         }
     }
 
@@ -112,6 +115,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
                     int maxLength = 10;
+                    phoneNumberLength = maxLength;
                     InputFilter[] fArray = new InputFilter[1];
                     fArray[0] = new InputFilter.LengthFilter(maxLength);
                     fragmentBinding.phoneNumber.setFilters(fArray);
@@ -127,7 +131,8 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
 
     private void checkForm() {
         fragmentBinding.error.setVisibility(View.INVISIBLE);
-        fragmentBinding.loginBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.phoneNumber));
+        fragmentBinding.loginBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.phoneNumber)
+                && Objects.requireNonNull(fragmentBinding.phoneNumber.getText()).toString().length() == phoneNumberLength);
     }
 
     private void sendOtp() {
@@ -171,12 +176,15 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                 preferenceManager.putValue(Constants.TOKEN, checkOTPData.getResponse().getToken());
                 preferenceManager.putValue(Constants.CART_ID, checkOTPData.getResponse().getQuoteId());
                 preferenceManager.putValue(Constants.NAME, checkOTPData.getResponse().getName());
-                if (destination.equalsIgnoreCase("new_address")){
+                if (destination.equalsIgnoreCase("new_address")) {
                     Intent intent = new Intent(getActivity(), CartActivity.class);
                     intent.putExtra("destination", 1);
                     startActivity(intent);
-                }
-                requireActivity().finish();
+                    requireActivity().finish();
+                } else if (destination.equalsIgnoreCase("history")) {
+                    ((AccountActivity) requireActivity()).replaceFragment(new HistoryFragment());
+                } else
+                    requireActivity().finish();
             } else {
                 fragmentBinding.error.setText(checkOTPData.getHeader().getMessage());
                 fragmentBinding.error.setVisibility(View.VISIBLE);

@@ -1,4 +1,3 @@
-
 package com.mobiblanc.gbam.models.cart.delete;
 
 import com.google.gson.annotations.Expose;
@@ -9,7 +8,7 @@ public class DeleteItemData {
     @Expose
     private Header header;
     @Expose
-    private Boolean response;
+    private DeleteItemResponse response;
 
     public Header getHeader() {
         return header;
@@ -19,11 +18,11 @@ public class DeleteItemData {
         this.header = header;
     }
 
-    public Boolean getResponse() {
+    public DeleteItemResponse getResponse() {
         return response;
     }
 
-    public void setResponse(Boolean response) {
+    public void setResponse(DeleteItemResponse response) {
         this.response = response;
     }
 

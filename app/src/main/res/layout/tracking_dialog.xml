@@ -58,7 +58,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp"
-            app:cornerRadius="10dp" />
+            app:cornerRadius="20dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

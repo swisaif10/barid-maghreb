@@ -20,12 +20,16 @@ import com.mobiblanc.gbam.listeners.OnDashboardItemSelectedListener;
 import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.dashboard.Category;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;
+import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
+import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
+import com.mobiblanc.gbam.views.account.history.HistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
+import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.main.adapters.CategoriesAdapter;
 import com.mobiblanc.gbam.views.main.adapters.ServicesAdapter;
@@ -41,6 +45,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     private MainVM mainVM;
     private PreferenceManager preferenceManager;
     private DashboardData dashboardData;
+    private CartVM cartVM;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -51,11 +56,14 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
         super.onCreate(savedInstanceState);
 
         mainVM = ViewModelProviders.of(this).get(MainVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         mainVM.getDashboardLiveData().observe(this, this::handleDashboardData);
         mainVM.getGuestCartLiveData().observe(this, this::handleCreateGuestCartData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        cartVM = ViewModelProviders.of(this).get(CartVM.class);
+        cartVM.getAddressLiveData().observe(this, this::handleAddressData);
+
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -81,7 +89,8 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
         if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0) {
             fragmentDashboardBinding.count.setVisibility(View.VISIBLE);
             fragmentDashboardBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
-        }
+        } else fragmentDashboardBinding.count.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -99,15 +108,23 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
                 break;
             case "adresse":
                 if (preferenceManager.getValue(Constants.TOKEN, null) != null) {
-                    intent = new Intent(getActivity(), CartActivity.class);
-                    intent.putExtra("destination", 1);
+                    getAddress();
                 } else {
                     intent = new Intent(getActivity(), AccountActivity.class);
                     intent.putExtra("destination", 0);
-                    intent.putExtra("newAddress", "new_address");
+                    intent.putExtra("next", "new_address");
+                    startActivity(intent);
                 }
-                startActivity(intent);
                 break;
+            case "commandes":
+                if (preferenceManager.getValue(Constants.TOKEN, null) != null) {
+                    ((MainActivity) requireActivity()).replaceFragment(new HistoryFragment());
+                } else {
+                    intent = new Intent(getActivity(), AccountActivity.class);
+                    intent.putExtra("destination", 0);
+                    intent.putExtra("next", "history");
+                    startActivity(intent);
+                }
         }
     }
 
@@ -115,7 +132,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     public void onCategoryItemSelected(int index) {
         Category category = dashboardData.getDashboardResponseData().getInfos().getCategories().get(index);
         if (category.getViewCategory().equalsIgnoreCase("portraits"))
-            Utilities.showDashboardDialog(getContext(),
+            Utilities.showDashboardDialog(getContext(), "Portraits", category.getDescriptionGlobal(),
                     v -> ((MainActivity) requireActivity()).replaceFragment(PortraitFragment.newInstance(category.getId(), category.getImage(), category.getDescription())));
         else
             ((MainActivity) requireActivity()).replaceFragment(StampsFragment.newInstance(category.getId()));
@@ -195,6 +212,38 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
                 Utilities.showErrorPopupWithClick(getContext(), guestCartData.getHeader().getMessage(), view -> preferenceManager.clearValue(Constants.TOKEN));
             else {
                 Utilities.showErrorPopup(getContext(), guestCartData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void getAddress() {
+        if (connectivity.isConnected()) {
+            fragmentDashboardBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.getAddress(preferenceManager.getValue(Constants.TOKEN, null));
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleAddressData(AddressData addressData) {
+        fragmentDashboardBinding.loader.setVisibility(View.GONE);
+        if (addressData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = addressData.getHeader().getCode();
+            if (code == 200) {
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                intent.putExtra("destination", 1);
+                intent.putExtra("addresses", addressData.getResponse().getAddresses());
+                intent.putExtra("canPay", false);
+                startActivity(intent);
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), addressData.getHeader().getMessage());
             }
         }
     }

@@ -6,5 +6,6 @@ public interface Constants {
     String TOKEN = "TOKEN";
     String NB_ITEMS_IN_CART = "NB_ITEMS_IN_CART";
     String NAME = "NAME";
+    String FIREBASE_TOKEN = "FIREBASE_TOKEN";
 
 }

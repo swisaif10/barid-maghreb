@@ -7,19 +7,17 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.mobiblanc.gbam.datamanager.retrofit.RestService;
-import com.mobiblanc.gbam.models.payment.PaymentRecapData;
+import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
+import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
 import com.mobiblanc.gbam.models.cart.add.AddItemData;
 import com.mobiblanc.gbam.models.cart.delete.DeleteItemData;
-import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Field;
-import retrofit2.http.Header;
 
 public class CartVM extends AndroidViewModel {
 
@@ -31,6 +29,7 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<AddressData> addressLiveData;
     private MutableLiveData<AddressData> addNewAddressLiveData;
     private MutableLiveData<PaymentRecapData> paymentRecapLiveData;
+    private MutableLiveData<PaymentOperationData> paymentLiveData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -70,6 +69,10 @@ public class CartVM extends AndroidViewModel {
         return addNewAddressLiveData;
     }
 
+    public MutableLiveData<PaymentOperationData> getPaymentLiveData() {
+        return paymentLiveData;
+    }
+
     private void init() {
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
@@ -79,6 +82,7 @@ public class CartVM extends AndroidViewModel {
         addressLiveData = new MutableLiveData<>();
         paymentRecapLiveData = new MutableLiveData<>();
         addNewAddressLiveData = new MutableLiveData<>();
+        paymentLiveData = new MutableLiveData<>();
     }
 
     public void getCartItems(String token, String cartId) {
@@ -156,7 +160,6 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-
     public void getAgencies(String token, int page, String region) {
         Call<AgenciesData> call = RestService.getInstance().endpoint().getAgencies(token, page, region);
         call.enqueue(new Callback<AgenciesData>() {
@@ -213,6 +216,21 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<AddressData> call, @NonNull Throwable t) {
                 addNewAddressLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void pay(String token, String id) {
+        Call<PaymentOperationData> call = RestService.getInstance().endpoint().payCart(token, id);
+        call.enqueue(new Callback<PaymentOperationData>() {
+            @Override
+            public void onResponse(@NonNull Call<PaymentOperationData> call, @NonNull Response<PaymentOperationData> response) {
+                paymentLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PaymentOperationData> call, @NonNull Throwable t) {
+                paymentLiveData.setValue(null);
             }
         });
     }

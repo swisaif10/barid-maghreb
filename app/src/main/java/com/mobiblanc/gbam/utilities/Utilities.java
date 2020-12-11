@@ -3,6 +3,8 @@ package com.mobiblanc.gbam.utilities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
@@ -151,7 +153,7 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showDashboardDialog(Context context, View.OnClickListener onClickListener) {
+    static void showDashboardDialog(Context context,String title, String description, View.OnClickListener onClickListener) {
 
         if (context == null) {
             return;
@@ -161,7 +163,17 @@ public interface Utilities {
 
         View view = LayoutInflater.from(context).inflate(R.layout.dashboard_dialog, null, false);
         Button next = view.findViewById(R.id.nextBtn);
+        TextView titleTV = view.findViewById(R.id.title);
+        TextView descriptionTV = view.findViewById(R.id.description);
         ConstraintLayout container = view.findViewById(R.id.container);
+
+        titleTV.setText(title);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            descriptionTV.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            descriptionTV.setText(Html.fromHtml(description));
+        }
 
         next.setOnClickListener(v -> {
             dialog.dismiss();

@@ -125,5 +125,10 @@
     <string name="contact_btn">Contact</string>
     <string name="code_hint">Code commande</string>
     <string name="call_service_btn">Appeler le service</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="standard_shipping_method_description">Une fois le colis préparé par nos soins, il vous sera livré à l’adresse de votre choix</string>
+    <string name="agency_shipping_method_description">Vous avez la possibilité de retirer directement votre colis dans l’une de nos agences ou points relais de votre choix</string>
+    <string name="my_addresses_btn">Mes adresses</string>
 
 </resources>

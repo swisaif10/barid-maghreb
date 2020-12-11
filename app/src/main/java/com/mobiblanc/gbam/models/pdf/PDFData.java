@@ -1,14 +1,14 @@
-package com.mobiblanc.gbam.models.payment;
+package com.mobiblanc.gbam.models.pdf;
 
 import com.google.gson.annotations.Expose;
 import com.mobiblanc.gbam.models.common.Header;
 
-public class PaymentRecapData {
+public class PDFData {
 
     @Expose
     private Header header;
     @Expose
-    private PaymentRecapResponse response;
+    private PDFResponse response;
 
     public Header getHeader() {
         return header;
@@ -18,12 +18,11 @@ public class PaymentRecapData {
         this.header = header;
     }
 
-    public PaymentRecapResponse getResponse() {
+    public PDFResponse getResponse() {
         return response;
     }
 
-    public void setResponse(PaymentRecapResponse response) {
+    public void setResponse(PDFResponse response) {
         this.response = response;
     }
-
 }

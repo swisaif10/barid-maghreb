@@ -11,7 +11,9 @@ import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
+import com.mobiblanc.gbam.models.history.HistoryData;
 import com.mobiblanc.gbam.models.html.HtmlData;
+import com.mobiblanc.gbam.models.pdf.PDFData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +31,8 @@ public class AccountVM extends AndroidViewModel {
     private MutableLiveData<OTPData> logoutLiveData;
     private MutableLiveData<OTPData> contactLiveData;
     private MutableLiveData<HtmlData> cguLiveData;
+    private MutableLiveData<PDFData> pdfLiveData;
+    private MutableLiveData<HistoryData> historyLivData;
 
     public AccountVM(@NonNull Application application) {
         super(application);
@@ -72,6 +76,14 @@ public class AccountVM extends AndroidViewModel {
         return cguLiveData;
     }
 
+    public MutableLiveData<PDFData> getPdfLiveData() {
+        return pdfLiveData;
+    }
+
+    public MutableLiveData<HistoryData> getHistoryLivData() {
+        return historyLivData;
+    }
+
     private void init() {
         registrationLiveData = new MutableLiveData<>();
         confirmRegistrationLiveData = new MutableLiveData<>();
@@ -82,6 +94,8 @@ public class AccountVM extends AndroidViewModel {
         logoutLiveData = new MutableLiveData<>();
         contactLiveData = new MutableLiveData<>();
         cguLiveData = new MutableLiveData<>();
+        pdfLiveData = new MutableLiveData<>();
+        historyLivData = new MutableLiveData<>();
     }
 
     public void register(String email, String firstName, String lastName, String phoneNumber) {
@@ -219,6 +233,36 @@ public class AccountVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<HtmlData> call, @NonNull Throwable t) {
                 cguLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getPDF() {
+        Call<PDFData> call = RestService.getInstance().endpoint().getPDF();
+        call.enqueue(new Callback<PDFData>() {
+            @Override
+            public void onResponse(@NonNull Call<PDFData> call, @NonNull Response<PDFData> response) {
+                pdfLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PDFData> call, @NonNull Throwable t) {
+                pdfLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getHistory() {
+        Call<HistoryData> call = RestService.getInstance().endpoint().getHistory();
+        call.enqueue(new Callback<HistoryData>() {
+            @Override
+            public void onResponse(@NonNull Call<HistoryData> call, @NonNull Response<HistoryData> response) {
+                historyLivData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<HistoryData> call, @NonNull Throwable t) {
+                historyLivData.setValue(null);
             }
         });
     }

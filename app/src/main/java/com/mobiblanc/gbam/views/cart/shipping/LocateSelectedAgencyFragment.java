@@ -22,7 +22,7 @@ import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentLocateSelectedAgencyBinding;
 import com.mobiblanc.gbam.models.shipping.agencies.Agency;
 import com.mobiblanc.gbam.views.cart.CartActivity;
-import com.mobiblanc.gbam.views.cart.payment.PaymentFragment;
+import com.mobiblanc.gbam.views.cart.payment.RecapPaymentFragment;
 
 public class LocateSelectedAgencyFragment extends Fragment {
 
@@ -67,7 +67,7 @@ public class LocateSelectedAgencyFragment extends Fragment {
 
     private void init() {
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
-        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(PaymentFragment.newInstance(agency.getId(), "en_agence")));
+        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(RecapPaymentFragment.newInstance(agency.getId(), "en_agence")));
         fragmentBinding.title.setText(agency.getTitle());
         fragmentBinding.address.setText(agency.getAddress());
     }

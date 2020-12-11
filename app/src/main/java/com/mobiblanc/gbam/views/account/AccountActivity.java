@@ -22,7 +22,7 @@ public class AccountActivity extends BaseActivity {
             Fragment fragment;
             switch (getIntent().getIntExtra("destination", -1)) {
                 case 0:
-                    fragment = AuthenticationFragment.newInstance(getIntent().getStringExtra("newAddress"));
+                    fragment = AuthenticationFragment.newInstance(getIntent().getStringExtra("next"));
                     break;
                 case 1:
                     fragment = new ProfileFragment();

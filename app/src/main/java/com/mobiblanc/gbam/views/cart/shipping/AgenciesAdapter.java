@@ -2,6 +2,7 @@ package com.mobiblanc.gbam.views.cart.shipping;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,15 @@ public class AgenciesAdapter extends RecyclerView.Adapter<AgenciesAdapter.Agency
         }
 
         private void bind(Agency agency) {
+
+            if (agency.getTelephone() == null || agency.getFaxe() == null) {
+                itemBinding.phone.setVisibility(View.GONE);
+                itemBinding.phoneIcon.setVisibility(View.GONE);
+                itemBinding.fax.setVisibility(View.GONE);
+                itemBinding.faxIcon.setVisibility(View.GONE);
+                itemBinding.separator.setVisibility(View.GONE);
+                itemBinding.verticalSeparator.setVisibility(View.GONE);
+            }
 
             itemBinding.title.setText(agency.getTitle());
             itemBinding.address.setText(agency.getAddress());

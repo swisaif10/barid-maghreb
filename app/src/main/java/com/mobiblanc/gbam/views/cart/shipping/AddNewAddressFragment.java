@@ -46,10 +46,10 @@ public class AddNewAddressFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         cartVM.getAddNewAddressLiveData().observe(this, this::handleAddAddressData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
 
@@ -72,6 +72,9 @@ public class AddNewAddressFragment extends Fragment {
     private void init() {
         fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         fragmentBinding.phoneNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
+
+        fragmentBinding.postalCode.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.postalCode.setTransformationMethod(new NumericKeyBoardTransformationMethod());
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -107,8 +110,8 @@ public class AddNewAddressFragment extends Fragment {
         });
 
         fragmentBinding.particularChoice.setOnClickListener(v -> {
-            fragmentBinding.particularChoice.setBackground(getContext().getDrawable(R.drawable.selected_payment_item_background));
-            fragmentBinding.companyChoice.setBackground(getContext().getDrawable(R.drawable.unselected_payment_item_background));
+            fragmentBinding.particularChoice.setBackground(requireContext().getDrawable(R.drawable.selected_payment_item_background));
+            fragmentBinding.companyChoice.setBackground(requireContext().getDrawable(R.drawable.unselected_payment_item_background));
             fragmentBinding.cni.setVisibility(View.VISIBLE);
             fragmentBinding.ice.setVisibility(View.GONE);
             fragmentBinding.fiscalId.setVisibility(View.GONE);
@@ -171,17 +174,17 @@ public class AddNewAddressFragment extends Fragment {
             int code = addressData.getHeader().getCode();
             if (code == 200) {
                 Intent intent = new Intent();
-                intent.putExtra("addresses",addressData);
+                intent.putExtra("addresses",addressData.getResponse().getAddresses());
                 try {
                     getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                getActivity().onBackPressed();
+                requireActivity().onBackPressed();
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else {

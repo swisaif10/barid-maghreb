@@ -83,6 +83,7 @@
             app:layout_constraintTop_toTopOf="@id/verticalSeparator">
 
             <ImageView
+                android:id="@+id/phoneIcon"
                 android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_phone"
@@ -127,6 +128,7 @@
             app:layout_constraintTop_toTopOf="@id/verticalSeparator">
 
             <ImageView
+                android:id="@+id/faxIcon"
                 android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_fax"

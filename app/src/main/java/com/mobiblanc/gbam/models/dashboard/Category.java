@@ -21,6 +21,8 @@ public class Category {
     private Boolean withPopUp;
     @Expose
     private String targetPopUp;
+    @Expose
+    private String descriptionGlobal;
 
     public int getId() {
         return id;
@@ -84,5 +86,13 @@ public class Category {
 
     public void setTargetPopUp(String targetPopUp) {
         this.targetPopUp = targetPopUp;
+    }
+
+    public String getDescriptionGlobal() {
+        return descriptionGlobal;
+    }
+
+    public void setDescriptionGlobal(String descriptionGlobal) {
+        this.descriptionGlobal = descriptionGlobal;
     }
 }

@@ -91,6 +91,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/address_name_hint"
                             android:paddingBottom="15dp"
@@ -104,6 +105,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/street_number_hint"
                             android:paddingBottom="15dp"
@@ -117,6 +119,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/additional_address_hint"
                             android:paddingBottom="15dp"
@@ -130,6 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/city_hint"
                             android:paddingBottom="15dp"
@@ -169,6 +173,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/ice_hint"
                             android:paddingBottom="15dp"
@@ -182,6 +187,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/id_fiscal_hint"
                             android:paddingBottom="15dp"
@@ -195,6 +201,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
+                            android:digits="0123456789qwertzuiopasdfghjklyxcvbnm "
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/cni_hint"
                             android:paddingBottom="15dp"
@@ -203,7 +210,6 @@
                             android:textSize="14sp"
                             android:visibility="gone" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <RelativeLayout

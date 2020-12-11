@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.gbam.databinding.ProfileItemLayoutBinding;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
-import com.mobiblanc.gbam.models.Item;
+import com.mobiblanc.gbam.models.account.ProfileMenuItem;
 
 import java.util.List;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ITemViewHolder> {
 
-    private final List<Item> arrayList;
+    private final List<ProfileMenuItem> arrayList;
     private final OnItemSelectedListener onItemSelectedListener;
 
-    public ProfileAdapter(List<Item> arrayList, OnItemSelectedListener onItemSelectedListener) {
+    public ProfileAdapter(List<ProfileMenuItem> arrayList, OnItemSelectedListener onItemSelectedListener) {
         this.arrayList = arrayList;
         this.onItemSelectedListener = onItemSelectedListener;
     }
@@ -52,9 +52,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ITemView
             this.itemBinding = itemBinding;
         }
 
-        private void bind(Item item){
-            itemBinding.icon.setImageResource(item.getImage());
-            itemBinding.title.setText(item.getTitle());
+        private void bind(ProfileMenuItem profileMenuItem){
+            itemBinding.icon.setImageResource(profileMenuItem.getImage());
+            itemBinding.title.setText(profileMenuItem.getTitle());
 
             itemBinding.getRoot().setOnClickListener(view -> onItemSelectedListener.onItemSelected(getAdapterPosition(), null));
         }
