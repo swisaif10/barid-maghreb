@@ -108,7 +108,7 @@
     <string name="resend_otp_btn">Renvoyer le code</string>
     <string name="discover_description">Fort de votre confiance, Barid Al-Maghrib, entreprise citoyenne innove pour vous satisfaire au quotidien.\n\n<b>Confiance</b>\nFort de votre confiance, nous accomplissons notre mission avec éthique et professionnalisme.\n\n<b>Citoyenneté</b>\nNous sommes une entreprise citoyenne assurant un service public de qualité et de proximité, dans le cadre de nos engagements RSE.\n\n<b>Innovation</b>\nNous anticipons les attentes de nos clients et nous nous adaptons en permanence au changement.\n\n<b>Satisfaction clients</b>\nNous veillons à maintenir une relation privilégiée et pérenne avec nos clients en plaçant leurs exigences au centre de nos préoccupations.</string>
     <string name="company_choice_title">Entreprise</string>
-    <string name="particular_choice_title">particuliers / institutions publiQUES</string>
+    <string name="particular_choice_title">particuliers / institutions publiques</string>
     <string name="cni_hint">CNI</string>
     <string name="additional_address_hint">Complément d’adresse</string>
     <string name="address_name_hint">Nom de l’adresse</string>
@@ -119,6 +119,7 @@
     <string name="vgu_description_title_ar">تذكير هام :</string>
     <string name="cgu_description_ar">تخضع كل العمليات المتمثلة في اعداد وعرض وإذاعة وتقديم للبيع الصور الفوتوغرافية التي يتمثل فيها جلالة الملك وبصفة عامة جميع ما يستخرج منها، لمقتضيات الظهير الشريف رقم 204-56-1 بتاريخ 16 جمادى الأولى 1376 ( 19 ديسمبر 1956 (يضبط بمقتضاه استخراج صور صاحب الجلالة وصور أصحاب السمو الملكي أنجاله (ج. ر. بتاريخ 11 يناير 1957) ولمنشور السيد رئيس الحكومة رقم 15/2019 الصادر بتاريخ 23 محرم 1441 (23 شتنبر 2019) المتعلق بالصورة الرسمية لصاحب الجلالة الملك محمد السادس أيده الله ونصره.</string>
     <string name="invalid_email_error">Format email invalide</string>
+    <string name="invalid_format_error">Format invalide</string>
     <string name="personal_info_btn">Mes informations personnelles</string>
     <string name="history_btn">Mon historique</string>
     <string name="tracking_btn">Suivi de commande</string>

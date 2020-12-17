@@ -32,6 +32,7 @@ public interface ApiUrls {
     String PDF_URL = "api/infos/loi-0908";
     String PAY_URL = "api/payment/pre-order";
     String GET_HISTORY_URL = "api/payment/payment-history";
+    String UPDATE_ADDRESS_URL = "api/shipping/edit-address";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 

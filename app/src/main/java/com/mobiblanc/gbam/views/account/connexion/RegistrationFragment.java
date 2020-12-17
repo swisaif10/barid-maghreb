@@ -140,7 +140,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
                 checkForm();
                 if (!Utilities.isEmailValid(s.toString().trim()) && !s.toString().equalsIgnoreCase("")) {
                     fragmentBinding.phoneError.setVisibility(View.VISIBLE);
-                    fragmentBinding.phoneError.setText(R.string.invalid_email_error);
+                    fragmentBinding.phoneError.setText(R.string.invalid_format_error);
                 } else {
                     fragmentBinding.phoneError.setVisibility(View.GONE);
                 }

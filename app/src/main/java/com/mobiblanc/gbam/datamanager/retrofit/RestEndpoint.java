@@ -169,4 +169,18 @@ public interface RestEndpoint {
 
     @POST(ApiUrls.GET_HISTORY_URL)
     Call<HistoryData> getHistory();
+
+    @FormUrlEncoded
+    @POST(ApiUrls.UPDATE_ADDRESS_URL)
+    Call<AddressData> updateAddress(@Header("x-auth-token") String token,
+                                 @Field("address_name") String addressName,
+                                 @Field("street_number") String streetNumber,
+                                 @Field("complement_address") String complementAddress,
+                                 @Field("city") String city,
+                                 @Field("postcode") String postCode,
+                                 @Field("phone_number") String phoneNumber,
+                                 @Field("ice") String ice,
+                                 @Field("tax_identification") String taxIdentification,
+                                 @Field("cni") String cni,
+                                 @Field("type") String type);
 }

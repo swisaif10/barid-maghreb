@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.mobiblanc.gbam.databinding.FragmentStandardShippingBinding;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
+import com.mobiblanc.gbam.listeners.OnUpdateButtonClickListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.cart.payment.RecapPaymentFragment;
 
 import java.util.ArrayList;
 
-public class StandardShippingFragment extends Fragment implements OnItemSelectedListener {
+public class StandardShippingFragment extends Fragment implements OnItemSelectedListener, OnUpdateButtonClickListener {
 
     private static final int REQUEST_CODE = 100;
 
@@ -92,6 +93,15 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         fragmentBinding.nextBtn.setEnabled(selected);
     }
 
+    @Override
+    public void onUpdateButtonClick() {
+        if (address != null) {
+            AddNewAddressFragment addNewAddressFragment = AddNewAddressFragment.newInstance(address);
+            addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
+            ((CartActivity) requireActivity()).replaceFragment(addNewAddressFragment);
+        }
+    }
+
     private void init() {
         fragmentBinding.addNewAddressBtn.setOnClickListener(v -> {
             AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
@@ -101,6 +111,10 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
 
         if (canPay)
             fragmentBinding.nextBtn.setVisibility(View.VISIBLE);
+        else {
+            ((CartActivity) requireActivity()).showUpdateBtn(View.VISIBLE);
+            ((CartActivity) requireActivity()).setOnUpdateButtonClickListener(this);
+        }
 
         fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(RecapPaymentFragment.newInstance(address.getId(), "standard")));
 
@@ -108,4 +122,5 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         addressAdapter = new AddressAdapter(addressList, this);
         fragmentBinding.addressRecycler.setAdapter(addressAdapter);
     }
+
 }

@@ -30,6 +30,7 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<AddressData> addNewAddressLiveData;
     private MutableLiveData<PaymentRecapData> paymentRecapLiveData;
     private MutableLiveData<PaymentOperationData> paymentLiveData;
+    private MutableLiveData<AddressData> updateAddressLiveData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -73,6 +74,10 @@ public class CartVM extends AndroidViewModel {
         return paymentLiveData;
     }
 
+    public MutableLiveData<AddressData> getUpdateAddressLiveData() {
+        return updateAddressLiveData;
+    }
+
     private void init() {
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
@@ -83,6 +88,7 @@ public class CartVM extends AndroidViewModel {
         paymentRecapLiveData = new MutableLiveData<>();
         addNewAddressLiveData = new MutableLiveData<>();
         paymentLiveData = new MutableLiveData<>();
+        updateAddressLiveData = new MutableLiveData<>();
     }
 
     public void getCartItems(String token, String cartId) {
@@ -231,6 +237,21 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<PaymentOperationData> call, @NonNull Throwable t) {
                 paymentLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void updateAddress(String token, String addressName, String streetNumber, String complementAddress, String city, String postalCode, String phoneNumber, String ice, String taxIdentification, String cni, String type) {
+        Call<AddressData> call = RestService.getInstance().endpoint().updateAddress(token, addressName, streetNumber, complementAddress, city, postalCode, phoneNumber, ice, taxIdentification, cni, type);
+        call.enqueue(new Callback<AddressData>() {
+            @Override
+            public void onResponse(@NonNull Call<AddressData> call, @NonNull Response<AddressData> response) {
+                updateAddressLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AddressData> call, @NonNull Throwable t) {
+                updateAddressLiveData.setValue(null);
             }
         });
     }

@@ -211,6 +211,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                 fragmentCartDetailsBinding.price.setText(deleteItemData.getResponse().getPanier().getProductsPrice() + " MAD");
                 fragmentCartDetailsBinding.fee.setText(deleteItemData.getResponse().getPanier().getFees() + " MAD");
                 fragmentCartDetailsBinding.total.setText(deleteItemData.getResponse().getPanier().getTotalPrice() + " MAD");
+                if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) <= 0)
+                    fragmentCartDetailsBinding.nextBtn.setEnabled(false);
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), deleteItemData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);

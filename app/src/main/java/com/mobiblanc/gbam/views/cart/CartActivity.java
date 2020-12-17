@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.ActivityCartBinding;
+import com.mobiblanc.gbam.listeners.OnUpdateButtonClickListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.views.base.BaseActivity;
@@ -25,6 +26,8 @@ import butterknife.OnClick;
 public class CartActivity extends BaseActivity {
 
     private ActivityCartBinding activityBinding;
+    private OnUpdateButtonClickListener onUpdateButtonClickListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,8 @@ public class CartActivity extends BaseActivity {
 
         activityBinding.backBtn.setOnClickListener(v -> onBackPressed());
 
+        activityBinding.updateBtn.setOnClickListener(v -> onUpdateButtonClickListener.onUpdateButtonClick());
+
     }
 
     @Override
@@ -52,5 +57,13 @@ public class CartActivity extends BaseActivity {
     public void showHideHeader(int visibility) {
         activityBinding.backBtn.setVisibility(visibility);
         activityBinding.logo.setVisibility(visibility);
+    }
+
+    public void showUpdateBtn(int visibility) {
+        activityBinding.updateBtn.setVisibility(visibility);
+    }
+
+    public void setOnUpdateButtonClickListener(OnUpdateButtonClickListener onUpdateButtonClickListener) {
+        this.onUpdateButtonClickListener = onUpdateButtonClickListener;
     }
 }

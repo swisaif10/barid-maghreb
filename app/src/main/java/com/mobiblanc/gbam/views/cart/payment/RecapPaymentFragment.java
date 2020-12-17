@@ -82,6 +82,7 @@ public class RecapPaymentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentBinding.cguBtn.setText(Html.fromHtml(requireActivity().getResources().getString(R.string.cgu_text)));
         getPaymentRecap();
     }
 
@@ -113,7 +114,6 @@ public class RecapPaymentFragment extends Fragment {
             });
         });
 
-        fragmentBinding.cguBtn.setText(Html.fromHtml(getActivity().getResources().getString(R.string.cgu_text)));
         fragmentBinding.cguBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(CGUFragment.newInstance(false)));
 
         fragmentBinding.shippingMethod.setText(paymentRecapData.getResponse().getShippingMethode());

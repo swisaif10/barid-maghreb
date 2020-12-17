@@ -67,7 +67,7 @@ public class HistoryFragment extends Fragment implements OnItemSelectedListener 
 
     @Override
     public void onItemSelected(int position, Object object) {
-        ((AccountActivity) requireActivity()).replaceFragment(new HistoryDetailsFragment());
+        ((MainActivity) requireActivity()).replaceFragment(new HistoryDetailsFragment());
     }
 
     private void init(List<History> historyList) {

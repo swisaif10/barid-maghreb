@@ -21,13 +21,17 @@ import androidx.lifecycle.ViewModelProviders;
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentAddNewAddressBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
+import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
+import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
+
+import java.util.ArrayList;
 
 public class AddNewAddressFragment extends Fragment {
 
@@ -36,9 +40,19 @@ public class AddNewAddressFragment extends Fragment {
     private CartVM cartVM;
     private PreferenceManager preferenceManager;
     private String addressType = "type business";
+    private Address address;
+    private Boolean isUpdate = false;
 
     public AddNewAddressFragment() {
         // Required empty public constructor
+    }
+
+    public static AddNewAddressFragment newInstance(Address address) {
+        AddNewAddressFragment fragment = new AddNewAddressFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("address", address);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -48,10 +62,14 @@ public class AddNewAddressFragment extends Fragment {
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
         connectivity = new Connectivity(requireContext(), this);
         cartVM.getAddNewAddressLiveData().observe(this, this::handleAddAddressData);
+        cartVM.getUpdateAddressLiveData().observe(this, this::handleUpdateAddressData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
+
+        if (getArguments() != null)
+            address = (Address) getArguments().getSerializable("address");
 
     }
 
@@ -65,6 +83,7 @@ public class AddNewAddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((CartActivity) requireActivity()).showUpdateBtn(View.GONE);
         init();
     }
 
@@ -118,7 +137,12 @@ public class AddNewAddressFragment extends Fragment {
             addressType = "particular";
         });
 
-        fragmentBinding.saveBtn.setOnClickListener(v -> addAddress());
+        fragmentBinding.saveBtn.setOnClickListener(v -> {
+            if (isUpdate)
+                updateAddress();
+            else
+                addAddress();
+        });
 
         fragmentBinding.addressName.addTextChangedListener(textWatcher);
         fragmentBinding.streetNumber.addTextChangedListener(textWatcher);
@@ -129,6 +153,24 @@ public class AddNewAddressFragment extends Fragment {
         fragmentBinding.fiscalId.addTextChangedListener(textWatcher);
         fragmentBinding.cni.addTextChangedListener(textWatcher);
 
+        if (address != null) {
+            isUpdate = true;
+            fragmentBinding.title.setText("Modifer cette adresse");
+            if (address.getType().equalsIgnoreCase("type business"))
+                fragmentBinding.companyChoice.performClick();
+            else
+                fragmentBinding.particularChoice.performClick();
+
+            fragmentBinding.addressName.setText(address.getName());
+            fragmentBinding.streetNumber.setText(address.getStreetNumber());
+            fragmentBinding.city.setText(address.getCity());
+            fragmentBinding.postalCode.setText(address.getPostcode());
+            fragmentBinding.phoneNumber.setText(address.getTelephone());
+            fragmentBinding.ice.setText(address.getIce());
+            fragmentBinding.fiscalId.setText(address.getTaxIdentification());
+            fragmentBinding.cni.setText(address.getCni());
+
+        }
     }
 
     private void checkForm() {
@@ -174,10 +216,56 @@ public class AddNewAddressFragment extends Fragment {
             int code = addressData.getHeader().getCode();
             if (code == 200) {
                 Intent intent = new Intent();
-                intent.putExtra("addresses",addressData.getResponse().getAddresses());
+                intent.putExtra("addresses", addressData.getResponse().getAddresses());
                 try {
                     getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                }catch (Exception e){
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                requireActivity().onBackPressed();
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), addressData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void updateAddress() {
+        if (connectivity.isConnected()) {
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.addNewAddress(preferenceManager.getValue(Constants.TOKEN, null),
+                    fragmentBinding.addressName.getText().toString(),
+                    fragmentBinding.streetNumber.getText().toString(),
+                    fragmentBinding.addressComplement.getText().toString(),
+                    fragmentBinding.city.getText().toString(),
+                    fragmentBinding.postalCode.getText().toString(),
+                    fragmentBinding.phoneNumber.getText().toString(),
+                    fragmentBinding.ice.getText().toString(),
+                    fragmentBinding.fiscalId.getText().toString(),
+                    fragmentBinding.cni.getText().toString(),
+                    addressType
+            );
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleUpdateAddressData(AddressData addressData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (addressData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = addressData.getHeader().getCode();
+            if (code == 200) {
+                Intent intent = new Intent();
+                intent.putExtra("addresses", addressData.getResponse().getAddresses());
+                try {
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 requireActivity().onBackPressed();
