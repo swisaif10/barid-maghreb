@@ -131,5 +131,6 @@
     <string name="standard_shipping_method_description">Une fois le colis préparé par nos soins, il vous sera livré à l’adresse de votre choix</string>
     <string name="agency_shipping_method_description">Vous avez la possibilité de retirer directement votre colis dans l’une de nos agences ou points relais de votre choix</string>
     <string name="my_addresses_btn">Mes adresses</string>
+    <string name="update_address_title">Modifer cette adresse</string>
 
 </resources>

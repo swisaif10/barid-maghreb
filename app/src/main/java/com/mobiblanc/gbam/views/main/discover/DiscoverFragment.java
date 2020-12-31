@@ -1,5 +1,6 @@
 package com.mobiblanc.gbam.views.main.discover;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,18 +16,22 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentDiscoverBinding;
+import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.html.HtmlResponse;
 import com.mobiblanc.gbam.utilities.Connectivity;
+import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
+import com.mobiblanc.gbam.views.main.MainActivity;
 
 public class DiscoverFragment extends Fragment {
 
     private FragmentDiscoverBinding fragmentBinding;
     private Connectivity connectivity;
     private MainVM mainVM;
+    private PreferenceManager preferenceManager;
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -39,6 +44,10 @@ public class DiscoverFragment extends Fragment {
         mainVM = ViewModelProviders.of(this).get(MainVM.class);
         connectivity = new Connectivity(requireContext(), this);
         mainVM.getDescriptionLiveData().observe(this, this::handleDescriptionDAta);
+
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
+                .name(Constants.SHARED_PREFS_NAME)
+                .build();
     }
 
 
@@ -82,6 +91,14 @@ public class DiscoverFragment extends Fragment {
             int code = htmlData.getHeader().getCode();
             if (code == 200) {
                 init(htmlData.getResponse());
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), htmlData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
             } else {
                 Utilities.showErrorPopup(getContext(), htmlData.getHeader().getMessage());
             }

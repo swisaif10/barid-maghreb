@@ -196,8 +196,23 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getPaymentRecap(String token, String paymentMethod, int addressId, int agencyId) {
-        Call<PaymentRecapData> call = RestService.getInstance().endpoint().getPaymentRecap(token, paymentMethod, addressId, agencyId);
+    public void getStandardPaymentRecap(String token, String paymentMethod, int addressId) {
+        Call<PaymentRecapData> call = RestService.getInstance().endpoint().getStandardPaymentRecap(token, paymentMethod, addressId);
+        call.enqueue(new Callback<PaymentRecapData>() {
+            @Override
+            public void onResponse(@NonNull Call<PaymentRecapData> call, @NonNull Response<PaymentRecapData> response) {
+                paymentRecapLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PaymentRecapData> call, @NonNull Throwable t) {
+                paymentRecapLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getAgencyPaymentRecap(String token, String paymentMethod, int agencyId) {
+        Call<PaymentRecapData> call = RestService.getInstance().endpoint().getAgencyPaymentRecap(token, paymentMethod, agencyId);
         call.enqueue(new Callback<PaymentRecapData>() {
             @Override
             public void onResponse(@NonNull Call<PaymentRecapData> call, @NonNull Response<PaymentRecapData> response) {
@@ -241,8 +256,8 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void updateAddress(String token, String addressName, String streetNumber, String complementAddress, String city, String postalCode, String phoneNumber, String ice, String taxIdentification, String cni, String type) {
-        Call<AddressData> call = RestService.getInstance().endpoint().updateAddress(token, addressName, streetNumber, complementAddress, city, postalCode, phoneNumber, ice, taxIdentification, cni, type);
+    public void updateAddress(String token, int id, String addressName, String streetNumber, String complementAddress, String city, String postalCode, String phoneNumber, String ice, String taxIdentification, String cni, String type) {
+        Call<AddressData> call = RestService.getInstance().endpoint().updateAddress(token, id, addressName, streetNumber, complementAddress, city, postalCode, phoneNumber, ice, taxIdentification, cni, type);
         call.enqueue(new Callback<AddressData>() {
             @Override
             public void onResponse(@NonNull Call<AddressData> call, @NonNull Response<AddressData> response) {

@@ -143,9 +143,14 @@ public interface RestEndpoint {
 
     @FormUrlEncoded
     @POST(ApiUrls.GET_RECAP_URL)
-    Call<PaymentRecapData> getPaymentRecap(@Header("x-auth-token") String token,
+    Call<PaymentRecapData> getStandardPaymentRecap(@Header("x-auth-token") String token,
                                            @Field("shipping_methode") String shippingMethod,
-                                           @Field("address_id") int addressId,
+                                           @Field("address_id") int addressId);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_RECAP_URL)
+    Call<PaymentRecapData> getAgencyPaymentRecap(@Header("x-auth-token") String token,
+                                           @Field("shipping_methode") String shippingMethod,
                                            @Field("agence_id") int agencyId);
 
     @FormUrlEncoded
@@ -173,6 +178,7 @@ public interface RestEndpoint {
     @FormUrlEncoded
     @POST(ApiUrls.UPDATE_ADDRESS_URL)
     Call<AddressData> updateAddress(@Header("x-auth-token") String token,
+                                 @Field("id_address") int id,
                                  @Field("address_name") String addressName,
                                  @Field("street_number") String streetNumber,
                                  @Field("complement_address") String complementAddress,

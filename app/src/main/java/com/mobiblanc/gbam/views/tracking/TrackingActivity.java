@@ -105,13 +105,14 @@ public class TrackingActivity extends AppCompatActivity {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(this, trackingData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    preferenceManager.clearValue(Constants.CART_ID);
                     finishAffinity();
                     startActivity(new Intent(this, MainActivity.class));
                 });
             } else {
                 activityBinding.trackingRecycler.setVisibility(View.GONE);
                 Utilities.showTrackingDialog(this, trackingData.getHeader().getMessage(), view -> {
-
                 },false);
             }
         }

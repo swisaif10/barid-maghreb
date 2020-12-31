@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:id="@+id/backBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_back" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/poste" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/backBtn"
             android:fillViewport="true"
             android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -58,9 +80,9 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="Domicile"
                             android:textColor="@color/hintGrey"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:text="Domicile" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -83,9 +105,9 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="10-08-2020"
                             android:textColor="@color/hintGrey"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:text="10-08-2020" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -108,9 +130,9 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:fontFamily="@font/montserrat_medium"
-                            android:text="la colline 4, sidi Maarouf, casablanca 20100"
                             android:textColor="@color/hintGrey"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            tools:text="la colline 4, sidi Maarouf, casablanca 20100" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -138,9 +160,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_medium"
-                                android:text="49,00"
                                 android:textColor="@color/hintGrey"
-                                android:textSize="10sp" />
+                                android:textSize="10sp"
+                                tools:text="49,00" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -179,9 +201,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_bold"
-                                android:text="551,50"
                                 android:textColor="@color/black"
-                                android:textSize="16sp" />
+                                android:textSize="16sp"
+                                tools:text="551,50" />
 
                             <TextView
                                 android:layout_width="wrap_content"

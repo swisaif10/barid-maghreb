@@ -5,31 +5,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.databinding.FragmentAddNewCommentBinding;
+import com.mobiblanc.gbam.databinding.FragmentRecapPaymentBinding;
+import com.mobiblanc.gbam.views.cart.CartActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddNewCommentFragment extends Fragment {
 
+    private FragmentAddNewCommentBinding fragmentBinding;
+
     public AddNewCommentFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_new_comment, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+        fragmentBinding = FragmentAddNewCommentBinding.inflate(inflater, container, false);
+        return fragmentBinding.getRoot();
     }
 
-    @OnClick({R.id.addBtn, R.id.container})
-    public void onViewClicked(View view) {
-        if (view.getId() == R.id.addBtn) {
-        }
-        getActivity().onBackPressed();
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
+    }
+
+    private void init(){
+        fragmentBinding.container.setOnClickListener(v -> requireActivity().onBackPressed());
+        fragmentBinding.addBtn.setOnClickListener(v -> requireActivity().onBackPressed());
     }
 }

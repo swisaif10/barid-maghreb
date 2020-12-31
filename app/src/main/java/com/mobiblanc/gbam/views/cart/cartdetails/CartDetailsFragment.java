@@ -155,6 +155,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), cartItemsData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
@@ -183,6 +185,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
@@ -216,6 +220,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), deleteItemData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });

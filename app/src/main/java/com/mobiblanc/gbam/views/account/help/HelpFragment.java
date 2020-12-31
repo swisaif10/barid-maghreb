@@ -181,6 +181,8 @@ public class HelpFragment extends Fragment {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), otpData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    preferenceManager.clearValue(Constants.CART_ID);
                     getActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });

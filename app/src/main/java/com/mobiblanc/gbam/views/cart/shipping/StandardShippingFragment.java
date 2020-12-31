@@ -76,6 +76,12 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((CartActivity) getActivity()).showHideHeader(View.VISIBLE);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -91,6 +97,10 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         if (selected)
             address = addressList.get(position);
         fragmentBinding.nextBtn.setEnabled(selected);
+        if (!canPay) {
+            ((CartActivity) requireActivity()).showUpdateBtn(View.VISIBLE);
+            ((CartActivity) requireActivity()).setOnUpdateButtonClickListener(this);
+        }
     }
 
     @Override
@@ -111,10 +121,6 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
 
         if (canPay)
             fragmentBinding.nextBtn.setVisibility(View.VISIBLE);
-        else {
-            ((CartActivity) requireActivity()).showUpdateBtn(View.VISIBLE);
-            ((CartActivity) requireActivity()).setOnUpdateButtonClickListener(this);
-        }
 
         fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(RecapPaymentFragment.newInstance(address.getId(), "standard")));
 

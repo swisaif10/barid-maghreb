@@ -174,6 +174,8 @@ public class AgencyShippingFragment extends Fragment implements OnItemSelectedLi
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), agenciesData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });

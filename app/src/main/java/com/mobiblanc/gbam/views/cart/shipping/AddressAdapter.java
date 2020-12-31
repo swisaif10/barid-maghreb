@@ -63,10 +63,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
             itemBinding.background.setBackgroundResource(address.getSelected() ? R.drawable.bg_yellow : R.drawable.bg_1);
 
             itemBinding.background.setOnClickListener(view -> {
-                if (address.getSelected()) {
-                    address.setSelected(false);
-                    onItemSelectedListener.onItemSelected(getAdapterPosition(), false);
-                } else {
+                if (!address.getSelected()) {
                     for (Address item : arrayList) {
                         item.setSelected(false);
                     }

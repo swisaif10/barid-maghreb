@@ -30,6 +30,7 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
+import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.main.adapters.ProductsAdapter;
 
 import java.util.List;
@@ -170,7 +171,10 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), productsData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
-                    getStamps();
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
                 });
 
             } else {
@@ -196,8 +200,13 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + products.get(selectedProductPosition).getQuantity());
                 makeFlyAnimation();
             } else if (code == 403)
-                Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> preferenceManager.clearValue(Constants.TOKEN));
-            else
+                Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });            else
                 Utilities.showErrorPopup(getContext(), addItemData.getHeader().getMessage());
         }
     }

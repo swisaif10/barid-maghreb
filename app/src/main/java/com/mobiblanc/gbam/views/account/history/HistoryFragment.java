@@ -96,6 +96,8 @@ public class HistoryFragment extends Fragment implements OnItemSelectedListener 
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), historyData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    preferenceManager.clearValue(Constants.CART_ID);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });

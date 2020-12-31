@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -56,7 +57,7 @@ public class RecapPaymentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CartActivity) getActivity()).showHideHeader(View.VISIBLE);
+        ((CartActivity) requireActivity()).showHideHeader(View.VISIBLE);
 
         if (getArguments() != null) {
             id = getArguments().getInt("id");
@@ -64,10 +65,10 @@ public class RecapPaymentFragment extends Fragment {
         }
 
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         cartVM.getPaymentRecapLiveData().observe(this, this::handlePaymentRecapData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }
@@ -82,11 +83,13 @@ public class RecapPaymentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((CartActivity) getActivity()).showHideHeader(View.GONE);
         fragmentBinding.cguBtn.setText(Html.fromHtml(requireActivity().getResources().getString(R.string.cgu_text)));
         getPaymentRecap();
     }
 
     private void init(PaymentRecapData paymentRecapData) {
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.addComment.setOnClickListener(v -> ((CartActivity) requireActivity()).addFragment(new AddNewCommentFragment()));
         fragmentBinding.bankCardChoice.setOnClickListener(v -> {
             fragmentBinding.bankCardChoice.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.selected_payment_item_background));
@@ -133,7 +136,10 @@ public class RecapPaymentFragment extends Fragment {
     private void getPaymentRecap() {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            cartVM.getPaymentRecap(preferenceManager.getValue(Constants.TOKEN, null), paymentMethod, id, id);
+            if (paymentMethod.equalsIgnoreCase("standard"))
+                cartVM.getStandardPaymentRecap(preferenceManager.getValue(Constants.TOKEN, null), paymentMethod, id);
+            else
+                cartVM.getAgencyPaymentRecap(preferenceManager.getValue(Constants.TOKEN, null), paymentMethod, id);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -149,6 +155,8 @@ public class RecapPaymentFragment extends Fragment {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), paymentRecapData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     getActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });

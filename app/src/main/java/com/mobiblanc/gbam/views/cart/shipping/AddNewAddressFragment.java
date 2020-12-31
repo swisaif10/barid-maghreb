@@ -31,7 +31,7 @@ import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddNewAddressFragment extends Fragment {
 
@@ -155,7 +155,7 @@ public class AddNewAddressFragment extends Fragment {
 
         if (address != null) {
             isUpdate = true;
-            fragmentBinding.title.setText("Modifer cette adresse");
+            fragmentBinding.title.setText(R.string.update_address_title);
             if (address.getType().equalsIgnoreCase("type business"))
                 fragmentBinding.companyChoice.performClick();
             else
@@ -169,6 +169,7 @@ public class AddNewAddressFragment extends Fragment {
             fragmentBinding.ice.setText(address.getIce());
             fragmentBinding.fiscalId.setText(address.getTaxIdentification());
             fragmentBinding.cni.setText(address.getCni());
+            fragmentBinding.addressComplement.setText(address.getComplementAddress());
 
         }
     }
@@ -218,7 +219,7 @@ public class AddNewAddressFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.putExtra("addresses", addressData.getResponse().getAddresses());
                 try {
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                    Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -226,6 +227,8 @@ public class AddNewAddressFragment extends Fragment {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
@@ -238,7 +241,8 @@ public class AddNewAddressFragment extends Fragment {
     private void updateAddress() {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            cartVM.addNewAddress(preferenceManager.getValue(Constants.TOKEN, null),
+            cartVM.updateAddress(preferenceManager.getValue(Constants.TOKEN, null),
+                    address.getId(),
                     fragmentBinding.addressName.getText().toString(),
                     fragmentBinding.streetNumber.getText().toString(),
                     fragmentBinding.addressComplement.getText().toString(),
@@ -264,7 +268,7 @@ public class AddNewAddressFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.putExtra("addresses", addressData.getResponse().getAddresses());
                 try {
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                    Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -272,6 +276,8 @@ public class AddNewAddressFragment extends Fragment {
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
