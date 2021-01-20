@@ -5,24 +5,24 @@ import com.google.gson.annotations.Expose;
 public class PaymentMethod {
 
     @Expose
-    private String tag;
+    private String code;
     @Expose
-    private String text;
+    private String title;
 
     public String getTag() {
-        return tag;
+        return code;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTag(String code) {
+        this.code = code;
     }
 
     public String getText() {
-        return text;
+        return title;
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.title = text;
     }
 
 }

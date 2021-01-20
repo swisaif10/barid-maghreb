@@ -23,6 +23,10 @@ public class PaymentRecapResponse {
     private String shippingMethode;
     @Expose
     private int totalPrice;
+    @SerializedName("address_id")
+    private String addressId;
+    @SerializedName("agence_id")
+    private String agenceId;
 
     public String getAddress() {
         return address;
@@ -88,4 +92,19 @@ public class PaymentRecapResponse {
         this.totalPrice = totalPrice;
     }
 
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getAgenceId() {
+        return agenceId;
+    }
+
+    public void setAgenceId(String agenceId) {
+        this.agenceId = agenceId;
+    }
 }
