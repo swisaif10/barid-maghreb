@@ -117,8 +117,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
     @SuppressLint("SetTextI18n")
     private void init(CartItemsResponseData response) {
-        if (response.getItems().isEmpty())
-            fragmentCartDetailsBinding.nextBtn.setEnabled(false);
+        if (!response.getItems().isEmpty())
+            fragmentCartDetailsBinding.nextBtn.setEnabled(true);
         fragmentCartDetailsBinding.nextBtn.setOnClickListener(v -> {
             started = true;
             if (preferenceManager.getValue(Constants.TOKEN, null) != null)

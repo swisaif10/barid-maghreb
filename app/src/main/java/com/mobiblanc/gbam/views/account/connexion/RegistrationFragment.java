@@ -138,7 +138,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
             @Override
             public void afterTextChanged(Editable s) {
                 checkForm();
-                if (!Utilities.isEmailValid(s.toString().trim()) && !s.toString().equalsIgnoreCase("")) {
+                if (s.toString().length() < 10 && !s.toString().equalsIgnoreCase("")) {
                     fragmentBinding.phoneError.setVisibility(View.VISIBLE);
                     fragmentBinding.phoneError.setText(R.string.invalid_format_error);
                 } else {

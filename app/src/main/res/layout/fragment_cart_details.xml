@@ -133,6 +133,7 @@
             android:backgroundTint="@color/button_background_selector"
             android:fontFamily="@font/montserrat_semibold"
             android:stateListAnimator="@null"
+            android:enabled="false"
             android:text="@string/pay_btn"
             android:textAllCaps="false"
             android:textColor="@color/white"
