@@ -40,7 +40,6 @@ public class LocateSelectedAgencyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CartActivity) getActivity()).showHideHeader(View.GONE);
         if (getArguments() != null)
             agency = (Agency) getArguments().getSerializable("agency");
     }
@@ -57,6 +56,7 @@ public class LocateSelectedAgencyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((CartActivity) requireActivity()).showHideHeader(View.GONE);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {

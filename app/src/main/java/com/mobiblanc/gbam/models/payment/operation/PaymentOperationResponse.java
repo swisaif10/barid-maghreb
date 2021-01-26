@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class PaymentOperationResponse {
 
-    @SerializedName("is_absolute")
-    private Boolean isAbsolute;
+    @Expose
+    private String redirect;
     @Expose
     private String url;
 
-    public Boolean getAbsolute() {
-        return isAbsolute;
+    public String getRedirect() {
+        return redirect;
     }
 
-    public void setAbsolute(Boolean absolute) {
-        isAbsolute = absolute;
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
     }
 
     public String getUrl() {

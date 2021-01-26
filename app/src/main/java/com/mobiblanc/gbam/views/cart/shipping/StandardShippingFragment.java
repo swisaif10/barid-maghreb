@@ -122,7 +122,7 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         if (canPay)
             fragmentBinding.nextBtn.setVisibility(View.VISIBLE);
 
-        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).replaceFragment(RecapPaymentFragment.newInstance(address.getId(), "standard")));
+        fragmentBinding.nextBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).addFragment(RecapPaymentFragment.newInstance(address.getId(), "standard")));
 
         fragmentBinding.addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         addressAdapter = new AddressAdapter(addressList, this);

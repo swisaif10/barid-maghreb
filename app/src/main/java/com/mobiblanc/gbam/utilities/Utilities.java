@@ -184,6 +184,27 @@ public interface Utilities {
         dialog.show();
     }
 
+    static void showCommentDialog(Context context) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_add_new_comment, null, false);
+        Button addBtn = view.findViewById(R.id.addBtn);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        addBtn.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+
     static Boolean isEmpty(TextInputEditText textInputEditText) {
         return textInputEditText.getText().toString().equalsIgnoreCase("");
     }

@@ -144,14 +144,14 @@ public interface RestEndpoint {
     @FormUrlEncoded
     @POST(ApiUrls.GET_RECAP_URL)
     Call<PaymentRecapData> getStandardPaymentRecap(@Header("x-auth-token") String token,
-                                           @Field("shipping_methode") String shippingMethod,
-                                           @Field("address_id") int addressId);
+                                                   @Field("shipping_methode") String shippingMethod,
+                                                   @Field("address_id") int addressId);
 
     @FormUrlEncoded
     @POST(ApiUrls.GET_RECAP_URL)
     Call<PaymentRecapData> getAgencyPaymentRecap(@Header("x-auth-token") String token,
-                                           @Field("shipping_methode") String shippingMethod,
-                                           @Field("agence_id") int agencyId);
+                                                 @Field("shipping_methode") String shippingMethod,
+                                                 @Field("agence_id") int agencyId);
 
     @FormUrlEncoded
     @POST(ApiUrls.TRACKING_COMMAND_URL)
@@ -178,15 +178,23 @@ public interface RestEndpoint {
     @FormUrlEncoded
     @POST(ApiUrls.UPDATE_ADDRESS_URL)
     Call<AddressData> updateAddress(@Header("x-auth-token") String token,
-                                 @Field("id_address") int id,
-                                 @Field("address_name") String addressName,
-                                 @Field("street_number") String streetNumber,
-                                 @Field("complement_address") String complementAddress,
-                                 @Field("city") String city,
-                                 @Field("postcode") String postCode,
-                                 @Field("phone_number") String phoneNumber,
-                                 @Field("ice") String ice,
-                                 @Field("tax_identification") String taxIdentification,
-                                 @Field("cni") String cni,
-                                 @Field("type") String type);
+                                    @Field("id_address") int id,
+                                    @Field("address_name") String addressName,
+                                    @Field("street_number") String streetNumber,
+                                    @Field("complement_address") String complementAddress,
+                                    @Field("city") String city,
+                                    @Field("postcode") String postCode,
+                                    @Field("phone_number") String phoneNumber,
+                                    @Field("ice") String ice,
+                                    @Field("tax_identification") String taxIdentification,
+                                    @Field("cni") String cni,
+                                    @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.PAYMENT_URL)
+    Call<PaymentOperationData> payment(@Header("x-auth-token") String token,
+                              @Field("delivery_methode") String deliveryMethod,
+                              @Field("payment_method_code") String paymentMethodCode,
+                              @Field("address_id") String addressId,
+                              @Field("agence_id") String agencyId);
 }

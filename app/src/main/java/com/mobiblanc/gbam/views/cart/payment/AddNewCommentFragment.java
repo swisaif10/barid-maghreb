@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,8 @@ import com.mobiblanc.gbam.databinding.FragmentAddNewCommentBinding;
 import com.mobiblanc.gbam.databinding.FragmentRecapPaymentBinding;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 
+import java.util.Objects;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -23,6 +26,12 @@ public class AddNewCommentFragment extends Fragment {
 
     public AddNewCommentFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @Override
@@ -38,7 +47,7 @@ public class AddNewCommentFragment extends Fragment {
         init();
     }
 
-    private void init(){
+    private void init() {
         fragmentBinding.container.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.addBtn.setOnClickListener(v -> requireActivity().onBackPressed());
     }

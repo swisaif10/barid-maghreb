@@ -111,7 +111,7 @@ public class AgencyShippingFragment extends Fragment implements OnItemSelectedLi
 
     @Override
     public void onItemSelected(int position, Object object) {
-        ((CartActivity) requireActivity()).replaceFragment(LocateSelectedAgencyFragment.newInstance((Agency) object));
+        ((CartActivity) requireActivity()).addFragment(LocateSelectedAgencyFragment.newInstance((Agency) object));
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -9,20 +9,19 @@ public class PaymentMethod {
     @Expose
     private String title;
 
-    public String getTag() {
+    public String getCode() {
         return code;
     }
 
-    public void setTag(String code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public String getText() {
+    public String getTitle() {
         return title;
     }
 
-    public void setText(String text) {
-        this.title = text;
+    public void setTitle(String title) {
+        this.title = title;
     }
-
 }

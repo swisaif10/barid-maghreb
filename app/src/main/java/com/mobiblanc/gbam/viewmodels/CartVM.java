@@ -31,6 +31,7 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<PaymentRecapData> paymentRecapLiveData;
     private MutableLiveData<PaymentOperationData> paymentLiveData;
     private MutableLiveData<AddressData> updateAddressLiveData;
+    private MutableLiveData<PaymentOperationData> paymentOperationLiveData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -78,6 +79,10 @@ public class CartVM extends AndroidViewModel {
         return updateAddressLiveData;
     }
 
+    public MutableLiveData<PaymentOperationData> getPaymentOperationLiveData() {
+        return paymentOperationLiveData;
+    }
+
     private void init() {
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
@@ -89,6 +94,7 @@ public class CartVM extends AndroidViewModel {
         addNewAddressLiveData = new MutableLiveData<>();
         paymentLiveData = new MutableLiveData<>();
         updateAddressLiveData = new MutableLiveData<>();
+        paymentOperationLiveData = new MutableLiveData<>();
     }
 
     public void getCartItems(String token, String cartId) {
@@ -267,6 +273,21 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<AddressData> call, @NonNull Throwable t) {
                 updateAddressLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void payment(String token, String deliveryMethod, String paymentMethodCode, String addressId, String agencyId) {
+        Call<PaymentOperationData> call = RestService.getInstance().endpoint().payment(token, deliveryMethod, paymentMethodCode, addressId, agencyId);
+        call.enqueue(new Callback<PaymentOperationData>() {
+            @Override
+            public void onResponse(@NonNull Call<PaymentOperationData> call, @NonNull Response<PaymentOperationData> response) {
+                paymentOperationLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PaymentOperationData> call, @NonNull Throwable t) {
+                paymentOperationLiveData.setValue(null);
             }
         });
     }

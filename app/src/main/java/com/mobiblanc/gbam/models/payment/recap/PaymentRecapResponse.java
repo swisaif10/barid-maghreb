@@ -12,17 +12,17 @@ public class PaymentRecapResponse {
     @SerializedName("commande_date")
     private String commandeDate;
     @Expose
-    private int fees;
+    private float fees;
     @Expose
     private List<Item> items;
     @SerializedName("payment_methods")
     private List<PaymentMethod> paymentMethods;
     @Expose
-    private int productsPrice;
+    private float productsPrice;
     @SerializedName("shipping_methode")
     private String shippingMethode;
     @Expose
-    private int totalPrice;
+    private float totalPrice;
     @SerializedName("address_id")
     private String addressId;
     @SerializedName("agence_id")
@@ -44,11 +44,11 @@ public class PaymentRecapResponse {
         this.commandeDate = commandeDate;
     }
 
-    public int getFees() {
+    public float getFees() {
         return fees;
     }
 
-    public void setFees(int fees) {
+    public void setFees(float fees) {
         this.fees = fees;
     }
 
@@ -68,11 +68,11 @@ public class PaymentRecapResponse {
         this.paymentMethods = paymentMethods;
     }
 
-    public int getProductsPrice() {
+    public float getProductsPrice() {
         return productsPrice;
     }
 
-    public void setProductsPrice(int productsPrice) {
+    public void setProductsPrice(float productsPrice) {
         this.productsPrice = productsPrice;
     }
 
@@ -84,11 +84,11 @@ public class PaymentRecapResponse {
         this.shippingMethode = shippingMethode;
     }
 
-    public int getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 
