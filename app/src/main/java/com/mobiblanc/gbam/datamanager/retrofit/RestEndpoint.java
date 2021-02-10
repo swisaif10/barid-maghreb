@@ -144,13 +144,13 @@ public interface RestEndpoint {
     @FormUrlEncoded
     @POST(ApiUrls.GET_RECAP_URL)
     Call<PaymentRecapData> getStandardPaymentRecap(@Header("x-auth-token") String token,
-                                                   @Field("shipping_methode") String shippingMethod,
+                                                   @Field("delivery_methode") String shippingMethod,
                                                    @Field("address_id") int addressId);
 
     @FormUrlEncoded
     @POST(ApiUrls.GET_RECAP_URL)
     Call<PaymentRecapData> getAgencyPaymentRecap(@Header("x-auth-token") String token,
-                                                 @Field("shipping_methode") String shippingMethod,
+                                                 @Field("delivery_methode") String shippingMethod,
                                                  @Field("agence_id") int agencyId);
 
     @FormUrlEncoded
