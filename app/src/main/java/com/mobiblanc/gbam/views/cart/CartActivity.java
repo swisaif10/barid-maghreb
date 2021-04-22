@@ -1,9 +1,6 @@
 package com.mobiblanc.gbam.views.cart;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -11,17 +8,11 @@ import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.ActivityCartBinding;
 import com.mobiblanc.gbam.listeners.OnUpdateButtonClickListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
-import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.views.base.BaseActivity;
 import com.mobiblanc.gbam.views.cart.cartdetails.CartDetailsFragment;
-import com.mobiblanc.gbam.views.cart.shipping.AddNewAddressFragment;
 import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CartActivity extends BaseActivity {
 

@@ -9,21 +9,13 @@ import android.view.inputmethod.InputMethodManager;
 public class KeyboardManager {
 
     private static final String TAG = KeyboardManager.class.getSimpleName();
-
-    public interface OnKeyboardListener {
-        void onKeyboardVisible();
-
-        void onKeyboardHidden();
-    }
-
-    public KeyboardManager(Context context) {
-        mContext = context;
-    }
-
     private Context mContext;
     private View mContentView;
     private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener;
     private boolean mIsKeyboardVisible;
+    public KeyboardManager(Context context) {
+        mContext = context;
+    }
 
     public void registerKeyboardListener(final OnKeyboardListener listener, View view) {
         mContentView = view;
@@ -75,5 +67,11 @@ public class KeyboardManager {
             ((Activity) mContext).getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
+    }
+
+    public interface OnKeyboardListener {
+        void onKeyboardVisible();
+
+        void onKeyboardHidden();
     }
 }

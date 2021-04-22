@@ -4,7 +4,6 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddressResponse implements Serializable {
     @Expose

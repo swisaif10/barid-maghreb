@@ -10,15 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentAddNewCommentBinding;
-import com.mobiblanc.gbam.databinding.FragmentRecapPaymentBinding;
-import com.mobiblanc.gbam.views.cart.CartActivity;
 
 import java.util.Objects;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddNewCommentFragment extends Fragment {
 

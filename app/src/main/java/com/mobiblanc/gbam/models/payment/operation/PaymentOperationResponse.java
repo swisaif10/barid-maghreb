@@ -1,7 +1,6 @@
 package com.mobiblanc.gbam.models.payment.operation;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 public class PaymentOperationResponse {
 

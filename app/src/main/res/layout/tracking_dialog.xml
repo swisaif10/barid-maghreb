@@ -24,13 +24,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center"
             android:switchMinWidth="45dp"
+            android:text="Suivi de virement"
             android:textColor="@color/black"
-            android:textSize="14sp"
-            android:layout_marginBottom="10dp"
-            android:text="Suivi de virement" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/message"
@@ -53,11 +53,11 @@
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
-            android:visibility="gone"
             android:text="@string/call_service_btn"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="13sp"
+            android:visibility="gone"
             app:cornerRadius="20dp" />
 
     </LinearLayout>

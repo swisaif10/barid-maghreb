@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -27,12 +26,9 @@ import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
-import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.connexion.CGUFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
-import com.mobiblanc.gbam.views.main.product.PortraitFragment;
-import com.mobiblanc.gbam.views.tracking.TrackingActivity;
 
 public class RecapPaymentFragment extends Fragment {
 
@@ -44,6 +40,10 @@ public class RecapPaymentFragment extends Fragment {
     private PreferenceManager preferenceManager;
     private Boolean payCash = false;
 
+    public RecapPaymentFragment() {
+        // Required empty public constructor
+    }
+
     public static RecapPaymentFragment newInstance(int id, String shippingMethod) {
         RecapPaymentFragment fragment = new RecapPaymentFragment();
         Bundle args = new Bundle();
@@ -51,10 +51,6 @@ public class RecapPaymentFragment extends Fragment {
         args.putString("shippingMethod", shippingMethod);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public RecapPaymentFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -70,7 +66,7 @@ public class RecapPaymentFragment extends Fragment {
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
         connectivity = new Connectivity(requireContext(), this);
         cartVM.getPaymentRecapLiveData().observe(this, this::handlePaymentRecapData);
-        cartVM.getPaymentLiveData().observe(this, this::handlePaymentData);
+        cartVM.getPaymentOperationLiveData().observe(this, this::handlePaymentData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)

@@ -34,6 +34,7 @@ public interface ApiUrls {
     String GET_HISTORY_URL = "api/payment/payment-history";
     String UPDATE_ADDRESS_URL = "api/shipping/edit-address";
     String PAYMENT_URL = "api/shipping/payment-url";
+    String CITIES_URL = "api/shipping/cities";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 

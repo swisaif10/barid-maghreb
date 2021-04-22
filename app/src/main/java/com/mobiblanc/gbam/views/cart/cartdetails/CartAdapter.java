@@ -45,7 +45,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return arrayList.size();
     }
 
-    public void removeItem (int position){
+    public void removeItem(int position) {
         arrayList.remove(position);
         notifyItemRemoved(position);
     }

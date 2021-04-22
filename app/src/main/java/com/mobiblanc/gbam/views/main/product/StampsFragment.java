@@ -111,6 +111,7 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
 
     @Override
     public void onItemSelected(int position, Object object) {
+        fragmentStampsBinding.loader.setVisibility(View.VISIBLE);
         selectedProductPosition = position;
         this.imageView = (ImageView) object;
         addItemToCart(preferenceManager.getValue(Constants.CART_ID, null));
@@ -191,7 +192,7 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
     }
 
     private void handleAddItemToCartData(AddItemData addItemData) {
-
+        fragmentStampsBinding.loader.setVisibility(View.GONE);
         if (addItemData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
@@ -206,7 +207,8 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
                     preferenceManager.clearValue(Constants.CART_ID);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
-                });            else
+                });
+            else
                 Utilities.showErrorPopup(getContext(), addItemData.getHeader().getMessage());
         }
     }

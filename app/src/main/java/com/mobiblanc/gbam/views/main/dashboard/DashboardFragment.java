@@ -29,7 +29,6 @@ import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.history.HistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
-import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.main.adapters.CategoriesAdapter;
 import com.mobiblanc.gbam.views.main.adapters.ServicesAdapter;

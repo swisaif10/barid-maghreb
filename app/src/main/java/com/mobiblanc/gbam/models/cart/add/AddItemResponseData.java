@@ -1,4 +1,3 @@
-
 package com.mobiblanc.gbam.models.cart.add;
 
 import com.google.gson.annotations.Expose;

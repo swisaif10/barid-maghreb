@@ -23,40 +23,40 @@
                 android:textColor="@color/darkGrey"
                 android:textSize="20sp" />
 
-<!--
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_dropdown"
-                app:boxBackgroundColor="@color/white"
-                android:hint="Quelle ville recherchez-vous?"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:endIconTint="@color/blue"
-                android:elevation="2dp"
-                app:endIconDrawable="@drawable/arrow"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="20dp"
-                android:textColorHint="#818181">
+            <!--
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_dropdown"
+                            app:boxBackgroundColor="@color/white"
+                            android:hint="Quelle ville recherchez-vous?"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:endIconTint="@color/blue"
+                            android:elevation="2dp"
+                            app:endIconDrawable="@drawable/arrow"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="20dp"
+                            android:textColorHint="#818181">
 
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/region"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:dropDownHeight="300dp"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:paddingStart="30dp"
-                    android:scrollbarSize="5dp"
-                    android:textCursorDrawable="@null"
-                    android:textSize="14sp" />
+                            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                                android:id="@+id/region"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:dropDownHeight="300dp"
+                                android:fontFamily="@font/montserrat_regular"
+                                android:paddingStart="30dp"
+                                android:scrollbarSize="5dp"
+                                android:textCursorDrawable="@null"
+                                android:textSize="14sp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
--->
+            -->
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/citiesDropDownMenu"

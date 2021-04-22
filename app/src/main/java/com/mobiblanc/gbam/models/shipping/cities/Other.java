@@ -1,20 +1,19 @@
-package com.mobiblanc.gbam.models.common;
+package com.mobiblanc.gbam.models.shipping.cities;
 
 import com.google.gson.annotations.Expose;
 
-public class Header {
-
+public class Other {
     @Expose
-    private int code;
+    private String title;
     @Expose
     private String message;
 
-    public int getCode() {
-        return code;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getMessage() {
@@ -24,5 +23,4 @@ public class Header {
     public void setMessage(String message) {
         this.message = message;
     }
-
 }

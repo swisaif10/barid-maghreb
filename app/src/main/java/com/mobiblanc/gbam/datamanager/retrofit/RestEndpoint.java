@@ -1,7 +1,5 @@
 package com.mobiblanc.gbam.datamanager.retrofit;
 
-import com.mobiblanc.gbam.models.history.HistoryData;
-import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
@@ -11,12 +9,15 @@ import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.controlversion.ControlVersionData;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;
+import com.mobiblanc.gbam.models.history.HistoryData;
+import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
 import com.mobiblanc.gbam.models.pdf.PDFData;
 import com.mobiblanc.gbam.models.products.ProductsData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
+import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
 import com.mobiblanc.gbam.models.tracking.TrackingData;
 
 import retrofit2.Call;
@@ -193,8 +194,11 @@ public interface RestEndpoint {
     @FormUrlEncoded
     @POST(ApiUrls.PAYMENT_URL)
     Call<PaymentOperationData> payment(@Header("x-auth-token") String token,
-                              @Field("delivery_methode") String deliveryMethod,
-                              @Field("payment_method_code") String paymentMethodCode,
-                              @Field("address_id") String addressId,
-                              @Field("agence_id") String agencyId);
+                                       @Field("delivery_methode") String deliveryMethod,
+                                       @Field("payment_method_code") String paymentMethodCode,
+                                       @Field("address_id") String addressId,
+                                       @Field("agence_id") String agencyId);
+
+    @POST(ApiUrls.CITIES_URL)
+    Call<CitiesData> getCities();
 }

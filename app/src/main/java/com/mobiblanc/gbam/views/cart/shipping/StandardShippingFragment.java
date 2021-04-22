@@ -24,14 +24,16 @@ import java.util.ArrayList;
 public class StandardShippingFragment extends Fragment implements OnItemSelectedListener, OnUpdateButtonClickListener {
 
     private static final int REQUEST_CODE = 100;
-
+    private static Boolean initialized = false;
     private FragmentStandardShippingBinding fragmentBinding;
-
     private AddressAdapter addressAdapter;
     private ArrayList<Address> addressList;
     private Address address;
     private Boolean canPay;
-    private static Boolean initialized = false;
+
+    public StandardShippingFragment() {
+        // Required empty public constructor
+    }
 
     public static StandardShippingFragment newInstance(ArrayList<Address> addressList, Boolean canPay) {
         StandardShippingFragment fragment = new StandardShippingFragment();
@@ -40,10 +42,6 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         args.putBoolean("canPay", canPay);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public StandardShippingFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -79,6 +77,7 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     public void onResume() {
         super.onResume();
         ((CartActivity) getActivity()).showHideHeader(View.VISIBLE);
+        initialized = false;
     }
 
     @Override

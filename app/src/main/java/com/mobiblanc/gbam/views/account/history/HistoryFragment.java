@@ -23,7 +23,6 @@ import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
-import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
 import java.util.List;

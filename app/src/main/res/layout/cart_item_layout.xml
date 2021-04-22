@@ -28,8 +28,8 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="10dp"
             android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -57,9 +57,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleLayout">
 
             <RelativeLayout

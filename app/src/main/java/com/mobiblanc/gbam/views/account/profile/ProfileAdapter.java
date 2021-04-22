@@ -35,7 +35,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ITemView
     @Override
     public void onBindViewHolder(@NonNull ITemViewHolder holder, int position) {
 
-       holder.bind(arrayList.get(position));
+        holder.bind(arrayList.get(position));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ITemView
             this.itemBinding = itemBinding;
         }
 
-        private void bind(ProfileMenuItem profileMenuItem){
+        private void bind(ProfileMenuItem profileMenuItem) {
             itemBinding.icon.setImageResource(profileMenuItem.getImage());
             itemBinding.title.setText(profileMenuItem.getTitle());
 

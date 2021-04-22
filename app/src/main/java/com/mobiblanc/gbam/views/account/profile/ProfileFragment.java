@@ -26,7 +26,6 @@ import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.help.HelpFragment;
-import com.mobiblanc.gbam.views.account.history.HistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.tracking.TrackingActivity;

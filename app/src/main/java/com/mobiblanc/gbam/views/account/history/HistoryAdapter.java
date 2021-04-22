@@ -60,7 +60,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             itemBinding.totalPrice.setText(history.getTotalPrice());
             itemBinding.status.setText(history.getStatus());
 
-            history.setColor(history.getColor().replace("##","#"));
+            history.setColor(history.getColor().replace("##", "#"));
             itemBinding.color.setColorFilter(Color.parseColor(history.getColor()));
 
             itemBinding.getRoot().setOnClickListener(v -> onItemSelectedListener.onItemSelected(getAdapterPosition(), history));

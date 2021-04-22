@@ -51,6 +51,10 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
     private String image;
     private String title;
 
+    public PortraitFragment() {
+
+    }
+
     public static PortraitFragment newInstance(int id, String image, String title) {
         PortraitFragment fragment = new PortraitFragment();
         Bundle args = new Bundle();
@@ -59,10 +63,6 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
         args.putString("title", title);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public PortraitFragment() {
-
     }
 
     @Override
@@ -123,6 +123,7 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
 
     @Override
     public void onItemSelected(int position, Object object) {
+        fragmentPortraitBinding.loader.setVisibility(View.VISIBLE);
         selectedProductPosition = position;
         this.imageView = (ImageView) object;
         addItemToCart(preferenceManager.getValue(Constants.CART_ID, null));
@@ -206,7 +207,7 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
     }
 
     private void handleAddItemToCartData(AddItemData addItemData) {
-
+        fragmentPortraitBinding.loader.setVisibility(View.GONE);
         if (addItemData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {

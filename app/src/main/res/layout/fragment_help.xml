@@ -96,14 +96,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:maxLength="10"
                         android:backgroundTint="@color/hintGrey"
                         android:fontFamily="@font/montserrat_medium"
                         android:hint="@string/phonenumber_hint"
+                        android:maxLength="10"
                         android:paddingBottom="15dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hintGrey"
                         android:textSize="14sp" />
+
                     <TextView
                         android:id="@+id/phoneError"
                         android:layout_width="match_parent"
@@ -111,7 +112,7 @@
                         android:fontFamily="@font/montserrat_regular"
                         android:textColor="@color/red"
                         android:textSize="12sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <EditText
                         android:id="@+id/object"
@@ -154,9 +155,9 @@
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginBottom="10dp"
                         android:backgroundTint="@color/button_background_selector"
+                        android:enabled="false"
                         android:fontFamily="@font/montserrat_semibold"
                         android:stateListAnimator="@null"
-                        android:enabled="false"
                         android:text="@string/send_btn"
                         android:textAllCaps="false"
                         android:textColor="@color/white"

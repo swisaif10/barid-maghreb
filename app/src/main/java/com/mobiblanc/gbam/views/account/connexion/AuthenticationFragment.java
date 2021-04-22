@@ -30,7 +30,6 @@ import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.history.HistoryFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
-import com.mobiblanc.gbam.views.main.MainActivity;
 
 import java.util.Objects;
 
@@ -43,16 +42,16 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     private String destination = "";
     private int phoneNumberLength = 11;
 
+    public AuthenticationFragment() {
+        // Required empty public constructor
+    }
+
     public static AuthenticationFragment newInstance(String destination) {
         AuthenticationFragment fragment = new AuthenticationFragment();
         Bundle args = new Bundle();
         args.putString("destination", destination);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public AuthenticationFragment() {
-        // Required empty public constructor
     }
 
     @Override

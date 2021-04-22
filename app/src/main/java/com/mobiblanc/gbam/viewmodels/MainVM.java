@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.mobiblanc.gbam.datamanager.retrofit.ApiUrls;
 import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;

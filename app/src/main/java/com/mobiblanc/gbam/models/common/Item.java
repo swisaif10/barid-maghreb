@@ -1,4 +1,3 @@
-
 package com.mobiblanc.gbam.models.common;
 
 import com.google.gson.annotations.Expose;

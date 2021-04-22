@@ -1,4 +1,3 @@
-
 package com.mobiblanc.gbam.models.shipping.address;
 
 import com.google.gson.annotations.Expose;

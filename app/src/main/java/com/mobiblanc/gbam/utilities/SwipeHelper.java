@@ -27,12 +27,12 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     public static final int BUTTON_WIDTH = 200;
     private final RecyclerView recyclerView;
-    private List<UnderlayButton> buttons;
     private final GestureDetector gestureDetector;
-    private int swipedPos = -1;
-    private float swipeThreshold = 0.5f;
     private final Map<Integer, List<UnderlayButton>> buttonsBuffer;
     private final Queue<Integer> recoverQueue;
+    private List<UnderlayButton> buttons;
+    private int swipedPos = -1;
+    private float swipeThreshold = 0.5f;
 
     public SwipeHelper(Context context, RecyclerView recyclerView) {
         super(0, ItemTouchHelper.LEFT);
@@ -196,11 +196,15 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     public abstract void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons);
 
+    public interface UnderlayButtonClickListener {
+        void onClick(int pos);
+    }
+
     public static class UnderlayButton {
-        private int pos;
-        private RectF clickRegion;
         private final UnderlayButtonClickListener clickListener;
         private final Drawable drawable;
+        private int pos;
+        private RectF clickRegion;
 
         public UnderlayButton(Drawable drawable, UnderlayButtonClickListener clickListener) {
             this.clickListener = clickListener;
@@ -231,9 +235,5 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             clickRegion = rect;
             this.pos = pos;
         }
-    }
-
-    public interface UnderlayButtonClickListener {
-        void onClick(int pos);
     }
 }

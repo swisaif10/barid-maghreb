@@ -28,6 +28,17 @@ public class LocateSelectedAgencyFragment extends Fragment {
 
     private FragmentLocateSelectedAgencyBinding fragmentBinding;
     private Agency agency;
+    @SuppressLint("InflateParams")
+    private final OnMapReadyCallback callback = googleMap -> {
+        LatLng location = new LatLng(Float.parseFloat(agency.getLatitude()), Float.parseFloat(agency.getLongitude()));
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.marker_view, null);
+        IconGenerator generator = new IconGenerator(requireContext());
+        generator.setContentView(view);
+        generator.setBackground(new ColorDrawable(0));
+        googleMap.addMarker(new MarkerOptions().position(location).icon(BitmapDescriptorFactory.fromBitmap(generator.makeIcon())));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18.0f));
+    };
 
     public static LocateSelectedAgencyFragment newInstance(Agency agency) {
         LocateSelectedAgencyFragment fragment = new LocateSelectedAgencyFragment();
@@ -71,16 +82,4 @@ public class LocateSelectedAgencyFragment extends Fragment {
         fragmentBinding.title.setText(agency.getTitle());
         fragmentBinding.address.setText(agency.getAddress());
     }
-
-    @SuppressLint("InflateParams")
-    private final OnMapReadyCallback callback = googleMap -> {
-        LatLng location = new LatLng(Float.parseFloat(agency.getLatitude()), Float.parseFloat(agency.getLongitude()));
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.marker_view, null);
-        IconGenerator generator = new IconGenerator(requireContext());
-        generator.setContentView(view);
-        generator.setBackground(new ColorDrawable(0));
-        googleMap.addMarker(new MarkerOptions().position(location).icon(BitmapDescriptorFactory.fromBitmap(generator.makeIcon())));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18.0f));
-    };
 }

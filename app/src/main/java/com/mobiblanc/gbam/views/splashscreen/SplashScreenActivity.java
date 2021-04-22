@@ -56,7 +56,7 @@ public class SplashScreenActivity extends AppCompatActivity implements OnDialogB
 
     private void controlVersion() {
         if (connectivity.isConnected()) {
-            splashVM.controlVersion(preferenceManager.getValue(Constants.FIREBASE_TOKEN,""));
+            splashVM.controlVersion(preferenceManager.getValue(Constants.FIREBASE_TOKEN, ""));
         } else
             Utilities.showErrorPopup(this, getString(R.string.no_internet_msg));
     }

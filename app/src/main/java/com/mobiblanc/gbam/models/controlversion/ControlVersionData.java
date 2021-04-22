@@ -1,4 +1,3 @@
-
 package com.mobiblanc.gbam.models.controlversion;
 
 import com.google.gson.annotations.Expose;

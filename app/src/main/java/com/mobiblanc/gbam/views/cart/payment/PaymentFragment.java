@@ -25,7 +25,6 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
-import com.mobiblanc.gbam.views.tracking.TrackingActivity;
 
 public class PaymentFragment extends Fragment {
 

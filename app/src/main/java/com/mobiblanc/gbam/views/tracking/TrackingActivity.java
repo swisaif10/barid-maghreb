@@ -113,7 +113,7 @@ public class TrackingActivity extends AppCompatActivity {
             } else {
                 activityBinding.trackingRecycler.setVisibility(View.GONE);
                 Utilities.showTrackingDialog(this, trackingData.getHeader().getMessage(), view -> {
-                },false);
+                }, false);
             }
         }
     }

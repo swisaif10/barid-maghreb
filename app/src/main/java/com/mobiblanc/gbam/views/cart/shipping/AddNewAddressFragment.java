@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,9 @@ import com.mobiblanc.gbam.databinding.FragmentAddNewAddressBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
+import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
+import com.mobiblanc.gbam.models.shipping.cities.City;
+import com.mobiblanc.gbam.models.shipping.cities.Other;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
@@ -42,6 +46,7 @@ public class AddNewAddressFragment extends Fragment {
     private String addressType = "type business";
     private Address address;
     private Boolean isUpdate = false;
+    private City city;
 
     public AddNewAddressFragment() {
         // Required empty public constructor
@@ -63,6 +68,7 @@ public class AddNewAddressFragment extends Fragment {
         connectivity = new Connectivity(requireContext(), this);
         cartVM.getAddNewAddressLiveData().observe(this, this::handleAddAddressData);
         cartVM.getUpdateAddressLiveData().observe(this, this::handleUpdateAddressData);
+        cartVM.getCitiesLiveData().observe(this, this::handleGetCitiesData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -172,6 +178,8 @@ public class AddNewAddressFragment extends Fragment {
             fragmentBinding.addressComplement.setText(address.getComplementAddress());
 
         }
+
+        getCities();
     }
 
     private void checkForm() {
@@ -197,7 +205,7 @@ public class AddNewAddressFragment extends Fragment {
                     fragmentBinding.addressName.getText().toString(),
                     fragmentBinding.streetNumber.getText().toString(),
                     fragmentBinding.addressComplement.getText().toString(),
-                    fragmentBinding.city.getText().toString(),
+                    city.getId(),
                     fragmentBinding.postalCode.getText().toString(),
                     fragmentBinding.phoneNumber.getText().toString(),
                     fragmentBinding.ice.getText().toString(),
@@ -283,6 +291,46 @@ public class AddNewAddressFragment extends Fragment {
                 });
             } else {
                 Utilities.showErrorPopup(getContext(), addressData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void getCities() {
+        if (connectivity.isConnected()) {
+            cartVM.getCities();
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void handleGetCitiesData(CitiesData citiesData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (citiesData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = citiesData.getHeader().getCode();
+            if (code == 200) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, citiesData.getResponse().getCitiesNames());
+                fragmentBinding.city.setAdapter(adapter);
+                fragmentBinding.city.setOnTouchListener((v, event) -> {
+                    fragmentBinding.city.showDropDown();
+                    return false;
+                });
+                fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
+                    city = citiesData.getResponse().getCities().get(position);
+                    if (city.getId().equalsIgnoreCase("other"))
+                        Utilities.showInfoPopup(requireContext(), citiesData.getResponse().getOther().getTitle(), citiesData.getResponse().getOther().getMessage());
+                });
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), citiesData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), citiesData.getHeader().getMessage());
             }
         }
     }

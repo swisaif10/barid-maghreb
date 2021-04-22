@@ -1,23 +1,15 @@
 package com.mobiblanc.gbam.views.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.utilities.Constants;
-import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.base.BaseActivity;
-import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.dashboard.DashboardFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 

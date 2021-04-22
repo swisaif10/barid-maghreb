@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.mobiblanc.gbam.datamanager.retrofit.ApiUrls;
 import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
@@ -18,7 +17,6 @@ import com.mobiblanc.gbam.models.pdf.PDFData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Field;
 
 public class AccountVM extends AndroidViewModel {
 

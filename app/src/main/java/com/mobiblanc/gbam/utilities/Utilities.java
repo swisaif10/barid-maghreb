@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
+import android.provider.Settings.Secure;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -14,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.provider.Settings.Secure;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -153,7 +153,7 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showDashboardDialog(Context context,String title, String description, View.OnClickListener onClickListener) {
+    static void showDashboardDialog(Context context, String title, String description, View.OnClickListener onClickListener) {
 
         if (context == null) {
             return;
@@ -204,7 +204,6 @@ public interface Utilities {
         dialog.show();
     }
 
-
     static Boolean isEmpty(TextInputEditText textInputEditText) {
         return textInputEditText.getText().toString().equalsIgnoreCase("");
     }
@@ -229,7 +228,29 @@ public interface Utilities {
     }
 
     static String getUUID(Context context) {
-
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+    }
+
+    static void showInfoPopup(Context context, String title, String message) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.info_dialog, null, false);
+        Button ok = view.findViewById(R.id.okBtn);
+        TextView titleTv = view.findViewById(R.id.title);
+        TextView msg = view.findViewById(R.id.message);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        titleTv.setText(title);
+        msg.setText(message);
+
+        ok.setOnClickListener(v -> dialog.dismiss());
+        //container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
     }
 }

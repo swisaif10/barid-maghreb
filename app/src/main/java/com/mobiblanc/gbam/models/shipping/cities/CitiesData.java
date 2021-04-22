@@ -1,14 +1,13 @@
-package com.mobiblanc.gbam.models.cart.add;
+package com.mobiblanc.gbam.models.shipping.cities;
 
 import com.google.gson.annotations.Expose;
 import com.mobiblanc.gbam.models.common.Header;
 
-public class AddItemData {
-
+public class CitiesData {
     @Expose
     private Header header;
     @Expose
-    private AddItemResponseData response;
+    private CitiesResponse response;
 
     public Header getHeader() {
         return header;
@@ -18,12 +17,11 @@ public class AddItemData {
         this.header = header;
     }
 
-    public AddItemResponseData getResponse() {
+    public CitiesResponse getResponse() {
         return response;
     }
 
-    public void setResponse(AddItemResponseData response) {
+    public void setResponse(CitiesResponse response) {
         this.response = response;
     }
-
 }

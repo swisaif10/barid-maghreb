@@ -1,6 +1,7 @@
 package com.mobiblanc.gbam.models.products;
 
 import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 public class Product implements Serializable {

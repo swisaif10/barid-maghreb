@@ -20,12 +20,12 @@ import butterknife.OnClick;
 
 public class SendOTPDialog extends Dialog {
 
+    private final Activity context;
+    private final OnDialogButtonsClickListener onDialogButtonsClickListener;
     @BindView(R.id.code)
     PinEntryEditText code;
     @BindView(R.id.nextBtn)
     MaterialButton nextBtn;
-    private final Activity context;
-    private final OnDialogButtonsClickListener onDialogButtonsClickListener;
 
     public SendOTPDialog(Activity context, OnDialogButtonsClickListener onDialogButtonsClickListener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);

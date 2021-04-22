@@ -16,13 +16,9 @@ import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentCguBinding;
 import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.html.HtmlResponse;
-import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
-import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
-
-import java.util.ArrayList;
 
 public class CGUFragment extends Fragment {
 
@@ -31,16 +27,16 @@ public class CGUFragment extends Fragment {
     private AccountVM accountVM;
     private Boolean showHeader;
 
+    public CGUFragment() {
+        // Required empty public constructor
+    }
+
     public static CGUFragment newInstance(Boolean showHeader) {
         CGUFragment fragment = new CGUFragment();
         Bundle args = new Bundle();
         args.putBoolean("showHeader", showHeader);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public CGUFragment() {
-        // Required empty public constructor
     }
 
     @Override

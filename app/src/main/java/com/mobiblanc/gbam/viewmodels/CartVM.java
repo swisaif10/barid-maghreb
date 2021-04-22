@@ -7,13 +7,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.mobiblanc.gbam.datamanager.retrofit.RestService;
+import com.mobiblanc.gbam.models.cart.add.AddItemData;
+import com.mobiblanc.gbam.models.cart.delete.DeleteItemData;
+import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
-import com.mobiblanc.gbam.models.cart.add.AddItemData;
-import com.mobiblanc.gbam.models.cart.delete.DeleteItemData;
-import com.mobiblanc.gbam.models.cart.items.CartItemsData;
+import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,7 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<PaymentOperationData> paymentLiveData;
     private MutableLiveData<AddressData> updateAddressLiveData;
     private MutableLiveData<PaymentOperationData> paymentOperationLiveData;
+    private MutableLiveData<CitiesData> getCitiesLiveData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -83,6 +85,10 @@ public class CartVM extends AndroidViewModel {
         return paymentOperationLiveData;
     }
 
+    public MutableLiveData<CitiesData> getCitiesLiveData() {
+        return getCitiesLiveData;
+    }
+
     private void init() {
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
@@ -95,6 +101,7 @@ public class CartVM extends AndroidViewModel {
         paymentLiveData = new MutableLiveData<>();
         updateAddressLiveData = new MutableLiveData<>();
         paymentOperationLiveData = new MutableLiveData<>();
+        getCitiesLiveData = new MutableLiveData<>();
     }
 
     public void getCartItems(String token, String cartId) {
@@ -283,11 +290,27 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onResponse(@NonNull Call<PaymentOperationData> call, @NonNull Response<PaymentOperationData> response) {
                 paymentOperationLiveData.setValue(response.body());
+                System.out.println("test");
             }
 
             @Override
             public void onFailure(@NonNull Call<PaymentOperationData> call, @NonNull Throwable t) {
                 paymentOperationLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getCities() {
+        Call<CitiesData> call = RestService.getInstance().endpoint().getCities();
+        call.enqueue(new Callback<CitiesData>() {
+            @Override
+            public void onResponse(@NonNull Call<CitiesData> call, @NonNull Response<CitiesData> response) {
+                getCitiesLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CitiesData> call, @NonNull Throwable t) {
+                getCitiesLiveData.setValue(null);
             }
         });
     }

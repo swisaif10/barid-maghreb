@@ -5,9 +5,10 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import com.mobiblanc.gbam.datamanager.retrofit.ApiUrls;
+
 import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.controlversion.ControlVersionData;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

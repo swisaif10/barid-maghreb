@@ -1,9 +1,10 @@
 package com.mobiblanc.gbam.models.payment.recap;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.mobiblanc.gbam.models.common.Item;
+
+import java.util.List;
 
 public class PaymentRecapResponse {
 

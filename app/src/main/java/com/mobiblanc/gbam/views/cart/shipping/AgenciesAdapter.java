@@ -13,7 +13,6 @@ import com.mobiblanc.gbam.databinding.AgencyItemLayoutBinding;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.shipping.agencies.Agency;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AgenciesAdapter extends RecyclerView.Adapter<AgenciesAdapter.AgencyViewHolder> {

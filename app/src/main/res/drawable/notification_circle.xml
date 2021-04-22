@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape android:dither="true" android:visible="true" android:shape="oval" android:useLevel="false"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient android:startColor="@color/blue"
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:dither="true"
+    android:shape="oval"
+    android:useLevel="false"
+    android:visible="true">
+    <gradient
+        android:angle="360.0"
         android:endColor="@color/blue"
-        android:angle="360.0" />
-    <corners
-        android:radius="20dip" />
-    <size android:height="20dip"
-        android:width="20dip" />
+        android:startColor="@color/blue" />
+    <corners android:radius="20dip" />
+    <size
+        android:width="20dip"
+        android:height="20dip" />
 </shape>
