@@ -10,8 +10,9 @@ import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
-import com.mobiblanc.gbam.models.history.HistoryData;
 import com.mobiblanc.gbam.models.html.HtmlData;
+import com.mobiblanc.gbam.models.orders.OrdersListData;
+import com.mobiblanc.gbam.models.orders.details.OrderDetailsData;
 import com.mobiblanc.gbam.models.pdf.PDFData;
 
 import retrofit2.Call;
@@ -30,7 +31,8 @@ public class AccountVM extends AndroidViewModel {
     private MutableLiveData<OTPData> contactLiveData;
     private MutableLiveData<HtmlData> cguLiveData;
     private MutableLiveData<PDFData> pdfLiveData;
-    private MutableLiveData<HistoryData> historyLivData;
+    private MutableLiveData<OrdersListData> ordersListLiveData;
+    private MutableLiveData<OrderDetailsData> orderDetailsLiveData;
 
     public AccountVM(@NonNull Application application) {
         super(application);
@@ -78,8 +80,12 @@ public class AccountVM extends AndroidViewModel {
         return pdfLiveData;
     }
 
-    public MutableLiveData<HistoryData> getHistoryLivData() {
-        return historyLivData;
+    public MutableLiveData<OrdersListData> getOrdersListLiveData() {
+        return ordersListLiveData;
+    }
+
+    public MutableLiveData<OrderDetailsData> getOrderDetailsLiveData() {
+        return orderDetailsLiveData;
     }
 
     private void init() {
@@ -93,7 +99,8 @@ public class AccountVM extends AndroidViewModel {
         contactLiveData = new MutableLiveData<>();
         cguLiveData = new MutableLiveData<>();
         pdfLiveData = new MutableLiveData<>();
-        historyLivData = new MutableLiveData<>();
+        ordersListLiveData = new MutableLiveData<>();
+        orderDetailsLiveData = new MutableLiveData<>();
     }
 
     public void register(String email, String firstName, String lastName, String phoneNumber) {
@@ -251,19 +258,33 @@ public class AccountVM extends AndroidViewModel {
         });
     }
 
-    public void getHistory() {
-        Call<HistoryData> call = RestService.getInstance().endpoint().getHistory();
-        call.enqueue(new Callback<HistoryData>() {
+    public void getOrders(String token) {
+        Call<OrdersListData> call = RestService.getInstance().endpoint().getOrdersList(token);
+        call.enqueue(new Callback<OrdersListData>() {
             @Override
-            public void onResponse(@NonNull Call<HistoryData> call, @NonNull Response<HistoryData> response) {
-                historyLivData.setValue(response.body());
+            public void onResponse(@NonNull Call<OrdersListData> call, @NonNull Response<OrdersListData> response) {
+                ordersListLiveData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<HistoryData> call, @NonNull Throwable t) {
-                historyLivData.setValue(null);
+            public void onFailure(@NonNull Call<OrdersListData> call, @NonNull Throwable t) {
+                ordersListLiveData.setValue(null);
             }
         });
     }
 
+    public void getOrderDetails(String token, String id) {
+        Call<OrderDetailsData> call = RestService.getInstance().endpoint().getOrderDetails(token, id);
+        call.enqueue(new Callback<OrderDetailsData>() {
+            @Override
+            public void onResponse(@NonNull Call<OrderDetailsData> call, @NonNull Response<OrderDetailsData> response) {
+                orderDetailsLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<OrderDetailsData> call, @NonNull Throwable t) {
+                orderDetailsLiveData.setValue(null);
+            }
+        });
+    }
 }

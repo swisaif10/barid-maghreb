@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context=".views.account.history.HistoryFragment">
+            tools:context=".views.account.orders.OrdersFragment">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -42,19 +42,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="@string/my_history_title"
+                android:text="@string/order_details_title"
                 android:textColor="@color/black"
                 android:textSize="19sp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/orderNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:text="Commande N°SB129056" />
+
+                <TextView
+                    android:id="@+id/amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    tools:text="551, 50 MAD" />
+
+            </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/historyRecycler"
+                android:id="@+id/orderDetailsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="20dp"
                 android:overScrollMode="never"
                 tools:itemCount="10"
-                tools:listitem="@layout/my_history_item_layout" />
+                tools:listitem="@layout/order_item_layout" />
 
         </LinearLayout>
 

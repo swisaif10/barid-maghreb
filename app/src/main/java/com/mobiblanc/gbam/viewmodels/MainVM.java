@@ -67,9 +67,9 @@ public class MainVM extends AndroidViewModel {
         });
     }
 
-    public void createCart() {
+    public void createCart(String token) {
         Call<GuestCartData> call;
-        call = RestService.getInstance().endpoint().createCart();
+        call = RestService.getInstance().endpoint().createCart(token);
         call.enqueue(new Callback<GuestCartData>() {
             @Override
             public void onResponse(@NonNull Call<GuestCartData> call, @NonNull Response<GuestCartData> response) {

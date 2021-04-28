@@ -9,10 +9,12 @@ import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.controlversion.ControlVersionData;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;
-import com.mobiblanc.gbam.models.history.HistoryData;
 import com.mobiblanc.gbam.models.html.HtmlData;
+import com.mobiblanc.gbam.models.orders.OrdersListData;
+import com.mobiblanc.gbam.models.orders.details.OrderDetailsData;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
+import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
 import com.mobiblanc.gbam.models.pdf.PDFData;
 import com.mobiblanc.gbam.models.products.ProductsData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
@@ -65,7 +67,7 @@ public interface RestEndpoint {
                                        @Field("idCategory") int id);
 
     @POST(ApiUrls.CREATE_CART_URL)
-    Call<GuestCartData> createCart();
+    Call<GuestCartData> createCart(@Header("x-auth-token") String token);
 
     @FormUrlEncoded
     @POST(ApiUrls.GET_CART_ITEMS_URL)
@@ -173,9 +175,6 @@ public interface RestEndpoint {
     Call<PaymentOperationData> payCart(@Header("x-auth-token") String token,
                                        @Field("quoteId") String quoteId);
 
-    @POST(ApiUrls.GET_HISTORY_URL)
-    Call<HistoryData> getHistory();
-
     @FormUrlEncoded
     @POST(ApiUrls.UPDATE_ADDRESS_URL)
     Call<AddressData> updateAddress(@Header("x-auth-token") String token,
@@ -197,8 +196,21 @@ public interface RestEndpoint {
                                        @Field("delivery_methode") String deliveryMethod,
                                        @Field("payment_method_code") String paymentMethodCode,
                                        @Field("address_id") String addressId,
-                                       @Field("agence_id") String agencyId);
+                                       @Field("agence_id") String agencyId,
+                                       @Field("comment") String comment);
 
     @POST(ApiUrls.CITIES_URL)
     Call<CitiesData> getCities();
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_INFO_URL)
+    Call<RecapInfoData> getRecapInfo(@Field("tag") String tag);
+
+    @POST(ApiUrls.GET_ORDERS_LIST_URL)
+    Call<OrdersListData> getOrdersList(@Header("x-auth-token") String token);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_ORDER_DETAILS_URL)
+    Call<OrderDetailsData> getOrderDetails(@Header("x-auth-token") String token,
+                                           @Field("order_id") String id);
 }

@@ -44,6 +44,7 @@ public class SendOTPDialog extends Dialog {
     @Override
     protected void onStart() {
         super.onStart();
+        setCanceledOnTouchOutside(true);
         init();
     }
 
@@ -60,6 +61,8 @@ public class SendOTPDialog extends Dialog {
                 onDialogButtonsClickListener.onSecondButtonClick();
                 dismiss();
                 break;
+            case R.id.container:
+                dismiss();
         }
     }
 

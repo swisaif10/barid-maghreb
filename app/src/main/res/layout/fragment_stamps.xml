@@ -121,13 +121,21 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <pl.droidsonroids.gif.GifImageView
+        <RelativeLayout
             android:id="@+id/loader"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/loader"
-            android:visibility="gone" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="gone">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/loader" />
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

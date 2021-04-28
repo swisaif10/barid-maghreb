@@ -148,6 +148,7 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                fragmentPortraitBinding.loader.setVisibility(View.GONE);
                 fragmentPortraitBinding.preview.setVisibility(View.VISIBLE);
                 fragmentPortraitBinding.preview.setImageDrawable(imageView.getDrawable());
                 fragmentPortraitBinding.count.setVisibility(View.VISIBLE);
@@ -207,7 +208,6 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
     }
 
     private void handleAddItemToCartData(AddItemData addItemData) {
-        fragmentPortraitBinding.loader.setVisibility(View.GONE);
         if (addItemData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {

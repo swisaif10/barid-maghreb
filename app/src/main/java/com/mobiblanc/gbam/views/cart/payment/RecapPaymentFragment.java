@@ -22,6 +22,7 @@ import com.mobiblanc.gbam.databinding.FragmentRecapPaymentBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
+import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
@@ -32,6 +33,8 @@ import com.mobiblanc.gbam.views.main.MainActivity;
 
 public class RecapPaymentFragment extends Fragment {
 
+    private static final int REQUEST_CODE = 200;
+
     private FragmentRecapPaymentBinding fragmentBinding;
     private int id;
     private String shippingMethod;
@@ -39,6 +42,8 @@ public class RecapPaymentFragment extends Fragment {
     private CartVM cartVM;
     private PreferenceManager preferenceManager;
     private Boolean payCash = false;
+    private Boolean deleteCart = false;
+    private String comment = "";
 
     public RecapPaymentFragment() {
         // Required empty public constructor
@@ -67,6 +72,7 @@ public class RecapPaymentFragment extends Fragment {
         connectivity = new Connectivity(requireContext(), this);
         cartVM.getPaymentRecapLiveData().observe(this, this::handlePaymentRecapData);
         cartVM.getPaymentOperationLiveData().observe(this, this::handlePaymentData);
+        cartVM.getRecapInfoLiveData().observe(this, this::handleRecapInfoData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -87,9 +93,20 @@ public class RecapPaymentFragment extends Fragment {
         getPaymentRecap();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (deleteCart) {
+            preferenceManager.clearValue(Constants.CART_ID);
+            preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+            startActivity(new Intent(requireActivity(), MainActivity.class));
+            requireActivity().finish();
+        }
+    }
+
     private void init(PaymentRecapData paymentRecapData) {
-        //fragmentBinding.addComment.setOnClickListener(v -> ((CartActivity) requireActivity()).addFragment(new AddNewCommentFragment()));
-        fragmentBinding.addComment.setOnClickListener(v -> Utilities.showCommentDialog(requireContext()));
+        fragmentBinding.infoBtn.setOnClickListener(v -> getRecapInfo());
+        fragmentBinding.addComment.setOnClickListener(v -> Utilities.showCommentDialog(requireContext(), comment -> RecapPaymentFragment.this.comment = comment));
         fragmentBinding.bankCardChoice.setOnClickListener(v -> {
             fragmentBinding.bankCardChoice.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.selected_payment_item_background));
             fragmentBinding.cashChoice.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.unselected_payment_item_background));
@@ -100,7 +117,10 @@ public class RecapPaymentFragment extends Fragment {
             fragmentBinding.bankCardChoice.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.unselected_payment_item_background));
             payCash = true;
         });
-        fragmentBinding.payBtn.setOnClickListener(v -> payment());
+        fragmentBinding.payBtn.setOnClickListener(v -> {
+            deleteCart = true;
+            payment();
+        });
 
         fragmentBinding.cguBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).addFragment(CGUFragment.newInstance(false)));
 
@@ -157,13 +177,13 @@ public class RecapPaymentFragment extends Fragment {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
             if (payCash && shippingMethod.equalsIgnoreCase("standard"))
-                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "cashondelivery", String.valueOf(id), "");
+                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "cashondelivery", String.valueOf(id), "", comment);
             else if (!payCash && shippingMethod.equalsIgnoreCase("standard"))
-                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "banktransfer", String.valueOf(id), "");
+                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "banktransfer", String.valueOf(id), "", comment);
             else if (payCash)
-                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "cashondelivery", "", String.valueOf(id));
+                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "cashondelivery", "", String.valueOf(id), comment);
             else
-                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "banktransfer", "", String.valueOf(id));
+                cartVM.payment(preferenceManager.getValue(Constants.TOKEN, null), shippingMethod, "banktransfer", "", String.valueOf(id), comment);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -175,9 +195,7 @@ public class RecapPaymentFragment extends Fragment {
         } else {
             int code = paymentOperationData.getHeader().getCode();
             if (code == 200) {
-                if (paymentOperationData.getResponse().getUrl().equalsIgnoreCase("")) {
-
-                } else {
+                if (!paymentOperationData.getResponse().getUrl().equalsIgnoreCase("")) {
                     Uri uri = Uri.parse(paymentOperationData.getResponse().getUrl());
                     CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
                     //intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
@@ -187,6 +205,8 @@ public class RecapPaymentFragment extends Fragment {
                             android.R.anim.slide_out_right);
                     CustomTabsIntent customTabsIntent = intentBuilder.build();
                     customTabsIntent.launchUrl(requireActivity(), uri);
+
+                    fragmentBinding.scrollView.setVisibility(View.GONE);
                 }
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), paymentOperationData.getHeader().getMessage(), view -> {
@@ -196,8 +216,47 @@ public class RecapPaymentFragment extends Fragment {
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
+            } else if (code == 409) {
+                Utilities.showErrorPopupWithClick(requireContext(), paymentOperationData.getHeader().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        preferenceManager.clearValue(Constants.CART_ID);
+                        startActivity(new Intent(requireActivity(), MainActivity.class));
+                        requireActivity().finish();
+                    }
+                });
             } else {
                 Utilities.showErrorPopup(getContext(), paymentOperationData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void getRecapInfo() {
+        if (connectivity.isConnected()) {
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.getRecapInfo("recap_discount");
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleRecapInfoData(RecapInfoData recapInfoData) {
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (recapInfoData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = recapInfoData.getHeader().getCode();
+            if (code == 200) {
+                Utilities.showInfoPopup(getContext(), "Information", recapInfoData.getResponse().getContent());
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), recapInfoData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), recapInfoData.getHeader().getMessage());
             }
         }
     }

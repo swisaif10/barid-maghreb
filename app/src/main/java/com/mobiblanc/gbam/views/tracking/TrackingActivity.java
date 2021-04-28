@@ -59,7 +59,7 @@ public class TrackingActivity extends AppCompatActivity {
 
         activityBinding.applyBtn.setOnClickListener(v -> {
             Utilities.hideSoftKeyboard(TrackingActivity.this, v);
-            getTracking();
+            getTracking(activityBinding.code.getText().toString());
         });
 
         activityBinding.code.addTextChangedListener(new TextWatcher() {
@@ -81,13 +81,19 @@ public class TrackingActivity extends AppCompatActivity {
 
         activityBinding.trackingRecycler.setLayoutManager(new LinearLayoutManager(this));
         activityBinding.trackingRecycler.setNestedScrollingEnabled(false);
+
+        if (getIntent().hasExtra("id")) {
+            String commandId = getIntent().getStringExtra("id");
+            activityBinding.codeLayout.setVisibility(View.GONE);
+            getTracking(commandId);
+        }
     }
 
-    private void getTracking() {
+    private void getTracking(String id) {
         if (connectivity.isConnected()) {
             activityBinding.loader.setVisibility(View.VISIBLE);
             trackingVM.trackCommand(preferenceManager.getValue(Constants.TOKEN, ""),
-                    activityBinding.code.getText().toString());
+                    id);
 
         } else
             Utilities.showErrorPopup(this, getString(R.string.no_internet_msg));

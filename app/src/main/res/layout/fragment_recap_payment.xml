@@ -41,15 +41,29 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/title"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="@string/payment_title"
-                    android:textColor="@color/darkGrey"
-                    android:textSize="22sp" />
+                    android:layout_marginHorizontal="10dp">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="@string/payment_title"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="22sp" />
+
+                    <ImageView
+                        android:id="@+id/infoBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/info" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -291,7 +305,6 @@
 
                         <LinearLayout
                             android:id="@+id/cashChoice"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_marginTop="10dp"
@@ -300,7 +313,8 @@
                             android:focusable="true"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:padding="10dp">
+                            android:padding="10dp"
+                            android:visibility="gone">
 
                             <ImageView
                                 android:layout_width="30dp"
@@ -380,5 +394,4 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
 </layout>

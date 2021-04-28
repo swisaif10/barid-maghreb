@@ -21,33 +21,9 @@
             android:fontFamily="@font/montserrat_semibold"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/status"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="N°SB129056" />
-
-        <ImageView
-            android:id="@+id/color"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/rounded_yellow_background"
-            app:layout_constraintBottom_toBottomOf="@id/status"
-            app:layout_constraintEnd_toEndOf="@id/status"
-            app:layout_constraintStart_toStartOf="@id/status"
-            app:layout_constraintTop_toTopOf="@id/status" />
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_semibold"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Livrée" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -97,7 +73,7 @@
             android:layout_marginStart="10dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/verticalSeparator"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/verticalSeparator"
             app:layout_constraintTop_toTopOf="@id/verticalSeparator">
 
             <ImageView

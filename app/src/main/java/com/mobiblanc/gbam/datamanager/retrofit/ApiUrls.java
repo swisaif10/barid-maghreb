@@ -31,10 +31,12 @@ public interface ApiUrls {
     String DASHBOARD_DESCRIPTION_URL = "api/dashboard/description";
     String PDF_URL = "api/infos/loi-0908";
     String PAY_URL = "api/payment/pre-order";
-    String GET_HISTORY_URL = "api/payment/payment-history";
     String UPDATE_ADDRESS_URL = "api/shipping/edit-address";
     String PAYMENT_URL = "api/shipping/payment-url";
     String CITIES_URL = "api/shipping/cities";
+    String GET_INFO_URL = "api/html-description/";
+    String GET_ORDERS_LIST_URL = "api/account/get-orders";
+    String GET_ORDER_DETAILS_URL = "api/account/get-detail-order";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 

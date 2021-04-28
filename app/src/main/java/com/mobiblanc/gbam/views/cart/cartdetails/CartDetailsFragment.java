@@ -160,6 +160,15 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
+            } else if (code == 409) {
+                Utilities.showErrorPopupWithClick(requireContext(), cartItemsData.getHeader().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        preferenceManager.clearValue(Constants.CART_ID);
+                        startActivity(new Intent(requireActivity(), MainActivity.class));
+                        requireActivity().finish();
+                    }
+                });
             } else {
                 Utilities.showErrorPopup(getContext(), cartItemsData.getHeader().getMessage());
             }

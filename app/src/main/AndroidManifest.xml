@@ -11,8 +11,8 @@
         android:allowBackup="false"
         android:icon="@mipmap/appicone"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_traffic_config"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
 

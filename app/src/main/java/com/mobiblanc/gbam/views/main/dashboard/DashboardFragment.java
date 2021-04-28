@@ -27,7 +27,7 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
-import com.mobiblanc.gbam.views.account.history.HistoryFragment;
+import com.mobiblanc.gbam.views.account.orders.OrdersFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.main.adapters.CategoriesAdapter;
@@ -117,7 +117,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
                 break;
             case "commandes":
                 if (preferenceManager.getValue(Constants.TOKEN, null) != null) {
-                    ((MainActivity) requireActivity()).replaceFragment(new HistoryFragment());
+                    ((MainActivity) requireActivity()).replaceFragment(new OrdersFragment());
                 } else {
                     intent = new Intent(getActivity(), AccountActivity.class);
                     intent.putExtra("destination", 0);
@@ -131,7 +131,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     public void onCategoryItemSelected(int index) {
         Category category = dashboardData.getDashboardResponseData().getInfos().getCategories().get(index);
         if (category.getViewCategory().equalsIgnoreCase("portraits"))
-            Utilities.showDashboardDialog(getContext(), "Portraits", category.getDescriptionGlobal(),
+            Utilities.showDashboardDialog(getContext(), "Portrait Officiel de Sa Majesté", category.getDescriptionGlobal(),
                     v -> ((MainActivity) requireActivity()).replaceFragment(PortraitFragment.newInstance(category.getId(), category.getImage(), category.getDescription())));
         else
             ((MainActivity) requireActivity()).replaceFragment(StampsFragment.newInstance(category.getId()));
@@ -196,14 +196,13 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     }
 
     private void createCart() {
-        if (connectivity.isConnected()) {
-            mainVM.createCart();
-        } else
+        if (connectivity.isConnected())
+            mainVM.createCart(preferenceManager.getValue(Constants.TOKEN, ""));
+        else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
     private void handleCreateGuestCartData(GuestCartData guestCartData) {
-
         if (guestCartData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {

@@ -101,5 +101,6 @@
     <string name="agency_shipping_method_description">Vous avez la possibilité de retirer directement votre colis dans l’une de nos agences ou points relais de votre choix</string>
     <string name="my_addresses_btn">Mes adresses</string>
     <string name="update_address_title">Modifer cette adresse</string>
+    <string name="order_details_title">Expéditions</string>
 
 </resources>

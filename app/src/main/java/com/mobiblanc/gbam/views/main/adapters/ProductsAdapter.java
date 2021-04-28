@@ -19,7 +19,6 @@ import com.mobiblanc.gbam.listeners.OnItemQuantityChangedListener;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.products.Product;
 
-import java.lang.annotation.Target;
 import java.util.List;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {

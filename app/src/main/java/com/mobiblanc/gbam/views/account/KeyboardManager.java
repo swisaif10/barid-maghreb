@@ -13,6 +13,7 @@ public class KeyboardManager {
     private View mContentView;
     private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener;
     private boolean mIsKeyboardVisible;
+
     public KeyboardManager(Context context) {
         mContext = context;
     }

@@ -26,7 +26,6 @@ import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
 import com.mobiblanc.gbam.models.shipping.cities.City;
-import com.mobiblanc.gbam.models.shipping.cities.Other;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
@@ -100,6 +99,10 @@ public class AddNewAddressFragment extends Fragment {
 
         fragmentBinding.postalCode.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         fragmentBinding.postalCode.setTransformationMethod(new NumericKeyBoardTransformationMethod());
+        fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.phoneNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
+        fragmentBinding.streetNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        fragmentBinding.streetNumber.setTransformationMethod(new NumericKeyBoardTransformationMethod());
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -313,6 +316,7 @@ public class AddNewAddressFragment extends Fragment {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, citiesData.getResponse().getCitiesNames());
                 fragmentBinding.city.setAdapter(adapter);
                 fragmentBinding.city.setOnTouchListener((v, event) -> {
+                    Utilities.hideSoftKeyboard(requireContext(), requireView());
                     fragmentBinding.city.showDropDown();
                     return false;
                 });

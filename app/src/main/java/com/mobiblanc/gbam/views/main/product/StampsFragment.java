@@ -133,6 +133,7 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                fragmentStampsBinding.loader.setVisibility(View.GONE);
                 fragmentStampsBinding.preview.setVisibility(View.VISIBLE);
                 fragmentStampsBinding.preview.setImageDrawable(imageView.getDrawable());
                 fragmentStampsBinding.count.setVisibility(View.VISIBLE);
@@ -192,7 +193,6 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
     }
 
     private void handleAddItemToCartData(AddItemData addItemData) {
-        fragmentStampsBinding.loader.setVisibility(View.GONE);
         if (addItemData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {

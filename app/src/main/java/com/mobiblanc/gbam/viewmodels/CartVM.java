@@ -12,6 +12,7 @@ import com.mobiblanc.gbam.models.cart.delete.DeleteItemData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
+import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
 import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
@@ -34,6 +35,7 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<AddressData> updateAddressLiveData;
     private MutableLiveData<PaymentOperationData> paymentOperationLiveData;
     private MutableLiveData<CitiesData> getCitiesLiveData;
+    private MutableLiveData<RecapInfoData> recapInfoLiveData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -89,6 +91,10 @@ public class CartVM extends AndroidViewModel {
         return getCitiesLiveData;
     }
 
+    public MutableLiveData<RecapInfoData> getRecapInfoLiveData() {
+        return recapInfoLiveData;
+    }
+
     private void init() {
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
@@ -102,6 +108,7 @@ public class CartVM extends AndroidViewModel {
         updateAddressLiveData = new MutableLiveData<>();
         paymentOperationLiveData = new MutableLiveData<>();
         getCitiesLiveData = new MutableLiveData<>();
+        recapInfoLiveData = new MutableLiveData<>();
     }
 
     public void getCartItems(String token, String cartId) {
@@ -284,13 +291,12 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void payment(String token, String deliveryMethod, String paymentMethodCode, String addressId, String agencyId) {
-        Call<PaymentOperationData> call = RestService.getInstance().endpoint().payment(token, deliveryMethod, paymentMethodCode, addressId, agencyId);
+    public void payment(String token, String deliveryMethod, String paymentMethodCode, String addressId, String agencyId, String comment) {
+        Call<PaymentOperationData> call = RestService.getInstance().endpoint().payment(token, deliveryMethod, paymentMethodCode, addressId, agencyId, comment);
         call.enqueue(new Callback<PaymentOperationData>() {
             @Override
             public void onResponse(@NonNull Call<PaymentOperationData> call, @NonNull Response<PaymentOperationData> response) {
                 paymentOperationLiveData.setValue(response.body());
-                System.out.println("test");
             }
 
             @Override
@@ -311,6 +317,21 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<CitiesData> call, @NonNull Throwable t) {
                 getCitiesLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getRecapInfo(String tag) {
+        Call<RecapInfoData> call = RestService.getInstance().endpoint().getRecapInfo(tag);
+        call.enqueue(new Callback<RecapInfoData>() {
+            @Override
+            public void onResponse(@NonNull Call<RecapInfoData> call, @NonNull Response<RecapInfoData> response) {
+                recapInfoLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RecapInfoData> call, @NonNull Throwable t) {
+                recapInfoLiveData.setValue(null);
             }
         });
     }

@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.listeners.OnAddCommentClickListener;
 import com.mobiblanc.gbam.listeners.OnDialogButtonsClickListener;
 
 import java.util.regex.Matcher;
@@ -184,7 +185,7 @@ public interface Utilities {
         dialog.show();
     }
 
-    static void showCommentDialog(Context context) {
+    static void showCommentDialog(Context context, OnAddCommentClickListener onAddCommentClickListener) {
 
         if (context == null) {
             return;
@@ -194,10 +195,12 @@ public interface Utilities {
 
         View view = LayoutInflater.from(context).inflate(R.layout.fragment_add_new_comment, null, false);
         Button addBtn = view.findViewById(R.id.addBtn);
+        EditText comment = view.findViewById(R.id.comment);
         ConstraintLayout container = view.findViewById(R.id.container);
 
         addBtn.setOnClickListener(v -> {
             dialog.dismiss();
+            onAddCommentClickListener.onAddCommentClick(comment.getText().toString());
         });
         container.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(view);

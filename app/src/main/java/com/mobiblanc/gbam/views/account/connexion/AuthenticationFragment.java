@@ -28,7 +28,7 @@ import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
-import com.mobiblanc.gbam.views.account.history.HistoryFragment;
+import com.mobiblanc.gbam.views.account.orders.OrdersFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 
 import java.util.Objects;
@@ -181,7 +181,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                     startActivity(intent);
                     requireActivity().finish();
                 } else if (destination.equalsIgnoreCase("history")) {
-                    ((AccountActivity) requireActivity()).replaceFragment(new HistoryFragment());
+                    ((AccountActivity) requireActivity()).replaceFragment(new OrdersFragment());
                 } else
                     requireActivity().finish();
             } else {
