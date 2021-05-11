@@ -25,7 +25,7 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
-import com.mobiblanc.gbam.views.account.help.HelpFragment;
+import com.mobiblanc.gbam.views.account.webview.WebViewFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.tracking.TrackingActivity;
@@ -83,17 +83,23 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
             case 1:
                 getAddress();
                 break;
-            case 3:
-                ((AccountActivity) requireActivity()).replaceFragment(new HelpFragment());
-                break;
             case 2:
                 startActivity(new Intent(requireActivity(), TrackingActivity.class));
+                break;
+            case 3:
+                ((AccountActivity) requireActivity()).replaceFragment(new ContactFragment());
+                break;
+            case 4:
+                ((AccountActivity) requireActivity()).replaceFragment(WebViewFragment.newInstance(true));
+                break;
+            case 5:
+                ((AccountActivity) requireActivity()).replaceFragment(new FAQStampsFragment());
                 break;
         }
     }
 
     private void init() {
-        fragmentBinding.backBtn.setOnClickListener(v -> getActivity().onBackPressed());
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.cartBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
         fragmentBinding.logoutBtn.setOnClickListener(v -> logout());
 
@@ -104,6 +110,8 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
             add(new ProfileMenuItem(R.drawable.mes_adresses, getString(R.string.my_addresses_btn)));
             add(new ProfileMenuItem(R.drawable.ic_tracking, getString(R.string.tracking_btn)));
             add(new ProfileMenuItem(R.drawable.ic_aide, getString(R.string.contact_btn)));
+            add(new ProfileMenuItem(R.drawable.faq, getString(R.string.faq_portrait_btn)));
+            add(new ProfileMenuItem(R.drawable.faq, getString(R.string.faq_stamp_btn)));
         }};
 
         fragmentBinding.profileRecycler.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -11,6 +11,7 @@ import com.mobiblanc.gbam.databinding.OrderItemLayoutBinding;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.orders.Order;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,7 +72,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.HistoryVie
             System.out.println();
             itemBinding.date.setText(format2.format(date));
             itemBinding.productsNumber.setText(order.getTotalItem());
-            itemBinding.totalPrice.setText(order.getTotalAmount());
+            Float price = Float.parseFloat(order.getTotalAmount());
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setMaximumFractionDigits(2);
+            itemBinding.totalPrice.setText(String.format("%s MAD", df.format(price)));
 
             itemBinding.getRoot().setOnClickListener(v -> onItemSelectedListener.onItemSelected(getAdapterPosition(), order));
         }

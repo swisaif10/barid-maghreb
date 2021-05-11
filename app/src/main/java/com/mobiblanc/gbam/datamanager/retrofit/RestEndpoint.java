@@ -7,20 +7,23 @@ import com.mobiblanc.gbam.models.cart.add.AddItemData;
 import com.mobiblanc.gbam.models.cart.delete.DeleteItemData;
 import com.mobiblanc.gbam.models.cart.guest.GuestCartData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
+import com.mobiblanc.gbam.models.contact.message.SendMessageData;
+import com.mobiblanc.gbam.models.contact.objects.MessageObjectsData;
 import com.mobiblanc.gbam.models.controlversion.ControlVersionData;
 import com.mobiblanc.gbam.models.dashboard.DashboardData;
+import com.mobiblanc.gbam.models.faqstamp.FAQStampData;
 import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.orders.OrdersListData;
 import com.mobiblanc.gbam.models.orders.details.OrderDetailsData;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
 import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
-import com.mobiblanc.gbam.models.pdf.PDFData;
 import com.mobiblanc.gbam.models.products.ProductsData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
 import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
 import com.mobiblanc.gbam.models.tracking.TrackingData;
+import com.mobiblanc.gbam.models.webview.WebViewData;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -168,7 +171,7 @@ public interface RestEndpoint {
     Call<HtmlData> getDashboardDescription();
 
     @POST(ApiUrls.PDF_URL)
-    Call<PDFData> getPDF();
+    Call<WebViewData> getPDF();
 
     @FormUrlEncoded
     @POST(ApiUrls.PAY_URL)
@@ -213,4 +216,20 @@ public interface RestEndpoint {
     @POST(ApiUrls.GET_ORDER_DETAILS_URL)
     Call<OrderDetailsData> getOrderDetails(@Header("x-auth-token") String token,
                                            @Field("order_id") String id);
+
+    @POST(ApiUrls.GET_FAQ_PORTRAIT_URL)
+    Call<WebViewData> getFAQPortrait();
+
+    @POST(ApiUrls.GET_FAQ_STAMP_URL)
+    Call<FAQStampData> getFAQStamp();
+
+    @POST(ApiUrls.GET_CONTACT_SUBJECTS_URL)
+    Call<MessageObjectsData> getMessageObjects();
+
+    @FormUrlEncoded
+    @POST(ApiUrls.SEND_CONTACT_MESSAGE_URL)
+    Call<SendMessageData> sendContactMessage(@Header("x-auth-token") String token,
+                                             @Field("objet") String object,
+                                             @Field("sujet") String subject,
+                                             @Field("order") String orderNumber);
 }

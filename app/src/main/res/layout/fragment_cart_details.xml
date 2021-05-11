@@ -9,23 +9,37 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
+        <RelativeLayout
+            android:id="@+id/titleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/cart_title"
-            android:textColor="@color/darkGrey"
-            android:textSize="22sp" />
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/cart_title"
+                android:textColor="@color/darkGrey"
+                android:textSize="22sp" />
+
+            <ImageView
+                android:id="@+id/infoBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/info" />
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cartRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/separator"
-            android:layout_below="@id/title"
+            android:layout_below="@id/titleLayout"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
             android:overScrollMode="never"

@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="Timbres"
+                    android:text="@string/stamps_title"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 

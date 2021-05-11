@@ -26,6 +26,8 @@ import com.mobiblanc.gbam.models.cart.delete.DeleteItemData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsResponseData;
 import com.mobiblanc.gbam.models.common.Item;
+import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
+import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.SwipeHelper;
@@ -33,9 +35,10 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.cart.CartActivity;
-import com.mobiblanc.gbam.views.cart.shipping.ShippingMethodFragment;
+import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartDetailsFragment extends Fragment implements OnDialogButtonsClickListener, OnItemQuantityChangedListener {
@@ -65,6 +68,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         cartVM.getCartItemsLiveData().observe(this, this::handleCartItemsData);
         cartVM.getUpdateItemLiveData().observe(this, this::handleUpdateItemInCartData);
         cartVM.getDeleteItemLiveData().observe(this, this::handleDeleteItemFromCartData);
+        cartVM.getAddressLiveData().observe(this, this::handleAddressData);
+        cartVM.getRecapInfoLiveData().observe(this, this::handleRecapInfoData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -83,7 +88,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     public void onResume() {
         super.onResume();
         if (started && preferenceManager.getValue(Constants.TOKEN, null) != null) {
-            ((CartActivity) requireActivity()).replaceFragment(new ShippingMethodFragment());
+            getAddress();
             started = false;
         }
     }
@@ -117,23 +122,28 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
     @SuppressLint("SetTextI18n")
     private void init(CartItemsResponseData response) {
+        fragmentCartDetailsBinding.infoBtn.setOnClickListener(v -> getRecapInfo());
+
         if (!response.getItems().isEmpty())
             fragmentCartDetailsBinding.nextBtn.setEnabled(true);
         fragmentCartDetailsBinding.nextBtn.setOnClickListener(v -> {
-            started = true;
             if (preferenceManager.getValue(Constants.TOKEN, null) != null)
-                ((CartActivity) requireActivity()).replaceFragment(new ShippingMethodFragment());
-            else
+                getAddress();
+            else {
+                started = true;
                 new LoginDialog(getActivity(), CartDetailsFragment.this).show();
+            }
         });
         items = response.getItems();
         fragmentCartDetailsBinding.cartRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cartAdapter = new CartAdapter(getContext(), items, this);
         fragmentCartDetailsBinding.cartRecycler.setAdapter(cartAdapter);
 
-        fragmentCartDetailsBinding.price.setText(response.getProductsPrice() + " MAD");
-        fragmentCartDetailsBinding.fee.setText(response.getFees() + " MAD");
-        fragmentCartDetailsBinding.total.setText(response.getTotalPrice() + " MAD");
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
+        fragmentCartDetailsBinding.price.setText(df.format(response.getProductsPrice()) + " MAD");
+        fragmentCartDetailsBinding.fee.setText(df.format(response.getFees()) + " MAD");
+        fragmentCartDetailsBinding.total.setText(df.format(response.getTotalPrice()) + " MAD");
     }
 
     private void getCartItems() {
@@ -257,4 +267,63 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         };
     }
 
+    private void getAddress() {
+        if (connectivity.isConnected()) {
+            fragmentCartDetailsBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.getAddress(preferenceManager.getValue(Constants.TOKEN, null));
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleAddressData(AddressData addressData) {
+        fragmentCartDetailsBinding.loader.setVisibility(View.GONE);
+        if (addressData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = addressData.getHeader().getCode();
+            if (code == 200) {
+                ((CartActivity) requireActivity()).replaceFragment(StandardShippingFragment.newInstance(addressData.getResponse().getAddresses(), true));
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), addressData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void getRecapInfo() {
+        if (connectivity.isConnected()) {
+            fragmentCartDetailsBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.getRecapInfo("recap_discount");
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleRecapInfoData(RecapInfoData recapInfoData) {
+        fragmentCartDetailsBinding.loader.setVisibility(View.GONE);
+        if (recapInfoData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = recapInfoData.getHeader().getCode();
+            if (code == 200) {
+                Utilities.showInfoPopup(getContext(), "Information", recapInfoData.getResponse().getContent());
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), recapInfoData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), recapInfoData.getHeader().getMessage());
+            }
+        }
+    }
 }

@@ -1,8 +1,8 @@
-package com.mobiblanc.gbam.models.pdf;
+package com.mobiblanc.gbam.models.webview;
 
 import com.google.gson.annotations.Expose;
 
-public class PDFResponse {
+public class WebViewResponse {
     @Expose
     private String file;
 

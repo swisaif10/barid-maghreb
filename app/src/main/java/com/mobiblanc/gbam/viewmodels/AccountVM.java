@@ -10,10 +10,13 @@ import com.mobiblanc.gbam.datamanager.retrofit.RestService;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
+import com.mobiblanc.gbam.models.contact.message.SendMessageData;
+import com.mobiblanc.gbam.models.contact.objects.MessageObjectsData;
+import com.mobiblanc.gbam.models.faqstamp.FAQStampData;
 import com.mobiblanc.gbam.models.html.HtmlData;
 import com.mobiblanc.gbam.models.orders.OrdersListData;
 import com.mobiblanc.gbam.models.orders.details.OrderDetailsData;
-import com.mobiblanc.gbam.models.pdf.PDFData;
+import com.mobiblanc.gbam.models.webview.WebViewData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,9 +33,13 @@ public class AccountVM extends AndroidViewModel {
     private MutableLiveData<OTPData> logoutLiveData;
     private MutableLiveData<OTPData> contactLiveData;
     private MutableLiveData<HtmlData> cguLiveData;
-    private MutableLiveData<PDFData> pdfLiveData;
+    private MutableLiveData<WebViewData> pdfLiveData;
     private MutableLiveData<OrdersListData> ordersListLiveData;
     private MutableLiveData<OrderDetailsData> orderDetailsLiveData;
+    private MutableLiveData<WebViewData> faqPortraitLiveData;
+    private MutableLiveData<FAQStampData> faqStampLiveData;
+    private MutableLiveData<MessageObjectsData> messageObjectsListLiveData;
+    private MutableLiveData<SendMessageData> sendMessageLiveData;
 
     public AccountVM(@NonNull Application application) {
         super(application);
@@ -76,7 +83,7 @@ public class AccountVM extends AndroidViewModel {
         return cguLiveData;
     }
 
-    public MutableLiveData<PDFData> getPdfLiveData() {
+    public MutableLiveData<WebViewData> getPdfLiveData() {
         return pdfLiveData;
     }
 
@@ -86,6 +93,22 @@ public class AccountVM extends AndroidViewModel {
 
     public MutableLiveData<OrderDetailsData> getOrderDetailsLiveData() {
         return orderDetailsLiveData;
+    }
+
+    public MutableLiveData<WebViewData> getFaqPortraitLiveData() {
+        return faqPortraitLiveData;
+    }
+
+    public MutableLiveData<FAQStampData> getFaqStampLiveData() {
+        return faqStampLiveData;
+    }
+
+    public MutableLiveData<MessageObjectsData> getMessageObjectsListLiveData() {
+        return messageObjectsListLiveData;
+    }
+
+    public MutableLiveData<SendMessageData> getSendMessageLiveData() {
+        return sendMessageLiveData;
     }
 
     private void init() {
@@ -101,6 +124,10 @@ public class AccountVM extends AndroidViewModel {
         pdfLiveData = new MutableLiveData<>();
         ordersListLiveData = new MutableLiveData<>();
         orderDetailsLiveData = new MutableLiveData<>();
+        faqPortraitLiveData = new MutableLiveData<>();
+        faqStampLiveData = new MutableLiveData<>();
+        messageObjectsListLiveData = new MutableLiveData<>();
+        sendMessageLiveData = new MutableLiveData<>();
     }
 
     public void register(String email, String firstName, String lastName, String phoneNumber) {
@@ -244,15 +271,15 @@ public class AccountVM extends AndroidViewModel {
     }
 
     public void getPDF() {
-        Call<PDFData> call = RestService.getInstance().endpoint().getPDF();
-        call.enqueue(new Callback<PDFData>() {
+        Call<WebViewData> call = RestService.getInstance().endpoint().getPDF();
+        call.enqueue(new Callback<WebViewData>() {
             @Override
-            public void onResponse(@NonNull Call<PDFData> call, @NonNull Response<PDFData> response) {
+            public void onResponse(@NonNull Call<WebViewData> call, @NonNull Response<WebViewData> response) {
                 pdfLiveData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<PDFData> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<WebViewData> call, @NonNull Throwable t) {
                 pdfLiveData.setValue(null);
             }
         });
@@ -284,6 +311,66 @@ public class AccountVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<OrderDetailsData> call, @NonNull Throwable t) {
                 orderDetailsLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getFAQPortrait() {
+        Call<WebViewData> call = RestService.getInstance().endpoint().getFAQPortrait();
+        call.enqueue(new Callback<WebViewData>() {
+            @Override
+            public void onResponse(@NonNull Call<WebViewData> call, @NonNull Response<WebViewData> response) {
+                faqPortraitLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WebViewData> call, @NonNull Throwable t) {
+                faqPortraitLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getFAQStamp() {
+        Call<FAQStampData> call = RestService.getInstance().endpoint().getFAQStamp();
+        call.enqueue(new Callback<FAQStampData>() {
+            @Override
+            public void onResponse(@NonNull Call<FAQStampData> call, @NonNull Response<FAQStampData> response) {
+                faqStampLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<FAQStampData> call, @NonNull Throwable t) {
+                faqStampLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getMessageObjects() {
+        Call<MessageObjectsData> call = RestService.getInstance().endpoint().getMessageObjects();
+        call.enqueue(new Callback<MessageObjectsData>() {
+            @Override
+            public void onResponse(@NonNull Call<MessageObjectsData> call, @NonNull Response<MessageObjectsData> response) {
+                messageObjectsListLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessageObjectsData> call, @NonNull Throwable t) {
+                messageObjectsListLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void sendContactMessage(String token, String object, String subject, String orderNumber) {
+        Call<SendMessageData> call = RestService.getInstance().endpoint().sendContactMessage(token, object, subject, orderNumber);
+        call.enqueue(new Callback<SendMessageData>() {
+            @Override
+            public void onResponse(@NonNull Call<SendMessageData> call, @NonNull Response<SendMessageData> response) {
+                sendMessageLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SendMessageData> call, @NonNull Throwable t) {
+                sendMessageLiveData.setValue(null);
             }
         });
     }

@@ -22,7 +22,6 @@ import com.mobiblanc.gbam.databinding.FragmentRecapPaymentBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
-import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
@@ -31,9 +30,9 @@ import com.mobiblanc.gbam.views.account.connexion.CGUFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
-public class RecapPaymentFragment extends Fragment {
+import java.text.DecimalFormat;
 
-    private static final int REQUEST_CODE = 200;
+public class RecapPaymentFragment extends Fragment {
 
     private FragmentRecapPaymentBinding fragmentBinding;
     private int id;
@@ -72,7 +71,6 @@ public class RecapPaymentFragment extends Fragment {
         connectivity = new Connectivity(requireContext(), this);
         cartVM.getPaymentRecapLiveData().observe(this, this::handlePaymentRecapData);
         cartVM.getPaymentOperationLiveData().observe(this, this::handlePaymentData);
-        cartVM.getRecapInfoLiveData().observe(this, this::handleRecapInfoData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -105,7 +103,6 @@ public class RecapPaymentFragment extends Fragment {
     }
 
     private void init(PaymentRecapData paymentRecapData) {
-        fragmentBinding.infoBtn.setOnClickListener(v -> getRecapInfo());
         fragmentBinding.addComment.setOnClickListener(v -> Utilities.showCommentDialog(requireContext(), comment -> RecapPaymentFragment.this.comment = comment));
         fragmentBinding.bankCardChoice.setOnClickListener(v -> {
             fragmentBinding.bankCardChoice.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.selected_payment_item_background));
@@ -124,11 +121,13 @@ public class RecapPaymentFragment extends Fragment {
 
         fragmentBinding.cguBtn.setOnClickListener(v -> ((CartActivity) requireActivity()).addFragment(CGUFragment.newInstance(false)));
 
-        fragmentBinding.shippingMethod.setText(paymentRecapData.getResponse().getShippingMethode());
         fragmentBinding.date.setText(paymentRecapData.getResponse().getCommandeDate());
         fragmentBinding.address.setText(paymentRecapData.getResponse().getAddress());
-        fragmentBinding.shippingFee.setText(String.valueOf(paymentRecapData.getResponse().getFees()));
-        fragmentBinding.total.setText(String.valueOf(paymentRecapData.getResponse().getTotalPrice()));
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
+        fragmentBinding.shippingFee.setText(df.format(paymentRecapData.getResponse().getFees()));
+        fragmentBinding.total.setText(df.format(paymentRecapData.getResponse().getTotalPrice()));
+        fragmentBinding.deliveryDelay.setText(paymentRecapData.getResponse().getDeliveryDelay());
 
         fragmentBinding.itemsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         fragmentBinding.itemsRecycler.setAdapter(new CartItemsAdapter(getContext(), paymentRecapData.getResponse().getItems()));
@@ -138,6 +137,7 @@ public class RecapPaymentFragment extends Fragment {
 
         fragmentBinding.payBtn.setEnabled(fragmentBinding.cguCheck.isChecked());
 
+        fragmentBinding.scrollView.setVisibility(View.VISIBLE);
     }
 
     private void getPaymentRecap() {
@@ -227,36 +227,6 @@ public class RecapPaymentFragment extends Fragment {
                 });
             } else {
                 Utilities.showErrorPopup(getContext(), paymentOperationData.getHeader().getMessage());
-            }
-        }
-    }
-
-    private void getRecapInfo() {
-        if (connectivity.isConnected()) {
-            fragmentBinding.loader.setVisibility(View.VISIBLE);
-            cartVM.getRecapInfo("recap_discount");
-        } else
-            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
-    }
-
-    private void handleRecapInfoData(RecapInfoData recapInfoData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
-        if (recapInfoData == null) {
-            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
-        } else {
-            int code = recapInfoData.getHeader().getCode();
-            if (code == 200) {
-                Utilities.showInfoPopup(getContext(), "Information", recapInfoData.getResponse().getContent());
-            } else if (code == 403) {
-                Utilities.showErrorPopupWithClick(getContext(), recapInfoData.getHeader().getMessage(), view -> {
-                    preferenceManager.clearValue(Constants.TOKEN);
-                    preferenceManager.clearValue(Constants.CART_ID);
-                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
-                    requireActivity().finishAffinity();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                });
-            } else {
-                Utilities.showErrorPopup(getContext(), recapInfoData.getHeader().getMessage());
             }
         }
     }

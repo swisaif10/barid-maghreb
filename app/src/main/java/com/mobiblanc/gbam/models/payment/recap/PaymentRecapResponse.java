@@ -28,6 +28,8 @@ public class PaymentRecapResponse {
     private String addressId;
     @SerializedName("agence_id")
     private String agenceId;
+    @SerializedName("message_delivery_delay")
+    private String deliveryDelay;
 
     public String getAddress() {
         return address;
@@ -107,5 +109,13 @@ public class PaymentRecapResponse {
 
     public void setAgenceId(String agenceId) {
         this.agenceId = agenceId;
+    }
+
+    public String getDeliveryDelay() {
+        return deliveryDelay;
+    }
+
+    public void setDeliveryDelay(String deliveryDelay) {
+        this.deliveryDelay = deliveryDelay;
     }
 }

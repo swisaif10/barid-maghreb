@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="7dp"
+        android:background="@drawable/contact_background"
+        android:elevation="5dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:padding="15dp"
+        android:textColor="#AA333333"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Commande reçue en mauvais état" />
+</layout>

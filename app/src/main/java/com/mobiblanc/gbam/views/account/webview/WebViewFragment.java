@@ -1,4 +1,4 @@
-package com.mobiblanc.gbam.views.account.connexion;
+package com.mobiblanc.gbam.views.account.webview;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,42 +14,58 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.mobiblanc.gbam.R;
-import com.mobiblanc.gbam.databinding.FragmentPdfBinding;
-import com.mobiblanc.gbam.models.pdf.PDFData;
+import com.mobiblanc.gbam.databinding.FragmentWebviewBinding;
+import com.mobiblanc.gbam.models.webview.WebViewData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 
-public class PDFFragment extends Fragment {
+public class WebViewFragment extends Fragment {
 
-    private FragmentPdfBinding fragmentBinding;
+    private FragmentWebviewBinding fragmentBinding;
     private Connectivity connectivity;
     private AccountVM accountVM;
+    private Boolean isFAQ;
 
-    public PDFFragment() {
+    public WebViewFragment() {
         // Required empty public constructor
+    }
+
+    public static WebViewFragment newInstance(Boolean isFAQ) {
+        WebViewFragment fragment = new WebViewFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("isFAQ", isFAQ);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null)
+            isFAQ = getArguments().getBoolean("isFAQ");
+
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
         connectivity = new Connectivity(requireContext(), this);
         accountVM.getPdfLiveData().observe(this, this::handlePDFData);
+        accountVM.getFaqPortraitLiveData().observe(this, this::handlePDFData);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentBinding = FragmentPdfBinding.inflate(inflater, container, false);
+        fragmentBinding = FragmentWebviewBinding.inflate(inflater, container, false);
         return fragmentBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getPDF();
+        if (isFAQ)
+            getFAQPortrait();
+        else
+            getPDF();
     }
 
     private void init(String url) {
@@ -79,15 +95,36 @@ public class PDFFragment extends Fragment {
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
-    private void handlePDFData(PDFData pdfData) {
-        if (pdfData == null) {
+    private void handlePDFData(WebViewData webViewData) {
+        if (webViewData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
-            int code = pdfData.getHeader().getCode();
+            int code = webViewData.getHeader().getCode();
             if (code == 200) {
-                init(pdfData.getResponse().getFile());
+                init(webViewData.getResponse().getFile());
             } else {
-                Utilities.showErrorPopup(getContext(), pdfData.getHeader().getMessage());
+                Utilities.showErrorPopup(getContext(), webViewData.getHeader().getMessage());
+            }
+        }
+    }
+
+    private void getFAQPortrait() {
+        if (connectivity.isConnected()) {
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            accountVM.getFAQPortrait();
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+    }
+
+    private void handleFAQPortraitData(WebViewData webViewData) {
+        if (webViewData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = webViewData.getHeader().getCode();
+            if (code == 200) {
+                init(webViewData.getResponse().getFile());
+            } else {
+                Utilities.showErrorPopup(getContext(), webViewData.getHeader().getMessage());
             }
         }
     }

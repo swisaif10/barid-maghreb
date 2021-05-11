@@ -32,17 +32,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/title"
+        <LinearLayout
+            android:id="@+id/titleLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/tracking_title"
-            android:textColor="@color/darkGrey"
-            android:textSize="22sp"
-            app:layout_constraintTop_toBottomOf="@id/logo" />
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/logo">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/tracking_title"
+                android:textColor="@color/darkGrey"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/trackingNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone"
+                tools:text="Expédition N°E2345678" />
+
+        </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
@@ -50,7 +70,7 @@
             android:layout_height="0dp"
             android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title">
+            app:layout_constraintTop_toBottomOf="@id/titleLayout">
 
             <LinearLayout
                 android:layout_width="match_parent"

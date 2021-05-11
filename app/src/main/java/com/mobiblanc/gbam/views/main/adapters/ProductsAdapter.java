@@ -19,6 +19,7 @@ import com.mobiblanc.gbam.listeners.OnItemQuantityChangedListener;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.products.Product;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
@@ -64,7 +65,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         }).placeholder(circularProgressDrawable).into(holder.itemBinding.image);
         Glide.with(context).load(arrayList.get(position).getImage()).into(holder.itemBinding.copy);
         holder.itemBinding.title.setText(arrayList.get(position).getName());
-        holder.itemBinding.price.setText(arrayList.get(position).getPrice());
+        Float price = Float.parseFloat(arrayList.get(position).getPrice());
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
+        holder.itemBinding.price.setText(df.format(price));
 
         holder.itemBinding.decreaseBtn.setOnClickListener(v -> {
             int qty = Integer.parseInt(holder.itemBinding.quantity.getText().toString());

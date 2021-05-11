@@ -40,13 +40,13 @@ public class PaymentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((CartActivity) getActivity()).showHideHeader(View.VISIBLE);
+        ((CartActivity) requireActivity()).showHideHeader(View.VISIBLE);
 
         cartVM = ViewModelProviders.of(this).get(CartVM.class);
-        connectivity = new Connectivity(getContext(), this);
+        connectivity = new Connectivity(requireContext(), this);
         cartVM.getPaymentLiveData().observe(this, this::handlePaymentData);
 
-        preferenceManager = new PreferenceManager.Builder(getContext(), Context.MODE_PRIVATE)
+        preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
                 .build();
     }

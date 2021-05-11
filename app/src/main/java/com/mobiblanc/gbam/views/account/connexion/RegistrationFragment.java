@@ -28,6 +28,7 @@ import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
+import com.mobiblanc.gbam.views.account.webview.WebViewFragment;
 
 import java.util.Objects;
 
@@ -84,7 +85,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
         fragmentBinding.cguBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(CGUFragment.newInstance(true)));
-        fragmentBinding.rulesBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(new PDFFragment()));
+        fragmentBinding.rulesBtn.setOnClickListener(v -> ((AccountActivity) requireActivity()).replaceFragment(WebViewFragment.newInstance(false)));
         fragmentBinding.registerBtn.setOnClickListener(v -> register());
 
         fragmentBinding.phoneNumber.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);

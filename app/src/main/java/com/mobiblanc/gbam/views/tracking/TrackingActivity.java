@@ -82,10 +82,14 @@ public class TrackingActivity extends AppCompatActivity {
         activityBinding.trackingRecycler.setLayoutManager(new LinearLayoutManager(this));
         activityBinding.trackingRecycler.setNestedScrollingEnabled(false);
 
-        if (getIntent().hasExtra("id")) {
-            String commandId = getIntent().getStringExtra("id");
+        if (getIntent().hasExtra("trackingId")) {
+            String orderId = getIntent().getStringExtra("orderId");
+            String trackingId = getIntent().getStringExtra("trackingId");
             activityBinding.codeLayout.setVisibility(View.GONE);
-            getTracking(commandId);
+            activityBinding.title.setText(String.format("Commande N°%s", orderId));
+            activityBinding.trackingNumber.setText(String.format("Expédition N°%s", trackingId));
+            activityBinding.trackingNumber.setVisibility(View.VISIBLE);
+            getTracking(trackingId);
         }
     }
 

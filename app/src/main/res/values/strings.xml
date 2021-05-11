@@ -10,7 +10,7 @@
     <string name="firstname_hint">Prénom</string>
     <string name="number_hint">Numéro de téléphone</string>
     <string name="services_title">Services</string>
-    <string name="portraits_title">Portraits</string>
+    <string name="portraits_title">Portrait Officiel</string>
     <string name="cart_title">Panier</string>
     <string name="add_btn">Ajouter au panier</string>
     <string name="login_dialog_title">Finaliser votre commande</string>
@@ -87,20 +87,27 @@
     <string name="register_btn_title">S\'inscrire</string>
     <string name="ice_hint">ICE</string>
     <string name="id_fiscal_hint">Identifiant fiscal</string>
-    <string name="price_unit">Dirhams TTC</string>
+    <string name="price_unit">MAD</string>
     <string name="vgu_description_title_ar">تذكير هام :</string>
     <string name="invalid_email_error">Format email invalide</string>
     <string name="invalid_format_error">Format invalide</string>
     <string name="personal_info_btn">Mes informations personnelles</string>
     <string name="tracking_btn">Suivi de commande</string>
     <string name="contact_btn">Contact</string>
+    <string name="faq_portrait_btn">FAQ Portrait Officiel</string>
+    <string name="faq_stamp_btn">FAQ Timbres poste</string>
     <string name="code_hint">Code commande</string>
     <string name="call_service_btn">Appeler le service</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="standard_shipping_method_description">Une fois le colis préparé par nos soins, il vous sera livré à l’adresse de votre choix</string>
     <string name="agency_shipping_method_description">Vous avez la possibilité de retirer directement votre colis dans l’une de nos agences ou points relais de votre choix</string>
     <string name="my_addresses_btn">Mes adresses</string>
     <string name="update_address_title">Modifer cette adresse</string>
     <string name="order_details_title">Expéditions</string>
+    <string name="stamps_title">Timbres poste</string>
+    <string name="faq_title">FAQ Timbres poste</string>
+    <string name="objet_text_label">Objet*</string>
+    <string name="contact_title">Contact</string>
+    <string name="subject_hint">Sujet*</string>
+    <string name="order_number_hint">Numéro de commande</string>
 
 </resources>

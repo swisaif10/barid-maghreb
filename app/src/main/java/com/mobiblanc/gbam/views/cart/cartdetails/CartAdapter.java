@@ -12,6 +12,7 @@ import com.mobiblanc.gbam.databinding.CartItemLayoutBinding;
 import com.mobiblanc.gbam.listeners.OnItemQuantityChangedListener;
 import com.mobiblanc.gbam.models.common.Item;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
@@ -64,7 +65,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             itemBinding.title.setText(item.getName());
             itemBinding.subtitle.setText(item.getShortDescription());
             itemBinding.quantity.setText(item.getQty());
-            itemBinding.price.setText(String.valueOf(item.getPrice()));
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setMaximumFractionDigits(2);
+            itemBinding.price.setText(df.format(item.getPrice()));
 
             itemBinding.decreaseBtn.setOnClickListener(v -> {
                 int qty = Integer.parseInt(itemBinding.quantity.getText().toString());

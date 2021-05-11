@@ -33,15 +33,14 @@ public class SplashVM extends AndroidViewModel {
 
     public void controlVersion(String firebaseToken) {
         Call<ControlVersionData> call = RestService.getInstance().endpoint().controlVersion(firebaseToken);
-
         call.enqueue(new Callback<ControlVersionData>() {
             @Override
-            public void onResponse(Call<ControlVersionData> call, Response<ControlVersionData> response) {
+            public void onResponse(@NonNull Call<ControlVersionData> call, @NonNull Response<ControlVersionData> response) {
                 controlVersionLiveData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<ControlVersionData> call, Throwable t) {
+            public void onFailure(@NonNull Call<ControlVersionData> call, @NonNull Throwable t) {
                 controlVersionLiveData.setValue(null);
             }
         });

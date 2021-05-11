@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.mobiblanc.gbam.databinding.ConfirmationItemLayoutBinding;
 import com.mobiblanc.gbam.models.common.Item;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.ItemViewHolder> {
@@ -59,7 +60,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Item
             itemBinding.title.setText(item.getName());
             itemBinding.subtitle.setText(item.getShortDescription());
             itemBinding.quantity.setText(item.getQty());
-            itemBinding.price.setText(String.valueOf(item.getPrice()));
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setMaximumFractionDigits(2);
+            itemBinding.price.setText(df.format(item.getPrice()));
 
             if (getAdapterPosition() == items.size() - 1)
                 itemBinding.separator.setVisibility(View.GONE);

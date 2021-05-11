@@ -84,7 +84,8 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
     @Override
     public void onItemSelected(int position, Object object) {
         Intent intent = new Intent(requireActivity(), TrackingActivity.class);
-        intent.putExtra("id", ((OrderDetail) object).getTrackingNumber());
+        intent.putExtra("orderId", id);
+        intent.putExtra("trackingId", ((OrderDetail) object).getTrackingNumber());
         startActivity(intent);
     }
 
