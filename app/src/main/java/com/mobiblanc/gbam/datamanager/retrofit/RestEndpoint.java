@@ -1,5 +1,6 @@
 package com.mobiblanc.gbam.datamanager.retrofit;
 
+import com.google.android.gms.common.api.Api;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;
@@ -22,6 +23,9 @@ import com.mobiblanc.gbam.models.products.ProductsData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
 import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
+import com.mobiblanc.gbam.models.shipping.cities.CitiesListData;
+import com.mobiblanc.gbam.models.shipping.cities.DistrictsListData;
+import com.mobiblanc.gbam.models.shipping.cities.WayListData;
 import com.mobiblanc.gbam.models.tracking.TrackingData;
 import com.mobiblanc.gbam.models.webview.WebViewData;
 
@@ -232,4 +236,18 @@ public interface RestEndpoint {
                                              @Field("objet") String object,
                                              @Field("sujet") String subject,
                                              @Field("order") String orderNumber);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_CITIES_AUTO_COMPLETE)
+    Call<CitiesListData> getAutoCompleteCities(@Field("filter") String filter);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_DISTRICTS_AUTO_COMPLETE)
+    Call<DistrictsListData> getDistrictsByCity(@Field("localityCity") String localityCity,
+                                               @Field("filter") String filter);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.GET_WAY_AUTO_COMPLETE)
+    Call<WayListData> getWaysByCity(@Field("localityCity") String localityCity,
+                                    @Field("filter") String filter);
 }

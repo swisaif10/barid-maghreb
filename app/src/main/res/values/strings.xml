@@ -26,6 +26,8 @@
     <string name="add_new_address_title">Ajouter une nouvelle adresse</string>
     <string name="street_number_hint">Numéro de rue</string>
     <string name="city_hint">Ville</string>
+    <string name="district_hint">Quartier</string>
+    <string name="way_hint">Voie</string>
     <string name="postal_code_hint">Code postal</string>
     <string name="phonenumber_hint">Numéro de téléphone</string>
     <string name="agency_delivery_title">Livraison en agence</string>
@@ -109,5 +111,6 @@
     <string name="contact_title">Contact</string>
     <string name="subject_hint">Sujet*</string>
     <string name="order_number_hint">Numéro de commande</string>
+    <string name="select_city">Veuillez sélectionner une ville</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.mobiblanc.gbam.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,6 +17,9 @@ import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.models.shipping.agencies.AgenciesData;
 import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
+import com.mobiblanc.gbam.models.shipping.cities.CitiesListData;
+import com.mobiblanc.gbam.models.shipping.cities.DistrictsListData;
+import com.mobiblanc.gbam.models.shipping.cities.WayListData;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +40,9 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<PaymentOperationData> paymentOperationLiveData;
     private MutableLiveData<CitiesData> getCitiesLiveData;
     private MutableLiveData<RecapInfoData> recapInfoLiveData;
+    private MutableLiveData<CitiesListData> citiesListLiveData;
+    private MutableLiveData<DistrictsListData> districtsListData;
+    private MutableLiveData<WayListData> wayListData;
 
     public CartVM(@NonNull Application application) {
         super(application);
@@ -95,6 +102,18 @@ public class CartVM extends AndroidViewModel {
         return recapInfoLiveData;
     }
 
+    public MutableLiveData<CitiesListData> getCitiesListLiveData() {
+        return citiesListLiveData;
+    }
+
+    public MutableLiveData<DistrictsListData> getDistrictsLiveData() {
+        return districtsListData;
+    }
+
+    public MutableLiveData<WayListData> getWayListData() {
+        return wayListData;
+    }
+
     private void init() {
         cartItemsLiveData = new MutableLiveData<>();
         addItemLiveData = new MutableLiveData<>();
@@ -109,6 +128,9 @@ public class CartVM extends AndroidViewModel {
         paymentOperationLiveData = new MutableLiveData<>();
         getCitiesLiveData = new MutableLiveData<>();
         recapInfoLiveData = new MutableLiveData<>();
+        citiesListLiveData = new MutableLiveData<>();
+        districtsListData = new MutableLiveData<>();
+        wayListData = new MutableLiveData<>();
     }
 
     public void getCartItems(String token, String cartId) {
@@ -317,6 +339,52 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<CitiesData> call, @NonNull Throwable t) {
                 getCitiesLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getCities(String filter){
+        Call<CitiesListData> call = RestService.getInstance().endpoint().getAutoCompleteCities(filter);
+        call.enqueue(new Callback<CitiesListData>() {
+            @Override
+            public void onResponse(Call<CitiesListData> call, Response<CitiesListData> response) {
+                citiesListLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<CitiesListData> call, Throwable t) {
+                citiesListLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getDistricts(String city, String filter){
+        Call<DistrictsListData> call = RestService.getInstance().endpoint().getDistrictsByCity(city,filter);
+        call.enqueue(new Callback<DistrictsListData>() {
+            @Override
+            public void onResponse(Call<DistrictsListData> call, Response<DistrictsListData> response) {
+                districtsListData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<DistrictsListData> call, Throwable t) {
+                districtsListData.setValue(null);
+            }
+        });
+    }
+
+    public void getWays(String city, String filter){
+        Call<WayListData> call = RestService.getInstance().endpoint().getWaysByCity(city,filter);
+
+        call.enqueue(new Callback<WayListData>() {
+            @Override
+            public void onResponse(Call<WayListData> call, Response<WayListData> response) {
+                wayListData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<WayListData> call, Throwable t) {
+                districtsListData.setValue(null);
             }
         });
     }

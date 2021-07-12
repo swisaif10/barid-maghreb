@@ -41,6 +41,9 @@ public interface ApiUrls {
     String GET_FAQ_STAMP_URL = "api/contact/faq-timbre";
     String GET_CONTACT_SUBJECTS_URL = "api/contact/get-subject";
     String SEND_CONTACT_MESSAGE_URL = "api/contact/message";
+    String GET_CITIES_AUTO_COMPLETE = "api/locality/cities";
+    String GET_DISTRICTS_AUTO_COMPLETE = "api/locality/districts";
+    String GET_WAY_AUTO_COMPLETE = "api/locality/way";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 
