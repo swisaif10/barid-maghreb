@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings.Secure;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
@@ -256,4 +258,75 @@ public interface Utilities {
         dialog.setContentView(view);
         dialog.show();
     }
+
+    static void showLoginPopup(Context context, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.login_dialog, null, false);
+        Button signUp = view.findViewById(R.id.signUpBtn);
+        Button login = view.findViewById(R.id.loginBtn);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        login.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.onFirstButtonClick(null);
+        });
+        signUp.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.onSecondButtonClick();
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    static void showSendOtpPopup(Context context, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.send_otp_dialog, null, false);
+        Button next = view.findViewById(R.id.nextBtn);
+        Button resend = view.findViewById(R.id.resendOTPBtn);
+        EditText code = view.findViewById(R.id.code);
+        ConstraintLayout container = view.findViewById(R.id.container);
+
+        code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                next.setEnabled(code.getText().length() == 4);
+            }
+        });
+        next.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.onFirstButtonClick(code.getText().toString().trim());
+        });
+        resend.setOnClickListener(v -> {
+            code.getEditableText().clear();
+            dialog.dismiss();
+            onDialogButtonsClickListener.onSecondButtonClick();
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
 }

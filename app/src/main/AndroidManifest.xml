@@ -4,6 +4,7 @@
     package="com.mobiblanc.gbam">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -44,7 +45,6 @@
 
         <activity android:name="com.mobiblanc.gbam.views.tracking.TrackingActivity" />
 
-
         <service
             android:name=".firebase.FirebaseService"
             android:exported="false">
@@ -53,5 +53,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

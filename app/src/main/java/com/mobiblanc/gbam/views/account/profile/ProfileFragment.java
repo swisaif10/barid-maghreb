@@ -135,18 +135,19 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
             if (code == 200) {
                 preferenceManager.clearValue(Constants.TOKEN);
                 preferenceManager.clearValue(Constants.CART_ID);
+                preferenceManager.putValue(preferenceManager.getValue(Constants.PHONE_NUMBER, ""),
+                        preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0));
                 preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
-                getActivity().finish();
                 Intent intent = new Intent(getActivity(), AccountActivity.class);
                 intent.putExtra("destination", 0);
                 startActivity(intent);
-                getActivity().finish();
+                requireActivity().finish();
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), otpData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
                     preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
                     preferenceManager.clearValue(Constants.CART_ID);
-                    getActivity().finishAffinity();
+                    requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
             } else {
@@ -188,5 +189,4 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
             }
         }
     }
-
 }

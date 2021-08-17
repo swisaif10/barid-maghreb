@@ -127,8 +127,8 @@
                             android:paddingBottom="15dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/hintGrey"
-                            android:visibility="gone"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:visibility="gone" />
 
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView

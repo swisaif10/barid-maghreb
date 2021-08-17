@@ -83,7 +83,7 @@
     <string name="resend_otp_btn">Renvoyer le code</string>
     <string name="company_choice_title">Professionnels</string>
     <string name="particular_choice_title">Particuliers</string>
-    <string name="cni_hint">CNI</string>
+    <string name="cni_hint">CIN</string>
     <string name="additional_address_hint">Complément d’adresse</string>
     <string name="address_name_hint">Nom de l’adresse</string>
     <string name="register_btn_title">S\'inscrire</string>

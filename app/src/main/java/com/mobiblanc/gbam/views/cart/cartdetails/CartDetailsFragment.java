@@ -131,7 +131,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                 getAddress();
             else {
                 started = true;
-                new LoginDialog(getActivity(), CartDetailsFragment.this).show();
+                Utilities.showLoginPopup(requireContext(),this);
             }
         });
         items = response.getItems();

@@ -188,7 +188,6 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
-
             } else {
                 Utilities.showErrorPopup(getContext(), dashboardData.getHeader().getMessage());
             }

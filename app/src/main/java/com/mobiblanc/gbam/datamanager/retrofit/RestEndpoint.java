@@ -1,6 +1,5 @@
 package com.mobiblanc.gbam.datamanager.retrofit;
 
-import com.google.android.gms.common.api.Api;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
 import com.mobiblanc.gbam.models.account.profile.ProfileData;

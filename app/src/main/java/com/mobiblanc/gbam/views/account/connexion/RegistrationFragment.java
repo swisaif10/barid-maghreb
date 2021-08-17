@@ -201,7 +201,7 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
         } else {
             int code = otpData.getHeader().getCode();
             if (code == 200) {
-                new SendOTPDialog(requireActivity(), this).show();
+                Utilities.showSendOtpPopup(requireContext(),this);
             } else {
                 Utilities.showErrorPopup(getContext(), otpData.getHeader().getMessage());
             }

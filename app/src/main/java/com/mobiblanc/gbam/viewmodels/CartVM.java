@@ -1,7 +1,6 @@
 package com.mobiblanc.gbam.viewmodels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -343,7 +342,7 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getCities(String filter){
+    public void getCities(String filter) {
         Call<CitiesListData> call = RestService.getInstance().endpoint().getAutoCompleteCities(filter);
         call.enqueue(new Callback<CitiesListData>() {
             @Override
@@ -358,8 +357,8 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getDistricts(String city, String filter){
-        Call<DistrictsListData> call = RestService.getInstance().endpoint().getDistrictsByCity(city,filter);
+    public void getDistricts(String city, String filter) {
+        Call<DistrictsListData> call = RestService.getInstance().endpoint().getDistrictsByCity(city, filter);
         call.enqueue(new Callback<DistrictsListData>() {
             @Override
             public void onResponse(Call<DistrictsListData> call, Response<DistrictsListData> response) {
@@ -373,8 +372,8 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getWays(String city, String filter){
-        Call<WayListData> call = RestService.getInstance().endpoint().getWaysByCity(city,filter);
+    public void getWays(String city, String filter) {
+        Call<WayListData> call = RestService.getInstance().endpoint().getWaysByCity(city, filter);
 
         call.enqueue(new Callback<WayListData>() {
             @Override
