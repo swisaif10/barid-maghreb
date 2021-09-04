@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.views.account.connexion.AuthenticationFragment;
 import com.mobiblanc.gbam.views.account.connexion.RegistrationFragment;
-import com.mobiblanc.gbam.views.account.help.HelpFragment;
+import com.mobiblanc.gbam.views.account.profile.ContactFragment;
 import com.mobiblanc.gbam.views.account.profile.ProfileFragment;
 import com.mobiblanc.gbam.views.base.BaseActivity;
 
@@ -28,7 +28,7 @@ public class AccountActivity extends BaseActivity {
                     fragment = new ProfileFragment();
                     break;
                 case 2:
-                    fragment = new HelpFragment();
+                    fragment = new ContactFragment();
                     break;
                 default:
                     fragment = new RegistrationFragment();

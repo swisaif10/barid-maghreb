@@ -184,7 +184,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                     startActivity(intent);
                     requireActivity().finish();
                 } else if (destination.equalsIgnoreCase("history")) {
-                    ((AccountActivity) requireActivity()).replaceFragment(new OrdersFragment());
+                    ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new OrdersFragment());
                 } else
                     requireActivity().finish();
             } else {

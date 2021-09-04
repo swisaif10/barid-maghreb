@@ -61,6 +61,7 @@ public class OrdersFragment extends Fragment implements OnItemSelectedListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         getOrders();
     }
 
@@ -101,7 +102,6 @@ public class OrdersFragment extends Fragment implements OnItemSelectedListener {
     }
 
     private void init(List<Order> orders) {
-        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
 
         fragmentBinding.ordersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.ordersRecycler.setAdapter(new OrdersAdapter(orders, this));

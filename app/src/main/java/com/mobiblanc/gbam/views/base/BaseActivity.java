@@ -30,6 +30,12 @@ public class BaseActivity extends AppCompatActivity {
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
 
+    public void replaceFragmentWithoutBAckStack(Fragment fragment) {
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 }
