@@ -35,4 +35,12 @@ public class Presentation {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return "Presentation{" +
+                "description='" + description + '\'' +
+                ", labelButton='" + labelButton + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

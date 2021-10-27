@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -26,6 +25,7 @@ import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
+import com.mobiblanc.gbam.views.PaymentActivity;
 import com.mobiblanc.gbam.views.account.connexion.CGUFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
@@ -197,14 +197,27 @@ public class RecapPaymentFragment extends Fragment {
             if (code == 200) {
                 if (!paymentOperationData.getResponse().getUrl().equalsIgnoreCase("")) {
                     Uri uri = Uri.parse(paymentOperationData.getResponse().getUrl());
-                    CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                    Intent intent = new Intent(getContext(), PaymentActivity.class);
+                    intent.putExtra("url", String.valueOf(uri));
+                    startActivity(intent);
+
+                    /*CustomTabsIntent.Builder builder=new CustomTabsIntent.Builder();
+                    builder.enableUrlBarHiding();
+                    CustomTabsIntent customTabsIntent=builder.build();
+
+                    TrustedWebUtils.launchAsTrustedWebActivity(
+                            requireContext(),
+                            customTabsIntent,
+                            Uri.parse(String.valueOf(uri)));*/
+                    //CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
                     //intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
                     //intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-                    intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right);
-                    CustomTabsIntent customTabsIntent = intentBuilder.build();
-                    customTabsIntent.launchUrl(requireActivity(), uri);
+                    //intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    //intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
+                         //   android.R.anim.slide_out_right);
+                    //CustomTabsIntent customTabsIntent = intentBuilder.build();
+                    //customTabsIntent.launchUrl(requireActivity(), uri);
 
                     fragmentBinding.scrollView.setVisibility(View.GONE);
                 }

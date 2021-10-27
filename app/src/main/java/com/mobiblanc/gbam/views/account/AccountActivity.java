@@ -1,6 +1,7 @@
 package com.mobiblanc.gbam.views.account;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,13 +23,11 @@ public class AccountActivity extends BaseActivity {
             Fragment fragment;
             switch (getIntent().getIntExtra("destination", -1)) {
                 case 0:
+                case 2:
                     fragment = AuthenticationFragment.newInstance(getIntent().getStringExtra("next"));
                     break;
                 case 1:
                     fragment = new ProfileFragment();
-                    break;
-                case 2:
-                    fragment = new ContactFragment();
                     break;
                 default:
                     fragment = new RegistrationFragment();

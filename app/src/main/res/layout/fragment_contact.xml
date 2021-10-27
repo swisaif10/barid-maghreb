@@ -95,20 +95,29 @@
                 android:textColorHint="@color/hintGrey"
                 android:textSize="12sp" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/orderNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/subject"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="@color/hintGrey"
+                android:completionThreshold="0"
+                android:cursorVisible="false"
+                android:digits="0123456789qwertzuiopasdfghjklyxcvbnm AZERTYUIOPQSDFGHJKLMWXCVBN"
+                android:drawableEnd="@drawable/arrow"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/blue"
+                android:focusableInTouchMode="false"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/order_number_hint"
                 android:inputType="text"
+                android:paddingEnd="10dp"
+                android:paddingBottom="15dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/hintGrey"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/sendBtn"

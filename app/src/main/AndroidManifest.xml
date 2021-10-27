@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.mobiblanc.gbam.BaridAlMaghrib"
+        android:name=".BaridAlMaghrib"
         android:allowBackup="false"
         android:icon="@mipmap/appicone"
         android:label="@string/app_name"
@@ -16,13 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
+        <activity
+            android:name=".views.PaymentActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.mobiblanc.gbam.views.splashscreen.SplashScreenActivity"
+            android:name=".views.splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
@@ -32,18 +35,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mobiblanc.gbam.views.cart.CartActivity"
+            android:name=".views.cart.CartActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mobiblanc.gbam.views.main.MainActivity"
+            android:name=".views.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mobiblanc.gbam.views.account.AccountActivity"
+            android:name=".views.account.AccountActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
-        <activity android:name="com.mobiblanc.gbam.views.tracking.TrackingActivity" />
+        <activity android:name=".views.tracking.TrackingActivity" />
 
         <service
             android:name=".firebase.FirebaseService"
@@ -53,4 +55,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>

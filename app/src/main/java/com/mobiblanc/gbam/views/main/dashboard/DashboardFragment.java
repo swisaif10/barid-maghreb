@@ -28,6 +28,7 @@ import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.viewmodels.MainVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.orders.OrdersFragment;
+import com.mobiblanc.gbam.views.account.profile.ContactFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.main.adapters.CategoriesAdapter;
@@ -98,9 +99,14 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
         Intent intent;
         switch (targetVIew) {
             case "assistance":
-                intent = new Intent(getActivity(), AccountActivity.class);
-                intent.putExtra("destination", 2);
-                startActivity(intent);
+                if (preferenceManager.getValue(Constants.TOKEN, null) != null) {
+                    ((MainActivity) requireActivity()).replaceFragment(new ContactFragment());
+                }else {
+                    intent = new Intent(getActivity(), AccountActivity.class);
+                    intent.putExtra("destination", 2);
+                    intent.putExtra("next", "contact");
+                    startActivity(intent);
+                }
                 break;
             case "tracking":
                 startActivity(new Intent(getActivity(), TrackingActivity.class));

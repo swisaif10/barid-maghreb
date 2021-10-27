@@ -8,15 +8,15 @@ import java.util.List;
 
 public class MessageObjectsData {
     @Expose
-    private List<Object> response;
+    private Response response;
     @Expose
     private Header header;
 
-    public List<Object> getResponse() {
+    public Response getResponse() {
         return response;
     }
 
-    public void setResponse(List<Object> response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 
@@ -28,11 +28,4 @@ public class MessageObjectsData {
         this.header = header;
     }
 
-    public List<String> getObjectsNames() {
-        List<String> names = new ArrayList<>();
-        for (Object object : response) {
-            names.add(object.getSubject());
-        }
-        return names;
-    }
 }

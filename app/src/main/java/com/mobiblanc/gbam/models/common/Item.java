@@ -84,4 +84,19 @@ public class Item {
     public void setImage(String image) {
         this.image = image;
     }
+
+
+    @Override
+    public String toString() {
+        return "Item{" +
+
+                ", name='" + name + '\'' +
+
+                ", qty='" + qty + '\'' +
+
+
+
+
+                '}';
+    }
 }

@@ -138,12 +138,12 @@
                             android:layout_marginTop="10dp"
                             android:backgroundTint="@color/hintGrey"
                             android:completionThreshold="0"
-                            android:cursorVisible="true"
+                            android:cursorVisible="false"
                             android:digits="0123456789qwertzuiopasdfghjklyxcvbnm AZERTYUIOPQSDFGHJKLMWXCVBN"
                             android:drawableEnd="@drawable/arrow"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/hintGrey"
-                            android:focusableInTouchMode="true"
+                            android:focusableInTouchMode="false"
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/city_hint"
                             android:paddingEnd="10dp"
@@ -152,7 +152,7 @@
                             android:textColorHint="@color/hintGrey"
                             android:textSize="14sp" />
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        <EditText
                             android:id="@+id/district"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -161,7 +161,6 @@
                             android:completionThreshold="0"
                             android:cursorVisible="true"
                             android:digits="0123456789qwertzuiopasdfghjklyxcvbnm AZERTYUIOPQSDFGHJKLMWXCVBN"
-                            android:drawableEnd="@drawable/arrow"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/hintGrey"
                             android:focusableInTouchMode="true"
@@ -173,7 +172,7 @@
                             android:textColorHint="@color/hintGrey"
                             android:textSize="14sp" />
 
-                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                      <!--  <EditText
                             android:id="@+id/way"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -182,7 +181,6 @@
                             android:completionThreshold="0"
                             android:cursorVisible="true"
                             android:digits="0123456789qwertzuiopasdfghjklyxcvbnm AZERTYUIOPQSDFGHJKLMWXCVBN"
-                            android:drawableEnd="@drawable/arrow"
                             android:drawablePadding="10dp"
                             android:drawableTint="@color/hintGrey"
                             android:focusableInTouchMode="true"
@@ -192,7 +190,7 @@
                             android:paddingBottom="15dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/hintGrey"
-                            android:textSize="14sp" />
+                            android:textSize="14sp" />-->
 
                         <EditText
                             android:id="@+id/postalCode"
@@ -250,7 +248,7 @@
                             android:textColorHint="@color/hintGrey"
                             android:textSize="14sp" />
 
-                        <EditText
+                        <!--<EditText
                             android:id="@+id/cni"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -264,7 +262,7 @@
                             android:textColor="@color/black"
                             android:textColorHint="@color/hintGrey"
                             android:textSize="14sp"
-                            android:visibility="gone" />
+                            android:visibility="gone" />-->
                     </LinearLayout>
                 </LinearLayout>
 

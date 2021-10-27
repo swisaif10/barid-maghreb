@@ -224,6 +224,10 @@ public class RegistrationFragment extends Fragment implements OnDialogButtonsCli
         } else {
             int code = checkOTPData.getHeader().getCode();
             if (code == 200) {
+                preferenceManager.putValue(Constants.TOKEN, checkOTPData.getResponse().getToken());
+                preferenceManager.putValue(Constants.CART_ID, checkOTPData.getResponse().getQuoteId());
+                preferenceManager.putValue(Constants.NAME, checkOTPData.getResponse().getName());
+                preferenceManager.putValue(Constants.PHONE_NUMBER, String.valueOf(fragmentBinding.phoneNumber.getText()));
                 requireActivity().finish();
             } else {
                 Utilities.showErrorPopup(getContext(), checkOTPData.getHeader().getMessage());

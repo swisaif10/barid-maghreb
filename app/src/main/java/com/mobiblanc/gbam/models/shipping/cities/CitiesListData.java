@@ -30,4 +30,12 @@ public class CitiesListData {
     public void setCities(ArrayList<String> cities) {
         this.cities = cities;
     }
+
+    @Override
+    public String toString() {
+        return "CitiesListData{" +
+                "header=" + header +
+                ", cities=" + cities +
+                '}';
+    }
 }

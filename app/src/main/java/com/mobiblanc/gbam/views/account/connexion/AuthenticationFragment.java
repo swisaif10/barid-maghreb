@@ -29,6 +29,7 @@ import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.orders.OrdersFragment;
+import com.mobiblanc.gbam.views.account.profile.ContactFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 
 import java.util.Objects;
@@ -57,7 +58,6 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
         connectivity = new Connectivity(requireContext(), this);
         accountVM.getSendOTPLiveData().observe(this, this::handleSendOTPData);
@@ -185,7 +185,11 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                     requireActivity().finish();
                 } else if (destination.equalsIgnoreCase("history")) {
                     ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new OrdersFragment());
-                } else
+                } else if (destination.equalsIgnoreCase("contact")) {
+                    ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new ContactFragment());
+                }
+
+                else
                     requireActivity().finish();
             } else {
                 fragmentBinding.error.setText(checkOTPData.getHeader().getMessage());

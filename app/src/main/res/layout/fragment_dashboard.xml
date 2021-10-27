@@ -29,7 +29,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <RelativeLayout
-                        android:id="@+id/loginBtn"
+                            android:id="@+id/loginBtn"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
                         app:layout_constraintStart_toStartOf="parent">
@@ -120,7 +120,7 @@
                         android:lineSpacingExtra="5dp"
                         android:text="Opérateur global, le Groupe Barid Al-Maghrib est une entreprise Multiservice active sur cinq marchés : le courrier, la messagerie, la logistique, la banque et le digital ."
                         android:textColor="@color/white"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         app:layout_constraintTop_toBottomOf="@id/title" />
 
                     <com.google.android.material.button.MaterialButton

@@ -208,7 +208,9 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
     }
 
     private void handleAddItemToCartData(AddItemData addItemData) {
+        fragmentPortraitBinding.loader.setVisibility(View.GONE);
         if (addItemData == null) {
+
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
             int code = addItemData.getHeader().getCode();

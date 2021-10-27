@@ -206,7 +206,7 @@ public interface RestEndpoint {
                                        @Field("comment") String comment);
 
     @POST(ApiUrls.CITIES_URL)
-    Call<CitiesData> getCities();
+    Call<CitiesData> getCities(@Header("x-auth-token") String token);
 
     @FormUrlEncoded
     @POST(ApiUrls.GET_INFO_URL)
@@ -226,8 +226,8 @@ public interface RestEndpoint {
     @POST(ApiUrls.GET_FAQ_STAMP_URL)
     Call<FAQStampData> getFAQStamp();
 
-    @POST(ApiUrls.GET_CONTACT_SUBJECTS_URL)
-    Call<MessageObjectsData> getMessageObjects();
+    @POST(ApiUrls.GET_CONTACT_SUBJECTS_URL_AND_NUM)
+    Call<MessageObjectsData> getMessageObjects(@Header("x-auth-token") String token);
 
     @FormUrlEncoded
     @POST(ApiUrls.SEND_CONTACT_MESSAGE_URL)

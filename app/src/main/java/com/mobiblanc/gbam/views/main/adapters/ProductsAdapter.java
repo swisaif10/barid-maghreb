@@ -81,7 +81,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
         holder.itemBinding.increaseBtn.setOnClickListener(v -> {
             int qty = Integer.parseInt(holder.itemBinding.quantity.getText().toString());
-            if (qty < 9) {
+            if (qty < 2000) {
                 qty++;
                 holder.itemBinding.quantity.setText(String.valueOf(qty));
                 onItemQuantityChangedListener.onItemQuantityChanged(position, qty);

@@ -27,4 +27,10 @@ public class Infos {
         this.presentation = presentation;
     }
 
+    @Override
+    public String toString() {
+        return "Infos{" +
+                ", presentation=" + presentation +
+                '}';
+    }
 }

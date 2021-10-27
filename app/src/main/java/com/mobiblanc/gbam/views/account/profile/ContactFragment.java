@@ -2,9 +2,12 @@ package com.mobiblanc.gbam.views.account.profile;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -20,11 +24,15 @@ import com.mobiblanc.gbam.databinding.FragmentContactBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.contact.message.SendMessageData;
 import com.mobiblanc.gbam.models.contact.objects.MessageObjectsData;
+import com.mobiblanc.gbam.models.contact.objects.Subject;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
+import com.mobiblanc.gbam.views.account.AccountActivity;
+import com.mobiblanc.gbam.views.main.MainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactFragment extends Fragment {
@@ -34,6 +42,7 @@ public class ContactFragment extends Fragment {
     private AccountVM accountVM;
     private PreferenceManager preferenceManager;
     private String selectedObject = "";
+    private String orderNumber = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,18 +70,21 @@ public class ContactFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getMessageObjects();
+        getMessageObjects(preferenceManager.getValue(Constants.TOKEN, null));
     }
 
 
-    private void getMessageObjects() {
+    private void getMessageObjects(String token) {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.getMessageObjects();
+            accountVM.getMessageObjects(token);
+            Log.d("token-->", "getMessageObjects: "+token);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("ClickableViewAccessibility")
     private void handleMessageObjectsListData(MessageObjectsData messageObjectsData) {
         fragmentBinding.loader.setVisibility(View.GONE);
         if (messageObjectsData == null) {
@@ -80,8 +92,35 @@ public class ContactFragment extends Fragment {
         } else {
             int code = messageObjectsData.getHeader().getCode();
             if (code == 200) {
-                init(messageObjectsData.getObjectsNames());
-            } else {
+                List<String> subjectList = new ArrayList<>();
+                for (int i = 0 ;i<messageObjectsData.getResponse().getSubjects().size();i++){
+                    subjectList.add(messageObjectsData.getResponse().getSubjects().get(i).getSubject());
+                }
+                List<String> phoneNumbersList = new ArrayList<>();
+                for (int i = 0 ;i<messageObjectsData.getResponse().getCommandNumbers().size();i++){
+                    phoneNumbersList.add(messageObjectsData.getResponse().getCommandNumbers().get(i).getCommandNumber());
+                }
+
+                ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, phoneNumbersList);
+                fragmentBinding.orderNumber.setAdapter(adapter1);
+                fragmentBinding.orderNumber.setOnTouchListener((v, event) -> {
+                    Utilities.hideSoftKeyboard(requireContext(), requireView());
+                    fragmentBinding.orderNumber.showDropDown();
+                    return false;
+                });
+
+                fragmentBinding.orderNumber.setOnItemClickListener((parent, view, position, id) -> {
+                    orderNumber = phoneNumbersList.get(position);
+                });
+
+                init(subjectList);
+            }else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), messageObjectsData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            }  else {
                 Utilities.showErrorPopup(getContext(), messageObjectsData.getHeader().getMessage());
             }
         }
@@ -101,6 +140,11 @@ public class ContactFragment extends Fragment {
         fragmentBinding.object.setOnItemClickListener((parent, view, position, id) -> {
             selectedObject = items.get(position);
         });
+
+
+
+
+
 
 
         fragmentBinding.subject.addTextChangedListener(new TextWatcher() {
@@ -133,7 +177,7 @@ public class ContactFragment extends Fragment {
     private void sendContactMessage() {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.sendContactMessage(preferenceManager.getValue(Constants.TOKEN, ""), selectedObject, fragmentBinding.subject.getText().toString(), fragmentBinding.orderNumber.getText().toString());
+            accountVM.sendContactMessage(preferenceManager.getValue(Constants.TOKEN, ""), selectedObject, fragmentBinding.subject.getText().toString(), orderNumber);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }

@@ -150,6 +150,11 @@ public class AccountVM extends AndroidViewModel {
         call.enqueue(new Callback<CheckOTPData>() {
             @Override
             public void onResponse(@NonNull Call<CheckOTPData> call, @NonNull Response<CheckOTPData> response) {
+                assert response.body() != null;
+                if (response.body().getHeader().getCode() == 200) {
+                    String token = response.raw().header("x-auth-token");
+                    response.body().getResponse().setToken("Bearer " + token);
+                }
                 confirmRegistrationLiveData.setValue(response.body());
             }
 
@@ -345,8 +350,8 @@ public class AccountVM extends AndroidViewModel {
         });
     }
 
-    public void getMessageObjects() {
-        Call<MessageObjectsData> call = RestService.getInstance().endpoint().getMessageObjects();
+    public void getMessageObjects(String token) {
+        Call<MessageObjectsData> call = RestService.getInstance().endpoint().getMessageObjects(token);
         call.enqueue(new Callback<MessageObjectsData>() {
             @Override
             public void onResponse(@NonNull Call<MessageObjectsData> call, @NonNull Response<MessageObjectsData> response) {

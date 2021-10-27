@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,7 +17,11 @@ public class RestService {
     private RestEndpoint restEndpoint;
 
     private RestService() {
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient.Builder client = new OkHttpClient.Builder().addInterceptor(interceptor);;
         client.connectTimeout(30, TimeUnit.SECONDS);
         client.readTimeout(30, TimeUnit.SECONDS);
         client.writeTimeout(30, TimeUnit.SECONDS);
@@ -30,6 +35,8 @@ public class RestService {
             Request request = requestBuilder.build();
             return chain.proceed(request);
         });
+
+
 
 
         Retrofit retrofit = new Retrofit.Builder()

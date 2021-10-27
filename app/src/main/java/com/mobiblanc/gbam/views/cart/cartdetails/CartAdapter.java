@@ -80,7 +80,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
             itemBinding.increaseBtn.setOnClickListener(v -> {
                 int qty = Integer.parseInt(itemBinding.quantity.getText().toString());
-                if (qty < 9) {
+                if (qty < 2000) {
                     qty++;
                     itemBinding.quantity.setText(String.valueOf(qty));
                     onItemQuantityChangedListener.onItemQuantityChanged(getAdapterPosition(), qty);

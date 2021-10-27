@@ -327,8 +327,8 @@ public class CartVM extends AndroidViewModel {
         });
     }
 
-    public void getCities() {
-        Call<CitiesData> call = RestService.getInstance().endpoint().getCities();
+    public void getCities1(String token) {
+        Call<CitiesData> call = RestService.getInstance().endpoint().getCities(token);
         call.enqueue(new Callback<CitiesData>() {
             @Override
             public void onResponse(@NonNull Call<CitiesData> call, @NonNull Response<CitiesData> response) {

@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -24,6 +27,7 @@ import com.mobiblanc.gbam.databinding.FragmentAddNewAddressBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.models.shipping.address.Address;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
+import com.mobiblanc.gbam.models.shipping.cities.CitiesData;
 import com.mobiblanc.gbam.models.shipping.cities.CitiesListData;
 import com.mobiblanc.gbam.models.shipping.cities.DistrictsListData;
 import com.mobiblanc.gbam.models.shipping.cities.WayListData;
@@ -35,6 +39,8 @@ import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AddNewAddressFragment extends Fragment {
@@ -48,7 +54,7 @@ public class AddNewAddressFragment extends Fragment {
     private Boolean isUpdate = false;
     private String selectedCity;
     private String selectedDistrict = "";
-    private String selectedWay = "";
+    //private String selectedWay = "";
 
     public AddNewAddressFragment() {
         // Required empty public constructor
@@ -70,9 +76,10 @@ public class AddNewAddressFragment extends Fragment {
         connectivity = new Connectivity(requireContext(), this);
         cartVM.getAddNewAddressLiveData().observe(this, this::handleAddAddressData);
         cartVM.getUpdateAddressLiveData().observe(this, this::handleUpdateAddressData);
-        cartVM.getCitiesListLiveData().observe(this, this::handleGetCitiesData);
-        cartVM.getDistrictsLiveData().observe(this, this::handleGetDistrictsData);
-        cartVM.getWayListData().observe(this, this::handleGetWaysData);
+        //cartVM.getCitiesListLiveData().observe(this, this::handleGetCitiesData);
+        //cartVM.getDistrictsLiveData().observe(this, this::handleGetDistrictsData);
+        //cartVM.getWayListData().observe(this, this::handleGetWaysData);
+        cartVM.getCitiesLiveData().observe(this , this::handleCitiesData);
 
         preferenceManager = new PreferenceManager.Builder(requireContext(), Context.MODE_PRIVATE)
                 .name(Constants.SHARED_PREFS_NAME)
@@ -81,6 +88,51 @@ public class AddNewAddressFragment extends Fragment {
         if (getArguments() != null)
             address = (Address) getArguments().getSerializable("address");
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void handleCitiesData(CitiesData citiesData) {
+
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (citiesData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = citiesData.getHeader().getCode();
+            if (code == 200) {
+                List<String> citiesList = new ArrayList<>();
+                for (int i = 0 ; i<citiesData.getResponse().getCities().size();i++){
+                    citiesList.add(citiesData.getResponse().getCities().get(i).getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter(requireContext(), R.layout.custom_dropdown_item_layout, citiesList);
+                Log.d("TAG", "handleGetCitiesData: "+citiesData.getResponse().getCities());
+         /*     fragmentBinding.city.setAdapter(adapter);
+                fragmentBinding.city.showDropDown();
+                fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
+                    selectedCity = citiesData.getCities().get(position);
+                });*/
+
+                fragmentBinding.city.setAdapter(adapter);
+                fragmentBinding.city.setOnTouchListener((v, event) -> {
+                    Utilities.hideSoftKeyboard(requireContext(), requireView());
+                    fragmentBinding.city.showDropDown();
+                    return false;
+                });
+                fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
+                    selectedCity = citiesData.getResponse().getCities().get(position).getName();
+                });
+
+            } else if (code == 403) {
+                Utilities.showErrorPopupWithClick(getContext(), citiesData.getHeader().getMessage(), view -> {
+                    preferenceManager.clearValue(Constants.TOKEN);
+                    preferenceManager.clearValue(Constants.CART_ID);
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                    requireActivity().finishAffinity();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                });
+            } else {
+                Utilities.showErrorPopup(getContext(), citiesData.getHeader().getMessage());
+            }
+        }
     }
 
     @Override
@@ -94,6 +146,12 @@ public class AddNewAddressFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((CartActivity) requireActivity()).showUpdateBtn(View.GONE);
+        fragmentBinding.phoneNumber.setText(preferenceManager.getValue(Constants.PHONE_NUMBER, null));
+        if (connectivity.isConnected()) {
+            fragmentBinding.loader.setVisibility(View.VISIBLE);
+            cartVM.getCities1(preferenceManager.getValue(Constants.TOKEN, ""));
+        } else
+            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
         init();
     }
 
@@ -164,11 +222,11 @@ public class AddNewAddressFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && String.valueOf(s).length() > 1 && selectedCity != null) {
+               /* if (s != null && String.valueOf(s).length() > 1 && selectedCity != null) {
                     getDistricts(String.valueOf(s));
                 } else {
                     fragmentBinding.district.dismissDropDown();
-                }
+                }*/
             }
         };
 
@@ -183,11 +241,11 @@ public class AddNewAddressFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s != null && String.valueOf(s).length() > 1 && selectedCity != null) {
+                /*if (s != null && String.valueOf(s).length() > 1 && selectedCity != null) {
                     getWays(String.valueOf(s));
                 } else {
                     fragmentBinding.way.dismissDropDown();
-                }
+                }*/
             }
         };
 
@@ -196,7 +254,7 @@ public class AddNewAddressFragment extends Fragment {
         fragmentBinding.companyChoice.setOnClickListener(v -> {
             fragmentBinding.companyChoice.setBackground(requireContext().getDrawable(R.drawable.selected_payment_item_background));
             fragmentBinding.particularChoice.setBackground(requireContext().getDrawable(R.drawable.unselected_payment_item_background));
-            fragmentBinding.cni.setVisibility(View.GONE);
+            //fragmentBinding.cni.setVisibility(View.GONE);
             fragmentBinding.ice.setVisibility(View.VISIBLE);
             fragmentBinding.fiscalId.setVisibility(View.VISIBLE);
             addressType = "type business";
@@ -205,7 +263,7 @@ public class AddNewAddressFragment extends Fragment {
         fragmentBinding.particularChoice.setOnClickListener(v -> {
             fragmentBinding.particularChoice.setBackground(requireContext().getDrawable(R.drawable.selected_payment_item_background));
             fragmentBinding.companyChoice.setBackground(requireContext().getDrawable(R.drawable.unselected_payment_item_background));
-            fragmentBinding.cni.setVisibility(View.VISIBLE);
+            //fragmentBinding.cni.setVisibility(View.VISIBLE);
             fragmentBinding.ice.setVisibility(View.GONE);
             fragmentBinding.fiscalId.setVisibility(View.GONE);
             addressType = "particular";
@@ -222,21 +280,19 @@ public class AddNewAddressFragment extends Fragment {
         fragmentBinding.streetNumber.addTextChangedListener(textWatcher);
         fragmentBinding.city.addTextChangedListener(textWatcher);
         fragmentBinding.district.addTextChangedListener(textWatcher);
-        fragmentBinding.way.addTextChangedListener(textWatcher);
+        //fragmentBinding.way.addTextChangedListener(textWatcher);
         fragmentBinding.postalCode.addTextChangedListener(textWatcher);
         fragmentBinding.phoneNumber.addTextChangedListener(textWatcher);
         fragmentBinding.ice.addTextChangedListener(textWatcher);
         fragmentBinding.fiscalId.addTextChangedListener(textWatcher);
-        fragmentBinding.cni.addTextChangedListener(textWatcher);
+        //fragmentBinding.cni.addTextChangedListener(textWatcher);
 
         if (address != null) {
             isUpdate = true;
-            String[] complement = address.getComplementAddress().split(";");
             selectedCity = address.getCity();
-            if (complement != null && complement.length > 1 && complement[0] != null && complement[1] != null) {
-                selectedDistrict = complement[0];
-                selectedWay = complement[1];
-            }
+
+            selectedDistrict = fragmentBinding.district.getText().toString();
+            //selectedWay = fragmentBinding.way.getText().toString();
 
             fragmentBinding.title.setText(R.string.update_address_title);
             if (address.getType().equalsIgnoreCase("type business"))
@@ -251,13 +307,13 @@ public class AddNewAddressFragment extends Fragment {
             fragmentBinding.phoneNumber.setText(address.getTelephone());
             fragmentBinding.ice.setText(address.getIce());
             fragmentBinding.fiscalId.setText(address.getTaxIdentification());
-            fragmentBinding.cni.setText(address.getCni());
+            //fragmentBinding.cni.setText(address.getCni());
             fragmentBinding.district.setText(selectedDistrict);
-            fragmentBinding.way.setText(selectedWay);
+            //fragmentBinding.way.setText(selectedWay);
 
         }
 
-        fragmentBinding.way.addTextChangedListener(wayAutoCompleteWatcher);
+        //fragmentBinding.way.addTextChangedListener(wayAutoCompleteWatcher);
         fragmentBinding.district.addTextChangedListener(districtAutoCompleteWatcher);
         fragmentBinding.city.addTextChangedListener(cityAutoCompleteWatcher);
     }
@@ -270,16 +326,19 @@ public class AddNewAddressFragment extends Fragment {
                         && !Utilities.isEmpty(fragmentBinding.phoneNumber) && !Utilities.isEmpty(fragmentBinding.ice)
                         && !Utilities.isEmpty(fragmentBinding.fiscalId)
                         && selectedCity.equals(String.valueOf(fragmentBinding.city.getText()))
-                        && selectedDistrict.equals(String.valueOf(fragmentBinding.district.getText()))
+                        && !Utilities.isEmpty(fragmentBinding.district)
+                        && fragmentBinding.phoneNumber.length()>9
+                                //selectedDistrict.equals(String.valueOf(fragmentBinding.district.getText()))
                         //&& selectedWay.equals(String.valueOf(fragmentBinding.way.getText()))
                 );
                 break;
             case "particular":
                 fragmentBinding.saveBtn.setEnabled(!Utilities.isEmpty(fragmentBinding.addressName) && !Utilities.isEmpty(fragmentBinding.streetNumber)
                         && !Utilities.isEmpty(fragmentBinding.city) && !Utilities.isEmpty(fragmentBinding.postalCode)
-                        && !Utilities.isEmpty(fragmentBinding.phoneNumber) && !Utilities.isEmpty(fragmentBinding.cni)
+                        && !Utilities.isEmpty(fragmentBinding.phoneNumber)
                         && selectedCity.equals(String.valueOf(fragmentBinding.city.getText()))
-                        && selectedDistrict.equals(String.valueOf(fragmentBinding.district.getText()))
+                        && !Utilities.isEmpty(fragmentBinding.district) && fragmentBinding.phoneNumber.length()>9
+                        //selectedDistrict.equals(String.valueOf(fragmentBinding.district.getText()))
                         //&& selectedWay.equals(String.valueOf(fragmentBinding.way.getText())));
                 );
                 break;
@@ -292,15 +351,26 @@ public class AddNewAddressFragment extends Fragment {
             cartVM.addNewAddress(preferenceManager.getValue(Constants.TOKEN, null),
                     fragmentBinding.addressName.getText().toString(),
                     fragmentBinding.streetNumber.getText().toString(),
-                    selectedDistrict + ";" + selectedWay,
+                    fragmentBinding.district.getText().toString(),
                     selectedCity,
                     fragmentBinding.postalCode.getText().toString(),
                     fragmentBinding.phoneNumber.getText().toString(),
                     fragmentBinding.ice.getText().toString(),
                     fragmentBinding.fiscalId.getText().toString(),
-                    fragmentBinding.cni.getText().toString(),
+                    //fragmentBinding.cni.getText().toString(),
+                    "",
                     addressType
             );
+
+            Log.d("TAG", "addressName: "+fragmentBinding.addressName.getText().toString());
+            Log.d("TAG", "streetNumber: "+fragmentBinding.streetNumber.getText().toString());
+            Log.d("TAG", "selectedDistrict: "+selectedDistrict);
+            //Log.d("TAG", "selectedWay: "+selectedWay);
+            Log.d("TAG", "selectedCity: "+selectedCity);
+            Log.d("TAG", "postalCode: "+fragmentBinding.postalCode.getText().toString());
+            Log.d("TAG", "ice: "+fragmentBinding.ice.getText().toString());
+            Log.d("TAG", "addressType: "+addressType);
+
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -341,13 +411,14 @@ public class AddNewAddressFragment extends Fragment {
                     address.getId(),
                     fragmentBinding.addressName.getText().toString(),
                     fragmentBinding.streetNumber.getText().toString(),
-                    selectedDistrict + ";" + selectedWay,
+                    selectedDistrict,
                     selectedCity,
                     fragmentBinding.postalCode.getText().toString(),
                     fragmentBinding.phoneNumber.getText().toString(),
                     fragmentBinding.ice.getText().toString(),
                     fragmentBinding.fiscalId.getText().toString(),
-                    fragmentBinding.cni.getText().toString(),
+                    "",
+                    //fragmentBinding.cni.getText().toString(),
                     addressType
             );
         } else
@@ -390,6 +461,8 @@ public class AddNewAddressFragment extends Fragment {
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
+
+
     private void getDistricts(String filter) {
         if (connectivity.isConnected()) {
             if (fragmentBinding.city.getText().toString().trim().length() == 0) {
@@ -420,12 +493,24 @@ public class AddNewAddressFragment extends Fragment {
         } else {
             int code = citiesData.getHeader().getCode();
             if (code == 200) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, citiesData.getCities());
-                fragmentBinding.city.setAdapter(adapter);
+               ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, citiesData.getCities());
+                Log.d("TAG", "handleGetCitiesData: "+citiesData.getCities());
+         /*     fragmentBinding.city.setAdapter(adapter);
                 fragmentBinding.city.showDropDown();
                 fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
                     selectedCity = citiesData.getCities().get(position);
+                });*/
+
+                fragmentBinding.city.setAdapter(adapter);
+                fragmentBinding.city.setOnTouchListener((v, event) -> {
+                    Utilities.hideSoftKeyboard(requireContext(), requireView());
+                    fragmentBinding.city.showDropDown();
+                    return false;
                 });
+                fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
+                    selectedCity = citiesData.getCities().get(position);
+                });
+
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), citiesData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
@@ -440,7 +525,7 @@ public class AddNewAddressFragment extends Fragment {
         }
     }
 
-    private void handleGetDistrictsData(DistrictsListData districtsData) {
+  /*  private void handleGetDistrictsData(DistrictsListData districtsData) {
         fragmentBinding.loader.setVisibility(View.GONE);
         if (districtsData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
@@ -493,5 +578,5 @@ public class AddNewAddressFragment extends Fragment {
                 Utilities.showErrorPopup(getContext(), wayListData.getHeader().getMessage());
             }
         }
-    }
+    }*/
 }

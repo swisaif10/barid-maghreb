@@ -26,4 +26,10 @@ public class DashboardData {
         this.response = dashboardResponseData;
     }
 
+    @Override
+    public String toString() {
+        return "DashboardData{" +
+                ", response=" + response +
+                '}';
+    }
 }

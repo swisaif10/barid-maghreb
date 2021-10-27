@@ -19,13 +19,13 @@ import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.orders.details.OrderDetail;
 import com.mobiblanc.gbam.models.orders.details.OrderDetailsData;
+import com.mobiblanc.gbam.models.orders.details.OrderProduct;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.tracking.TrackingActivity;
-
 import java.util.List;
 
 public class OrderDetailsFragment extends Fragment implements OnItemSelectedListener {
@@ -104,6 +104,9 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
         } else {
             int code = orderDetailsData.getHeader().getCode();
             if (code == 200) {
+                List<OrderProduct> orderProductsList = orderDetailsData.getResponse().getProducts();
+                fragmentBinding.rvDetailCommande.setAdapter(new HistoryCommandeAdapter(orderProductsList));
+                fragmentBinding.rvDetailCommande.setLayoutManager(new LinearLayoutManager(getContext()));
                 init(orderDetailsData.getResponse().getOrderDetails());
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), orderDetailsData.getHeader().getMessage(), view -> {
