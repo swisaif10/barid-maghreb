@@ -5,7 +5,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/category_background"
@@ -17,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/icon"
+            android:autoSizeMaxTextSize="15sp"
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@color/blue"
             android:textSize="14sp"

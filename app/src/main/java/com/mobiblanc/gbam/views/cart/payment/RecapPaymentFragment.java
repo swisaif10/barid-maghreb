@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Browser;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,6 +26,7 @@ import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
+import com.mobiblanc.gbam.utilities.HttpClient;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.PaymentActivity;
@@ -201,6 +205,23 @@ public class RecapPaymentFragment extends Fragment {
                     Intent intent = new Intent(getContext(), PaymentActivity.class);
                     intent.putExtra("url", String.valueOf(uri));
                     startActivity(intent);
+
+
+
+                   /* CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setShowTitle(false);
+                    builder.setToolbarColor(ContextCompat.getColor(requireContext(), R.color.black));
+                    builder.enableUrlBarHiding();
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    Bundle headers = new Bundle();
+
+                    headers.putString("Authorization", HttpClient.basic);
+                    customTabsIntent.intent.putExtra(Browser.EXTRA_HEADERS, headers);
+                    //customTabsIntent.launchUrl(context, Uri.parse(url));
+                    customTabsIntent.intent.setData(Uri.parse(String.valueOf(uri)));
+                    getActivity().startActivityForResult(customTabsIntent.intent, 11);*/
+
+
 
                     /*CustomTabsIntent.Builder builder=new CustomTabsIntent.Builder();
                     builder.enableUrlBarHiding();

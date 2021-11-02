@@ -24,7 +24,7 @@
     <string name="next_btn">Continuer</string>
     <string name="save_btn">Enregistrer</string>
     <string name="add_new_address_title">Ajouter une nouvelle adresse</string>
-    <string name="street_number_hint">Numéro de rue</string>
+    <string name="street_number_hint">Rue</string>
     <string name="city_hint">Ville</string>
     <string name="district_hint">Quartier</string>
     <string name="way_hint">Voie</string>
@@ -85,7 +85,7 @@
     <string name="particular_choice_title">Particuliers</string>
     <string name="cni_hint">CIN</string>
     <string name="additional_address_hint">Complément d’adresse</string>
-    <string name="address_name_hint">Nom de l’adresse</string>
+    <string name="address_name_hint">Adresse</string>
     <string name="register_btn_title">S\'inscrire</string>
     <string name="ice_hint">ICE</string>
     <string name="id_fiscal_hint">Identifiant fiscal</string>

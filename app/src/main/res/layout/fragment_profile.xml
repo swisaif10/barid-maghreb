@@ -41,20 +41,40 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cartBtn"
-                    android:layout_width="65dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="24dp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginEnd="20dp"
-                        android:src="@drawable/ic_bag" />
-                </RelativeLayout>
+                        android:id="@+id/cart"
+                        android:layout_width="24dp"
+                        android:layout_height="26dp"
+                        android:src="@drawable/ic_bag"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/count"
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:background="@drawable/notification_circle"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="8sp"
+                        android:translationX="5dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="@id/cart"
+                        app:layout_constraintTop_toTopOf="@id/cart"
+                        tools:text="0" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

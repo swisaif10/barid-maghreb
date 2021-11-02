@@ -44,6 +44,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     }
 
 
+    public void removeItem(int position) {
+        arrayList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
     class AddressViewHolder extends RecyclerView.ViewHolder {
 
         private final AddressItemLayoutBinding itemBinding;

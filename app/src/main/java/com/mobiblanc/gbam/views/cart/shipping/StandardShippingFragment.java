@@ -9,17 +9,22 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentStandardShippingBinding;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.listeners.OnUpdateButtonClickListener;
 import com.mobiblanc.gbam.models.shipping.address.Address;
+import com.mobiblanc.gbam.utilities.SwipeHelper;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.cart.payment.RecapPaymentFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StandardShippingFragment extends Fragment implements OnItemSelectedListener, OnUpdateButtonClickListener {
 
@@ -30,6 +35,8 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     private ArrayList<Address> addressList;
     private Address address;
     private Boolean canPay;
+
+    private int deletedItemId;
 
     public StandardShippingFragment() {
         // Required empty public constructor
@@ -64,6 +71,7 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        enableSwipeToDelete();
         if (addressList.isEmpty() && !initialized) {
             AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
             addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
@@ -71,6 +79,22 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
             initialized = true;
         }
         init();
+    }
+
+    private void enableSwipeToDelete() {
+
+        new SwipeHelper(requireContext(), fragmentBinding.addressRecycler) {
+            @Override
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new SwipeHelper.UnderlayButton(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.supp),
+                        pos -> {
+                            deletedItemId = addressList.get(pos).getId();
+                            addressAdapter.removeItem(pos);
+                        }
+                ));
+            }
+        };
     }
 
     @Override
@@ -126,6 +150,11 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         fragmentBinding.addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         addressAdapter = new AddressAdapter(addressList, this);
         fragmentBinding.addressRecycler.setAdapter(addressAdapter);
+        if (this.addressList.size()==1){
+            address = addressList.get(0);
+            fragmentBinding.nextBtn.setEnabled(true);
+            address.setSelected(true);
+        }
     }
 
 }

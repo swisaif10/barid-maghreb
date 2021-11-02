@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -104,6 +106,11 @@ public class ContactFragment extends Fragment {
                 ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, phoneNumbersList);
                 fragmentBinding.orderNumber.setAdapter(adapter1);
                 fragmentBinding.orderNumber.setOnTouchListener((v, event) -> {
+                    if(phoneNumbersList.size()==0){
+                            Toast toast =Toast.makeText(requireContext(), "Aucune numéro de commande", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 200);
+                        toast.show();
+                    }
                     Utilities.hideSoftKeyboard(requireContext(), requireView());
                     fragmentBinding.orderNumber.showDropDown();
                     return false;
@@ -133,6 +140,11 @@ public class ContactFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, items);
         fragmentBinding.object.setAdapter(adapter);
         fragmentBinding.object.setOnTouchListener((v, event) -> {
+            if(items.size()==0){
+                Toast toast = Toast.makeText(requireContext(), "Aucun objet", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 200);
+                toast.show();
+            }
             Utilities.hideSoftKeyboard(requireContext(), requireView());
             fragmentBinding.object.showDropDown();
             return false;
