@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,26 +23,35 @@ import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnDialogButtonsClickListener;
 import com.mobiblanc.gbam.models.account.checkotp.CheckOTPData;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
+import com.mobiblanc.gbam.models.cart.items.CartItemsData;
+import com.mobiblanc.gbam.models.common.Item;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.NumericKeyBoardTransformationMethod;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
+import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.account.orders.OrdersFragment;
 import com.mobiblanc.gbam.views.account.profile.ContactFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
+import com.mobiblanc.gbam.views.main.MainActivity;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class AuthenticationFragment extends Fragment implements OnDialogButtonsClickListener {
 
+    private static final String TAG = "TAG";
     private FragmentAuthenticationBinding fragmentBinding;
     private Connectivity connectivity;
     private AccountVM accountVM;
+    private CartVM cartVM;
     private PreferenceManager preferenceManager;
     private String destination = "";
     private int phoneNumberLength = 11;
+    private List<Item> items;
 
     public AuthenticationFragment() {
         // Required empty public constructor
@@ -58,6 +68,8 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cartVM = ViewModelProviders.of(this).get(CartVM.class);
+        cartVM.getCartItemsLiveData().observe(this, this::handleNumberOfItemsData);
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
         connectivity = new Connectivity(requireContext(), this);
         accountVM.getSendOTPLiveData().observe(this, this::handleSendOTPData);
@@ -70,6 +82,44 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
         if (getArguments() != null) {
             destination = getArguments().getString("destination", "");
         }
+    }
+
+    private void handleNumberOfItemsData(CartItemsData cartItemsData) {
+        Log.d(TAG, "handleNumberOfItemsData: ");
+        fragmentBinding.loader.setVisibility(View.GONE);
+        if (cartItemsData == null) {
+            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
+        } else {
+            int code = cartItemsData.getHeader().getCode();
+            if (code == 200) {
+                items = cartItemsData.getResponse().getItems();
+                int q = 0;
+                for (Item item: items) {
+                    q+=Integer.parseInt(item.getQty());
+                }
+                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,q);
+                Log.d(TAG, "handleNumberOfItemsData--->: "+q);
+
+
+                if (destination.equalsIgnoreCase("new_address")) {
+                    Intent intent = new Intent(getActivity(), CartActivity.class);
+                    intent.putExtra("destination", 1);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } else if (destination.equalsIgnoreCase("history")) {
+                    ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new OrdersFragment());
+                } else if (destination.equalsIgnoreCase("contact")) {
+                    ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new ContactFragment());
+                }
+
+                else
+                    requireActivity().finish();
+
+            }else {
+                Log.d("TAG", "handleNumberOfItemsData: error ");
+            }
+        }
+
     }
 
     @Override
@@ -166,7 +216,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
     }
 
     private void handleLoginData(CheckOTPData checkOTPData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
+        //fragmentBinding.loader.setVisibility(View.GONE);
         if (checkOTPData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
@@ -179,20 +229,8 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                 //preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(String.valueOf(fragmentBinding.phoneNumber.getText()), 0));
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,0);
 
+                cartVM.getCartItems(preferenceManager.getValue(Constants.TOKEN, ""), preferenceManager.getValue(Constants.CART_ID, null));
 
-                if (destination.equalsIgnoreCase("new_address")) {
-                    Intent intent = new Intent(getActivity(), CartActivity.class);
-                    intent.putExtra("destination", 1);
-                    startActivity(intent);
-                    requireActivity().finish();
-                } else if (destination.equalsIgnoreCase("history")) {
-                    ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new OrdersFragment());
-                } else if (destination.equalsIgnoreCase("contact")) {
-                    ((AccountActivity) requireActivity()).replaceFragmentWithoutBAckStack(new ContactFragment());
-                }
-
-                else
-                    requireActivity().finish();
             } else {
                 fragmentBinding.error.setText(checkOTPData.getHeader().getMessage());
                 fragmentBinding.error.setVisibility(View.VISIBLE);

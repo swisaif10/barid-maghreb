@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,7 @@ import java.util.Objects;
 
 public class AddNewAddressFragment extends Fragment {
 
+    private static final String TAG = "TAG";
     private FragmentAddNewAddressBinding fragmentBinding;
     private Connectivity connectivity;
     private CartVM cartVM;
@@ -54,6 +56,10 @@ public class AddNewAddressFragment extends Fragment {
     private Boolean isUpdate = false;
     private String selectedCity;
     private String selectedDistrict = "";
+
+    private String title;
+    private String message;
+
     //private String selectedWay = "";
 
     public AddNewAddressFragment() {
@@ -90,6 +96,7 @@ public class AddNewAddressFragment extends Fragment {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void handleCitiesData(CitiesData citiesData) {
 
@@ -103,14 +110,10 @@ public class AddNewAddressFragment extends Fragment {
                 for (int i = 0 ; i<citiesData.getResponse().getCities().size();i++){
                     citiesList.add(citiesData.getResponse().getCities().get(i).getName());
                 }
+                message = citiesData.getResponse().getOther().getMessage();
+                title = citiesData.getResponse().getOther().getTitle();
                 ArrayAdapter<String> adapter = new ArrayAdapter(requireContext(), R.layout.custom_dropdown_item_layout, citiesList);
                 Log.d("TAG", "handleGetCitiesData: "+citiesData.getResponse().getCities());
-         /*     fragmentBinding.city.setAdapter(adapter);
-                fragmentBinding.city.showDropDown();
-                fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
-                    selectedCity = citiesData.getCities().get(position);
-                });*/
-
                 fragmentBinding.city.setAdapter(adapter);
                 fragmentBinding.city.setOnTouchListener((v, event) -> {
                     Utilities.hideSoftKeyboard(requireContext(), requireView());
@@ -119,6 +122,7 @@ public class AddNewAddressFragment extends Fragment {
                 });
                 fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
                     selectedCity = citiesData.getResponse().getCities().get(position).getName();
+                    Log.d(TAG, "handleCitiesData: "+selectedCity);
                 });
 
             } else if (code == 403) {
@@ -170,11 +174,20 @@ public class AddNewAddressFragment extends Fragment {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, "onTextChanged: selectedCity 1"+fragmentBinding.city.getText());
+
+                if (fragmentBinding.city.getText().toString().equals("Autre")){
+                    Utilities.showConfirmationDialog1(requireContext(),title,message);
+                    fragmentBinding.city.setText("");
+
+                }else
+                    Log.d(TAG, "onTextChanged: selectedCity 1 note equal");
+
+
                 if (!String.valueOf(fragmentBinding.phoneNumber.getText()).contains(" ")) {
                     int maxLength = 10;
                     InputFilter[] fArray = new InputFilter[1];
@@ -193,15 +206,18 @@ public class AddNewAddressFragment extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                Log.d(TAG, "onTextChanged: selectedCity 2"+fragmentBinding.city.getText());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                Log.d(TAG, "afterTextChanged: selectedCity 2    "+fragmentBinding.city.getText());
 
                 if (s != null && String.valueOf(s).length() > 1) {
                     getCities(String.valueOf(s));
@@ -211,43 +227,7 @@ public class AddNewAddressFragment extends Fragment {
             }
         };
 
-        TextWatcher districtAutoCompleteWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-               /* if (s != null && String.valueOf(s).length() > 1 && selectedCity != null) {
-                    getDistricts(String.valueOf(s));
-                } else {
-                    fragmentBinding.district.dismissDropDown();
-                }*/
-            }
-        };
-
-        TextWatcher wayAutoCompleteWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                /*if (s != null && String.valueOf(s).length() > 1 && selectedCity != null) {
-                    getWays(String.valueOf(s));
-                } else {
-                    fragmentBinding.way.dismissDropDown();
-                }*/
-            }
-        };
 
         fragmentBinding.container.setOnClickListener(v -> Utilities.hideSoftKeyboard(getContext(), getView()));
 
@@ -314,7 +294,6 @@ public class AddNewAddressFragment extends Fragment {
         }
 
         //fragmentBinding.way.addTextChangedListener(wayAutoCompleteWatcher);
-        fragmentBinding.district.addTextChangedListener(districtAutoCompleteWatcher);
         fragmentBinding.city.addTextChangedListener(cityAutoCompleteWatcher);
     }
 
@@ -485,6 +464,8 @@ public class AddNewAddressFragment extends Fragment {
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
 
+
+
     @SuppressLint("ClickableViewAccessibility")
     private void handleGetCitiesData(CitiesListData citiesData) {
         fragmentBinding.loader.setVisibility(View.GONE);
@@ -494,21 +475,37 @@ public class AddNewAddressFragment extends Fragment {
             int code = citiesData.getHeader().getCode();
             if (code == 200) {
                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, citiesData.getCities());
-                Log.d("TAG", "handleGetCitiesData: "+citiesData.getCities());
-         /*     fragmentBinding.city.setAdapter(adapter);
-                fragmentBinding.city.showDropDown();
-                fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
-                    selectedCity = citiesData.getCities().get(position);
-                });*/
-
                 fragmentBinding.city.setAdapter(adapter);
                 fragmentBinding.city.setOnTouchListener((v, event) -> {
                     Utilities.hideSoftKeyboard(requireContext(), requireView());
                     fragmentBinding.city.showDropDown();
                     return false;
                 });
+                fragmentBinding.city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        selectedCity = citiesData.getCities().get(position);
+                        Log.d(TAG, "onItemSelected:---> "+selectedCity);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 fragmentBinding.city.setOnItemClickListener((parent, view, position, id) -> {
                     selectedCity = citiesData.getCities().get(position);
+
+                    if(fragmentBinding.city.getText().equals("Autre")){
+                        Utilities.showErrorPopup(requireContext(),"Not found");
+                        Utilities.showConfirmationDialog(requireContext(), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                    }
+                    Log.d(TAG, "handleGetCitiesData: "+selectedCity);
                 });
 
             } else if (code == 403) {
@@ -524,59 +521,4 @@ public class AddNewAddressFragment extends Fragment {
             }
         }
     }
-
-  /*  private void handleGetDistrictsData(DistrictsListData districtsData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
-        if (districtsData == null) {
-            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
-        } else {
-            int code = districtsData.getHeader().getCode();
-            if (code == 200) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, districtsData.getDistricts());
-                fragmentBinding.district.setAdapter(adapter);
-                fragmentBinding.district.showDropDown();
-                fragmentBinding.district.setOnItemClickListener((parent, view, position, id) -> {
-                    selectedDistrict = districtsData.getDistricts().get(position);
-                });
-            } else if (code == 403) {
-                Utilities.showErrorPopupWithClick(getContext(), districtsData.getHeader().getMessage(), view -> {
-                    preferenceManager.clearValue(Constants.TOKEN);
-                    preferenceManager.clearValue(Constants.CART_ID);
-                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
-                    requireActivity().finishAffinity();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                });
-            } else {
-                Utilities.showErrorPopup(getContext(), districtsData.getHeader().getMessage());
-            }
-        }
-
-    }
-
-    private void handleGetWaysData(WayListData wayListData) {
-        fragmentBinding.loader.setVisibility(View.GONE);
-        if (wayListData == null) {
-            Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
-        } else {
-            int code = wayListData.getHeader().getCode();
-            if (code == 200) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, wayListData.getWays());
-                fragmentBinding.way.setAdapter(adapter);
-                fragmentBinding.way.showDropDown();
-                fragmentBinding.way.setOnItemClickListener((parent, view, position, id) -> {
-                    selectedWay = wayListData.getWays().get(position);
-                });
-            } else if (code == 403) {
-                Utilities.showErrorPopupWithClick(getContext(), wayListData.getHeader().getMessage(), view -> {
-                    preferenceManager.clearValue(Constants.TOKEN);
-                    preferenceManager.clearValue(Constants.CART_ID);
-                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
-                    requireActivity().finishAffinity();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                });
-            } else {
-                Utilities.showErrorPopup(getContext(), wayListData.getHeader().getMessage());
-            }
-        }
-    }*/
 }

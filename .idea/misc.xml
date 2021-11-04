@@ -18,6 +18,8 @@
         <entry key="app/src/main/res/layout/address_item_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/cart_item_layout.xml" value="0.2453125" />
         <entry key="app/src/main/res/layout/category_item_layout.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/layout/confirmation_dialog.xml" value="0.278125" />
+        <entry key="app/src/main/res/layout/confirmation_dialog1.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/confirmation_item_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_add_new_address.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_authentication.xml" value="0.3692708333333333" />

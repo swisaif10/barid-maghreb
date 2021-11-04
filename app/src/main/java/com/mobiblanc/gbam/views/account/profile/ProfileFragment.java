@@ -126,6 +126,7 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
             accountVM.logout(preferenceManager.getValue(Constants.TOKEN, null));
+            preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }

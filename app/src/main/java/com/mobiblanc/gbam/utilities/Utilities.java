@@ -131,6 +131,30 @@ public interface Utilities {
         dialog.show();
     }
 
+    static void showConfirmationDialog1(Context context,String title,String message) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.confirmation_dialog1, null, false);
+        ConstraintLayout container = view.findViewById(R.id.constraint);
+        Button next = view.findViewById(R.id.nextBtn);
+        TextView titleTV = view.findViewById(R.id.title);
+        TextView messageTV = view.findViewById(R.id.message);
+        next.setOnClickListener(v -> dialog.dismiss());
+
+
+        //container.setOnClickListener(v -> dialog.dismiss());
+
+        titleTV.setText(title);
+        messageTV.setText(message);
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
     static void showUpdateDialog(Context context, String status, OnDialogButtonsClickListener onDialogButtonsClickListener) {
 
         if (context == null) {

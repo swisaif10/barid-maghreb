@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Browser;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import com.mobiblanc.gbam.models.payment.operation.PaymentOperationData;
 import com.mobiblanc.gbam.models.payment.recap.PaymentRecapData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
-import com.mobiblanc.gbam.utilities.HttpClient;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
 import com.mobiblanc.gbam.views.PaymentActivity;
@@ -120,6 +118,7 @@ public class RecapPaymentFragment extends Fragment {
         });
         fragmentBinding.payBtn.setOnClickListener(v -> {
             deleteCart = true;
+            preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
             payment();
         });
 
@@ -231,16 +230,24 @@ public class RecapPaymentFragment extends Fragment {
                             requireContext(),
                             customTabsIntent,
                             Uri.parse(String.valueOf(uri)));*/
-                    //CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                    /*
+                    CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                    intentBuilder.setShowTitle(true);
+                    intentBuilder.setUrlBarHidingEnabled(true);
+
+
                     //intentBuilder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
                     //intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-                    //intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    //intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
-                         //   android.R.anim.slide_out_right);
-                    //CustomTabsIntent customTabsIntent = intentBuilder.build();
-                    //customTabsIntent.launchUrl(requireActivity(), uri);
+                    intentBuilder.setStartAnimations(requireContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    intentBuilder.setExitAnimations(requireContext(), android.R.anim.slide_in_left,
+                            android.R.anim.slide_out_right);
+                    CustomTabsIntent customTabsIntent = intentBuilder.build();
+                    customTabsIntent.launchUrl(requireActivity(), uri);
 
-                    fragmentBinding.scrollView.setVisibility(View.GONE);
+                    fragmentBinding.scrollView.setVisibility(View.GONE);*/
+
+
                 }
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), paymentOperationData.getHeader().getMessage(), view -> {
