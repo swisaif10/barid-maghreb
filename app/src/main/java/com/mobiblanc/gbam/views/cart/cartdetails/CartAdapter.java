@@ -69,11 +69,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             DecimalFormat df = new DecimalFormat("0.00");
             df.setMaximumFractionDigits(2);
             //itemBinding.price.setText(df.format(item.getPrice()));
-            final int[] qty = {Integer.parseInt(itemBinding.quantity.getText().toString())};
+            int[] qty = {Integer.parseInt(itemBinding.quantity.getText().toString())};
             itemBinding.decreaseBtn.setOnClickListener(v -> {
-
                 if (qty[0] > 1) {
-
                     qty[0]--;
                     itemBinding.quantity.setText(String.valueOf(qty[0]));
                     onItemQuantityChangedListener.onItemQuantityChanged(getAdapterPosition(), qty[0]);
@@ -85,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 //int qty = Integer.parseInt(itemBinding.quantity.getText().toString());
                 if (qty[0] < Integer.MAX_VALUE) {
                     qty[0]++;
-                    itemBinding.quantity.setText(String.valueOf(qty));
+                    itemBinding.quantity.setText(String.valueOf(qty[0]));
                     onItemQuantityChangedListener.onItemQuantityChanged(getAdapterPosition(), qty[0] );
                     //itemBinding.price.setText(df.format(item.getPrice()*qty[0]));
                 }

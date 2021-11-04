@@ -249,4 +249,9 @@ public interface RestEndpoint {
     @POST(ApiUrls.GET_WAY_AUTO_COMPLETE)
     Call<WayListData> getWaysByCity(@Field("localityCity") String localityCity,
                                     @Field("filter") String filter);
+
+    @FormUrlEncoded
+    @POST(ApiUrls.DELETE_ADDRESS)
+    Call<DeleteItemData> deleteAddress(@Header("x-auth-token") String token,
+                                    @Field("id_address") String idAddress);
 }

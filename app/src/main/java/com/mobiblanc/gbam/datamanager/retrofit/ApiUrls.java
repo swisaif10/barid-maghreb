@@ -45,6 +45,7 @@ public interface ApiUrls {
     String GET_CITIES_AUTO_COMPLETE = "api/locality/cities";
     String GET_DISTRICTS_AUTO_COMPLETE = "api/locality/districts";
     String GET_WAY_AUTO_COMPLETE = "api/locality/way";
+    String DELETE_ADDRESS = "/api/shipping/delete-address";
 
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 

@@ -112,5 +112,6 @@
     <string name="subject_hint">Sujet*</string>
     <string name="order_number_hint">Numéro de commande</string>
     <string name="select_city">Veuillez sélectionner une ville</string>
+    <string name="lire_plus">Lire plus</string>
 
 </resources>

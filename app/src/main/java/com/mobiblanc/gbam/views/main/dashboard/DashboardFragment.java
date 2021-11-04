@@ -47,6 +47,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     private DashboardData dashboardData;
     private CartVM cartVM;
 
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -101,7 +102,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
             case "assistance":
                 if (preferenceManager.getValue(Constants.TOKEN, null) != null) {
                     ((MainActivity) requireActivity()).replaceFragment(new ContactFragment());
-                }else {
+                } else {
                     intent = new Intent(getActivity(), AccountActivity.class);
                     intent.putExtra("destination", 2);
                     intent.putExtra("next", "contact");
@@ -255,5 +256,6 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
             }
         }
     }
+
 
 }

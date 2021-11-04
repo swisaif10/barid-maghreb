@@ -133,7 +133,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:fontFamily="@font/montserrat_semibold"
                         android:stateListAnimator="@null"
-                        android:text="@string/discover_btn"
+                        android:text="@string/lire_plus"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="14sp"

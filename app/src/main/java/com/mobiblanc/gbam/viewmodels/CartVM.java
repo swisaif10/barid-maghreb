@@ -30,6 +30,7 @@ public class CartVM extends AndroidViewModel {
     private MutableLiveData<AddItemData> addItemLiveData;
     private MutableLiveData<AddItemData> updateItemLiveData;
     private MutableLiveData<DeleteItemData> deleteItemLiveData;
+    private MutableLiveData<DeleteItemData> deleteAddressLiveData;
     private MutableLiveData<AgenciesData> agenciesLiveData;
     private MutableLiveData<AddressData> addressLiveData;
     private MutableLiveData<AddressData> addNewAddressLiveData;
@@ -62,6 +63,10 @@ public class CartVM extends AndroidViewModel {
     }
 
     public MutableLiveData<DeleteItemData> getDeleteItemLiveData() {
+        return deleteItemLiveData;
+    }
+
+    public MutableLiveData<DeleteItemData> getDeleteAddressLiveData() {
         return deleteItemLiveData;
     }
 
@@ -233,6 +238,22 @@ public class CartVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<AddressData> call, @NonNull Throwable t) {
                 addressLiveData.setValue(null);
+            }
+        });
+    }
+
+
+    public void deleteAddress(String token, String idAddress) {
+        Call<DeleteItemData> call = RestService.getInstance().endpoint().deleteAddress(token,idAddress);
+        call.enqueue(new Callback<DeleteItemData>() {
+            @Override
+            public void onResponse(@NonNull Call<DeleteItemData> call, @NonNull Response<DeleteItemData> response) {
+                deleteItemLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<DeleteItemData> call, @NonNull Throwable t) {
+                deleteItemLiveData.setValue(null);
             }
         });
     }

@@ -2,6 +2,7 @@ package com.mobiblanc.gbam.views.main.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,9 +16,11 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.mobiblanc.gbam.databinding.ProductItemLayoutBinding;
+import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnItemQuantityChangedListener;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.products.Product;
+import com.mobiblanc.gbam.utilities.Constants;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -69,6 +72,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
         holder.itemBinding.price.setText(df.format(price));
+
+
 
         holder.itemBinding.decreaseBtn.setOnClickListener(v -> {
             int qty = Integer.parseInt(holder.itemBinding.quantity.getText().toString());

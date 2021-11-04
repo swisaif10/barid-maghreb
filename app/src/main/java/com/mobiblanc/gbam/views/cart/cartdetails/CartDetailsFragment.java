@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsResponseData;
 import com.mobiblanc.gbam.models.common.Item;
 import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
+import com.mobiblanc.gbam.models.products.Product;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
@@ -37,6 +40,7 @@ import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
+import com.mobiblanc.gbam.views.main.dashboard.DashboardFragment;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -102,6 +106,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
 
     @Override
     public void onItemQuantityChanged(int index, int quantity) {
+        deactivateUserInteraction();
         itemsToAddInCart = quantity - Integer.parseInt(items.get(index).getQty());
         updateItemQty(index, quantity);
     }
@@ -131,13 +136,20 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                 getAddress();
             else {
                 started = true;
-                Utilities.showLoginPopup(requireContext(),this);
+                Utilities.showLoginPopup(requireContext(), this);
             }
         });
         items = response.getItems();
         fragmentCartDetailsBinding.cartRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cartAdapter = new CartAdapter(getContext(), items, this);
         fragmentCartDetailsBinding.cartRecycler.setAdapter(cartAdapter);
+
+
+        int q=0;
+        for (Item product:items) {
+            q+=Integer.parseInt(product.getQty());
+        }
+        Log.d("TAG", "quantity : "+q);
 
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
@@ -193,12 +205,13 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     }
 
     private void handleUpdateItemInCartData(AddItemData addItemData) {
-
+        activateUserInteraction();
         if (addItemData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
             int code = addItemData.getHeader().getCode();
             if (code == 200) {
+
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + itemsToAddInCart);
                 getCartItems();
             } else if (code == 403) {
@@ -325,5 +338,15 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                 Utilities.showErrorPopup(getContext(), recapInfoData.getHeader().getMessage());
             }
         }
+    }
+
+    public void deactivateUserInteraction() {
+        requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void activateUserInteraction() {
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
     }
 }

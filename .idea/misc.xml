@@ -18,16 +18,20 @@
         <entry key="app/src/main/res/layout/address_item_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/cart_item_layout.xml" value="0.2453125" />
         <entry key="app/src/main/res/layout/category_item_layout.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/layout/confirmation_item_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_add_new_address.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_authentication.xml" value="0.3692708333333333" />
         <entry key="app/src/main/res/layout/fragment_cart_details.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/fragment_cgu.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_discover.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.1953125" />
         <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_portrait.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.44377811094452774" />
+        <entry key="app/src/main/res/layout/fragment_recap_payment.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/fragment_registeration.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_stamps.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_standard_shipping.xml" value="0.21510416666666668" />

@@ -176,7 +176,9 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
                 preferenceManager.putValue(Constants.CART_ID, checkOTPData.getResponse().getQuoteId());
                 preferenceManager.putValue(Constants.NAME, checkOTPData.getResponse().getName());
                 preferenceManager.putValue(Constants.PHONE_NUMBER, String.valueOf(fragmentBinding.phoneNumber.getText()));
-                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(String.valueOf(fragmentBinding.phoneNumber.getText()), 0));
+                //preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(String.valueOf(fragmentBinding.phoneNumber.getText()), 0));
+                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,0);
+
 
                 if (destination.equalsIgnoreCase("new_address")) {
                     Intent intent = new Intent(getActivity(), CartActivity.class);
