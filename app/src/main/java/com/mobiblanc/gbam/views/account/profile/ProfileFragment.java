@@ -94,10 +94,20 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
                 ((AccountActivity) requireActivity()).replaceFragment(new ContactFragment());
                 break;
             case 4:
-                ((AccountActivity) requireActivity()).replaceFragment(WebViewFragment.newInstance(true));
+                FAQStampsFragment faqStampsFragment = new FAQStampsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("FAQ","FAQ");
+                bundle.putString("title","FAQ Portrait Officiel");
+                faqStampsFragment.setArguments(bundle);
+                ((AccountActivity) requireActivity()).replaceFragment(faqStampsFragment);
+                //((AccountActivity) requireActivity()).replaceFragment(WebViewFragment.newInstance(true));
                 break;
             case 5:
-                ((AccountActivity) requireActivity()).replaceFragment(new FAQStampsFragment());
+                FAQStampsFragment fragment = new FAQStampsFragment();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("title","FAQ Timbres poste");
+                fragment.setArguments(bundle1);
+                ((AccountActivity) requireActivity()).replaceFragment(fragment);
                 break;
         }
     }
@@ -180,6 +190,7 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
                 intent.putExtra("destination", 1);
                 intent.putExtra("addresses", addressData.getResponse().getAddresses());
                 intent.putExtra("canPay", false);
+                intent.putExtra("fromPF",true);
                 startActivity(intent);
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), addressData.getHeader().getMessage(), view -> {

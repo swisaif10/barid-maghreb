@@ -15,6 +15,13 @@ public class CartItemsResponseData {
     private float productsPrice;
     @Expose
     private float totalPrice;
+    @Expose
+    private int countCart;
+
+
+    public int getCountCart() {
+        return countCart;
+    }
 
     public float getFees() {
         return fees;

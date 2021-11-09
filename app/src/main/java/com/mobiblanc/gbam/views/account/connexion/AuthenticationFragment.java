@@ -93,14 +93,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
             int code = cartItemsData.getHeader().getCode();
             if (code == 200) {
                 items = cartItemsData.getResponse().getItems();
-                int q = 0;
-                for (Item item: items) {
-                    q+=Integer.parseInt(item.getQty());
-                }
-                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,q);
-                Log.d(TAG, "handleNumberOfItemsData--->: "+q);
-
-
+                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,cartItemsData.getResponse().getCountCart());
                 if (destination.equalsIgnoreCase("new_address")) {
                     Intent intent = new Intent(getActivity(), CartActivity.class);
                     intent.putExtra("destination", 1);
@@ -217,6 +210,7 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
 
     private void handleLoginData(CheckOTPData checkOTPData) {
         //fragmentBinding.loader.setVisibility(View.GONE);
+        fragmentBinding.loader.setVisibility(View.GONE);
         if (checkOTPData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {

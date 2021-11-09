@@ -9,6 +9,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/drawable/my_button_bg.xml" value="0.3614583333333333" />
         <entry key="app/src/main/res/drawable/notification_circle.xml" value="0.1703125" />
         <entry key="app/src/main/res/layout-v26/category_item_layout.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.21510416666666668" />
@@ -16,11 +17,13 @@
         <entry key="app/src/main/res/layout/activity_paiment_activity.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/activity_tracking.xml" value="0.21041666666666667" />
         <entry key="app/src/main/res/layout/address_item_layout.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/agency_item_layout.xml" value="0.13854166666666667" />
         <entry key="app/src/main/res/layout/cart_item_layout.xml" value="0.2453125" />
         <entry key="app/src/main/res/layout/category_item_layout.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/layout/confirmation_dialog.xml" value="0.278125" />
         <entry key="app/src/main/res/layout/confirmation_dialog1.xml" value="0.35104166666666664" />
         <entry key="app/src/main/res/layout/confirmation_item_layout.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/faq_stamp_item_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_new_address.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_authentication.xml" value="0.3692708333333333" />
         <entry key="app/src/main/res/layout/fragment_cart_details.xml" value="0.15416666666666667" />
@@ -28,24 +31,29 @@
         <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_discover.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_faq_stamps.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.1953125" />
         <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/layout/fragment_portrait.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.44377811094452774" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.3204225352112676" />
         <entry key="app/src/main/res/layout/fragment_recap_payment.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/fragment_registeration.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_shipping_method.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/fragment_stamps.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_standard_shipping.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/fragment_webview.xml" value="0.16354166666666667" />
         <entry key="app/src/main/res/layout/history_commande_item.xml" value="0.3536458333333333" />
         <entry key="app/src/main/res/layout/login_dialog.xml" value="0.19074074074074074" />
+        <entry key="app/src/main/res/layout/my_button_bg.xml" value="0.3453125" />
         <entry key="app/src/main/res/layout/order_details_item_layout.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/order_item_layout.xml" value="0.3536458333333333" />
         <entry key="app/src/main/res/layout/product_item_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/send_otp_dialog.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/server_error_dialog.xml" value="0.1" />
         <entry key="app/src/main/res/layout/services_item_layout.xml" value="0.21041666666666667" />
+        <entry key="app/src/main/res/layout/tracking_dialog.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/version_dialog.xml" value="0.335" />
       </map>
     </option>
   </component>

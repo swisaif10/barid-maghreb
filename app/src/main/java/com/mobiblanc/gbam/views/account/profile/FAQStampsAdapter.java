@@ -1,5 +1,7 @@
 package com.mobiblanc.gbam.views.account.profile;
 
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,8 @@ public class FAQStampsAdapter extends RecyclerView.Adapter<FAQStampsAdapter.ITem
 
         private void bind(FAQItem item) {
             itemBinding.question.setText(item.getQuestion());
-            itemBinding.response.setText(item.getResponse().replace("\\n ", "\n"));
+            Spanned response = Html.fromHtml(item.getResponse());
+            itemBinding.response.setText(response);
 
             itemBinding.getRoot().setOnClickListener(view -> {
                 if (itemBinding.response.getVisibility() == View.VISIBLE) {

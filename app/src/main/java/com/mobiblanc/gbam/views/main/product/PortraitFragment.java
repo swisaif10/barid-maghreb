@@ -108,7 +108,10 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
         super.onResume();
 
         fragmentPortraitBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
-        fragmentPortraitBinding.cartBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), CartActivity.class)));
+        fragmentPortraitBinding.cartBtn.setOnClickListener(v -> {
+            fragmentPortraitBinding.preview.setVisibility(View.INVISIBLE);
+            startActivity(new Intent(getActivity(), CartActivity.class));
+        });
 
         if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0) {
             fragmentPortraitBinding.count.setVisibility(View.VISIBLE);

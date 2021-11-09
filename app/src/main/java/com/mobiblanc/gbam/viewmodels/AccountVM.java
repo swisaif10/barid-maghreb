@@ -38,6 +38,7 @@ public class AccountVM extends AndroidViewModel {
     private MutableLiveData<OrderDetailsData> orderDetailsLiveData;
     private MutableLiveData<WebViewData> faqPortraitLiveData;
     private MutableLiveData<FAQStampData> faqStampLiveData;
+    private MutableLiveData<FAQStampData> faqPoLiveData;
     private MutableLiveData<MessageObjectsData> messageObjectsListLiveData;
     private MutableLiveData<SendMessageData> sendMessageLiveData;
 
@@ -103,6 +104,10 @@ public class AccountVM extends AndroidViewModel {
         return faqStampLiveData;
     }
 
+    public MutableLiveData<FAQStampData> getFaqPoLiveData() {
+        return faqPoLiveData;
+    }
+
     public MutableLiveData<MessageObjectsData> getMessageObjectsListLiveData() {
         return messageObjectsListLiveData;
     }
@@ -126,6 +131,7 @@ public class AccountVM extends AndroidViewModel {
         orderDetailsLiveData = new MutableLiveData<>();
         faqPortraitLiveData = new MutableLiveData<>();
         faqStampLiveData = new MutableLiveData<>();
+        faqPoLiveData = new MutableLiveData<>();
         messageObjectsListLiveData = new MutableLiveData<>();
         sendMessageLiveData = new MutableLiveData<>();
     }
@@ -346,6 +352,21 @@ public class AccountVM extends AndroidViewModel {
             @Override
             public void onFailure(@NonNull Call<FAQStampData> call, @NonNull Throwable t) {
                 faqStampLiveData.setValue(null);
+            }
+        });
+    }
+
+    public void getFAQPo() {
+        Call<FAQStampData> call = RestService.getInstance().endpoint().getFAQPo();
+        call.enqueue(new Callback<FAQStampData>() {
+            @Override
+            public void onResponse(@NonNull Call<FAQStampData> call, @NonNull Response<FAQStampData> response) {
+                faqPoLiveData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<FAQStampData> call, @NonNull Throwable t) {
+                faqPoLiveData.setValue(null);
             }
         });
     }

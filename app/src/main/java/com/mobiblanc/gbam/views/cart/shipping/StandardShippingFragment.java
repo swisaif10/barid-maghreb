@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.gbam.R;
+import com.mobiblanc.gbam.StaticData;
 import com.mobiblanc.gbam.databinding.FragmentStandardShippingBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
@@ -28,6 +29,8 @@ import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.SwipeHelper;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.CartVM;
+import com.mobiblanc.gbam.views.account.connexion.AuthenticationFragment;
+import com.mobiblanc.gbam.views.account.profile.ProfileFragment;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.cart.payment.RecapPaymentFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
@@ -46,10 +49,8 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     private Boolean canPay;
     private CartVM cartVM;
     private PreferenceManager preferenceManager;
-
     private int deletedItemId;
-
-    private  int idAddress;
+    String resource = "";
 
     public StandardShippingFragment() {
         // Required empty public constructor
@@ -110,10 +111,10 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         super.onViewCreated(view, savedInstanceState);
         enableSwipeToDelete();
         if (addressList.isEmpty() && !initialized) {
+            initialized = true;
             AddNewAddressFragment addNewAddressFragment = new AddNewAddressFragment();
             addNewAddressFragment.setTargetFragment(StandardShippingFragment.this, REQUEST_CODE);
             ((CartActivity) requireActivity()).replaceFragment(addNewAddressFragment);
-            initialized = true;
         }
         init();
     }
@@ -140,8 +141,12 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     @Override
     public void onResume() {
         super.onResume();
-        ((CartActivity) getActivity()).showHideHeader(View.VISIBLE);
+        ((CartActivity) requireActivity()).showHideHeader(View.VISIBLE);
         initialized = false;
+
+        if (!StaticData.RESOURCE.equals("") && addressList.size() == 0) {
+           requireActivity().finish();
+        }
     }
 
     @Override
@@ -190,7 +195,7 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
         fragmentBinding.addressRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         addressAdapter = new AddressAdapter(addressList, this);
         fragmentBinding.addressRecycler.setAdapter(addressAdapter);
-        if (this.addressList.size() == 1) {
+        if (this.addressList.size() == 1 && canPay) {
             address = addressList.get(0);
             fragmentBinding.nextBtn.setEnabled(true);
             address.setSelected(true);

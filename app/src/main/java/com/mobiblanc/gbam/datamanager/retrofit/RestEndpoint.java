@@ -226,6 +226,9 @@ public interface RestEndpoint {
     @POST(ApiUrls.GET_FAQ_STAMP_URL)
     Call<FAQStampData> getFAQStamp();
 
+    @POST(ApiUrls.GET_FAQ_PORTRAIT_OFFICIEL)
+    Call<FAQStampData> getFAQPo();
+
     @POST(ApiUrls.GET_CONTACT_SUBJECTS_URL_AND_NUM)
     Call<MessageObjectsData> getMessageObjects(@Header("x-auth-token") String token);
 

@@ -39,6 +39,7 @@ public interface ApiUrls {
     String GET_ORDER_DETAILS_URL = "api/account/get-detail-order";
     String GET_FAQ_PORTRAIT_URL = "api/contact/faq-portrait";
     String GET_FAQ_STAMP_URL = "api/contact/faq-timbre";
+    String GET_FAQ_PORTRAIT_OFFICIEL = "api/contact/faq-portrait";
     //String GET_CONTACT_SUBJECTS_URL = "api/contact/get-subject";
     String GET_CONTACT_SUBJECTS_URL_AND_NUM = "api/contact/get-info-contact";
     String SEND_CONTACT_MESSAGE_URL = "api/contact/message";

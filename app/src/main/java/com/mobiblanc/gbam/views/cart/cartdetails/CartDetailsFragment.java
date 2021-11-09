@@ -143,14 +143,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         fragmentCartDetailsBinding.cartRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cartAdapter = new CartAdapter(getContext(), items, this);
         fragmentCartDetailsBinding.cartRecycler.setAdapter(cartAdapter);
-
-
-        int q=0;
-        for (Item product:items) {
-            q+=Integer.parseInt(product.getQty());
-        }
-        Log.d("TAG", "quantity : "+q);
-
+        preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,response.getCountCart());
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
         fragmentCartDetailsBinding.price.setText(df.format(response.getProductsPrice()) + " MAD");

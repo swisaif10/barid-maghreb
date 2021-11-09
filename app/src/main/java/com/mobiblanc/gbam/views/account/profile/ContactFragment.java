@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -80,7 +81,7 @@ public class ContactFragment extends Fragment {
         if (connectivity.isConnected()) {
             fragmentBinding.loader.setVisibility(View.VISIBLE);
             accountVM.getMessageObjects(token);
-            Log.d("token-->", "getMessageObjects: "+token);
+            Log.d("token-->", "getMessageObjects: " + token);
         } else
             Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
     }
@@ -95,39 +96,48 @@ public class ContactFragment extends Fragment {
             int code = messageObjectsData.getHeader().getCode();
             if (code == 200) {
                 List<String> subjectList = new ArrayList<>();
-                for (int i = 0 ;i<messageObjectsData.getResponse().getSubjects().size();i++){
+                for (int i = 0; i < messageObjectsData.getResponse().getSubjects().size(); i++) {
                     subjectList.add(messageObjectsData.getResponse().getSubjects().get(i).getSubject());
                 }
                 List<String> phoneNumbersList = new ArrayList<>();
-                for (int i = 0 ;i<messageObjectsData.getResponse().getCommandNumbers().size();i++){
+                for (int i = 0; i < messageObjectsData.getResponse().getCommandNumbers().size(); i++) {
                     phoneNumbersList.add(messageObjectsData.getResponse().getCommandNumbers().get(i).getCommandNumber());
                 }
 
                 ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, phoneNumbersList);
                 fragmentBinding.orderNumber.setAdapter(adapter1);
                 fragmentBinding.orderNumber.setOnTouchListener((v, event) -> {
-                    if(phoneNumbersList.size()==0){
-                            Toast toast =Toast.makeText(requireContext(), "Aucune numéro de commande", Toast.LENGTH_SHORT);
+                    if (phoneNumbersList.size() == 0) {
+                        Toast toast = Toast.makeText(requireContext(), "Aucun numéro de commande", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 200);
+
                         toast.show();
+
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                toast.cancel();
+                            }
+                        }, 800);
+
+
                     }
                     Utilities.hideSoftKeyboard(requireContext(), requireView());
                     fragmentBinding.orderNumber.showDropDown();
                     return false;
                 });
 
-                fragmentBinding.orderNumber.setOnItemClickListener((parent, view, position, id) -> {
-                    orderNumber = phoneNumbersList.get(position);
-                });
+                fragmentBinding.orderNumber.setOnItemClickListener((parent, view, position, id) -> orderNumber = phoneNumbersList.get(position));
 
                 init(subjectList);
-            }else if (code == 403) {
+            } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), messageObjectsData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
                     requireActivity().finishAffinity();
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 });
-            }  else {
+            } else {
                 Utilities.showErrorPopup(getContext(), messageObjectsData.getHeader().getMessage());
             }
         }
@@ -140,7 +150,7 @@ public class ContactFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.custom_dropdown_item_layout, items);
         fragmentBinding.object.setAdapter(adapter);
         fragmentBinding.object.setOnTouchListener((v, event) -> {
-            if(items.size()==0){
+            if (items.size() == 0) {
                 Toast toast = Toast.makeText(requireContext(), "Aucun objet", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 200);
                 toast.show();
@@ -152,11 +162,6 @@ public class ContactFragment extends Fragment {
         fragmentBinding.object.setOnItemClickListener((parent, view, position, id) -> {
             selectedObject = items.get(position);
         });
-
-
-
-
-
 
 
         fragmentBinding.subject.addTextChangedListener(new TextWatcher() {

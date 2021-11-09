@@ -25,6 +25,8 @@ public class Address implements Serializable {
     private String ice;
     @Expose
     private String cni;
+    @Expose
+    public String district;
     @SerializedName("street_number")
     private String streetNumber;
     @SerializedName("complement_address")
