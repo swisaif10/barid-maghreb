@@ -71,7 +71,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.HistoryVie
             }
             System.out.println();
             itemBinding.date.setText("Commande du "+format2.format(date));
-            itemBinding.productsNumber.setText(order.getTotalItem());
+            ///itemBinding.productsNumber.setText(order.getTotalItem());
             Float price = Float.parseFloat(order.getTotalAmount());
             DecimalFormat df = new DecimalFormat("0.00");
             df.setMaximumFractionDigits(2);
