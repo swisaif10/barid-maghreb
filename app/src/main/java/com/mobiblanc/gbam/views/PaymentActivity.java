@@ -22,13 +22,14 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Bundle extras = getIntent().getExtras();
+
         if(extras == null) {
             url= null;
         } else {
             url= extras.getString("url");
         }
+
         setContentView(R.layout.activity_paiment_activity);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_paiment_activity);
         binding.paymentWebView.getSettings().setJavaScriptEnabled(true);

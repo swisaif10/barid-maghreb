@@ -5,6 +5,8 @@
         <domain includeSubdomains="true">ecommerce.blanc.tech</domain>
         <domain includeSubdomains="true">bkp.magento.poste.mobiblanc.com</domain>
         <domain includeSubdomains="true">194.204.221.144</domain>
+        <domain includeSubdomains="true">baridalmaghrib-test-be.barid.ma</domain>
+        <domain includeSubdomains="true">baridalmaghrib-test-magento.barid.ma</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="false">
         <trust-anchors>

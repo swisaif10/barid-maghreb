@@ -139,6 +139,7 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:text="Portrait"
                 android:textColor="@color/black"
+                android:visibility="gone"
                 android:textSize="10sp" />
 
             <TextView

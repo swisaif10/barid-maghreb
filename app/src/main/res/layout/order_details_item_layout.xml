@@ -6,26 +6,45 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginBottom="-5dp"
-        android:background="@drawable/delivery_backgroundtint_selector"
         android:clickable="true"
         android:focusable="true"
-        android:padding="20dp">
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/blue"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/montserrat_semibold"
+            android:layout_marginStart="33dp"
+            android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="N°SB129056" />
 
-        <LinearLayout
+
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:src="@drawable/next_item"
+            android:layout_marginEnd="33dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -52,6 +71,6 @@
                 android:textColor="@color/black"
                 android:textSize="10sp"
                 tools:text="07 septembre 2020" />
-        </LinearLayout>
+        </LinearLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

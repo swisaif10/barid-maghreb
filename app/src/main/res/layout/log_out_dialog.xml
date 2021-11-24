@@ -22,58 +22,66 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.85">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="Mise à jour"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logout"
+            />
 
         <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/montserrat_regular"
-            android:text="Une nouvelle version de l'application est disponible"
+            android:text="Voulez-vous vraiment quitter ?"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:minWidth="220dp"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/blue"
-            android:fontFamily="@font/montserrat_medium"
-            android:stateListAnimator="@null"
-            android:text="Mettre à jour"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            app:cornerRadius="20dp" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
+                android:layout_marginEnd="2dp"
             android:minWidth="220dp"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/montserrat_medium"
             android:stateListAnimator="@null"
-            android:text="Pas maintenant"
+            android:text="Annuler"
             android:textAllCaps="false"
             android:textColor="@color/blue"
             android:textSize="13sp"
             app:strokeColor="@color/blue"
             app:strokeWidth="2dp"
-            app:cornerRadius="20dp" />
+            app:cornerRadius="10dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm"
+                android:minWidth="220dp"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/blue"
+                android:fontFamily="@font/montserrat_medium"
+                android:stateListAnimator="@null"
+                android:text="Confirmer"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:cornerRadius="10dp"
+                />
+        </LinearLayout>
+
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

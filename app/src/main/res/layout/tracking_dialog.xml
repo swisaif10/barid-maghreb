@@ -30,7 +30,8 @@
             android:switchMinWidth="45dp"
             android:text="Suivi de virement"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/message"

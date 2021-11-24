@@ -9,20 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobiblanc.gbam.databinding.OrderDetailsItemLayoutBinding;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
-import com.mobiblanc.gbam.models.orders.details.OrderDetail;
+import com.mobiblanc.gbam.models.orders.details.TrackingNumber;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class OrdersDetailsAdapter extends RecyclerView.Adapter<OrdersDetailsAdapter.HistoryViewHolder> {
+public class OrdersDetailsItemsAdapter extends RecyclerView.Adapter<OrdersDetailsItemsAdapter.HistoryViewHolder> {
 
-    private final List<OrderDetail> arrayList;
+    private final List<TrackingNumber> arrayList;
     private final OnItemSelectedListener onItemSelectedListener;
 
-    public OrdersDetailsAdapter(List<OrderDetail> arrayList, OnItemSelectedListener onItemSelectedListener) {
+    public OrdersDetailsItemsAdapter(List<TrackingNumber> arrayList, OnItemSelectedListener onItemSelectedListener) {
         this.arrayList = arrayList;
         this.onItemSelectedListener = onItemSelectedListener;
     }
@@ -58,19 +56,19 @@ public class OrdersDetailsAdapter extends RecyclerView.Adapter<OrdersDetailsAdap
         }
 
         @SuppressLint("SimpleDateFormat")
-        private void bind(OrderDetail orderDetail) {
-            itemBinding.title.setText(String.format("N°%s", orderDetail.getTrackingNumber()));
+        private void bind(TrackingNumber orderDetail) {
+            itemBinding.title.setText(String.format("N°%s", orderDetail.getTracking()));
+            itemBinding.title.setText(String.format("N°%s", orderDetail.getTracking()));
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat format2 = new SimpleDateFormat("dd MMMM yyy", new Locale("fr"));
-            Date date = null;
-            try {
+            //Date date = null;
+            /*try {
                 date = format1.parse(orderDetail.getCreatedAt());
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+           }*/
             System.out.println();
-            itemBinding.date.setText(format2.format(date));
-
+            //itemBinding.date.setText(format2.format(date));
             itemBinding.getRoot().setOnClickListener(v -> onItemSelectedListener.onItemSelected(getAdapterPosition(), orderDetail));
         }
     }

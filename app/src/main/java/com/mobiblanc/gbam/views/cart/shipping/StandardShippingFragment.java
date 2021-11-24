@@ -141,12 +141,20 @@ public class StandardShippingFragment extends Fragment implements OnItemSelected
     @Override
     public void onResume() {
         super.onResume();
+        if (!StaticData.RESOURCE.equals("") && addressList.size() == 0) {
+            requireActivity().finish();
+        }
         ((CartActivity) requireActivity()).showHideHeader(View.VISIBLE);
         initialized = false;
 
-        if (!StaticData.RESOURCE.equals("") && addressList.size() == 0) {
-           requireActivity().finish();
+
+
+        if (this.addressList.size() == 1 && canPay) {
+            address = addressList.get(0);
+            fragmentBinding.nextBtn.setEnabled(true);
+            address.setSelected(true);
         }
+
     }
 
     @Override

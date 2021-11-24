@@ -138,7 +138,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
     public void onCategoryItemSelected(int index) {
         Category category = dashboardData.getDashboardResponseData().getInfos().getCategories().get(index);
         if (category.getViewCategory().equalsIgnoreCase("portraits"))
-            Utilities.showDashboardDialog(getContext(), "Portrait Officiel de Sa Majesté", category.getDescriptionGlobal(),
+            Utilities.showDashboardDialog(getContext(), "Potrait officiel sa Majesté le Roi Mohammed VI", category.getDescriptionGlobal(),
                     v -> ((MainActivity) requireActivity()).replaceFragment(PortraitFragment.newInstance(category.getId(), category.getImage(), category.getDescription())));
         else
             ((MainActivity) requireActivity()).replaceFragment(StampsFragment.newInstance(category.getId()));

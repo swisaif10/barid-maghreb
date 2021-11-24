@@ -43,6 +43,31 @@ public interface Utilities {
         }
     }
 
+    static void signOutDialog(Context context, OnDialogButtonsClickListener onDialogButtonsClickListener) {
+
+        if (context == null) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.log_out_dialog, null, false);
+        Button confirm = view.findViewById(R.id.confirm);
+        ConstraintLayout container = view.findViewById(R.id.container);
+        Button cancel = view.findViewById(R.id.cancel);
+        confirm.setOnClickListener(v -> {
+            onDialogButtonsClickListener.onFirstButtonClick(null);
+            dialog.dismiss();
+        });
+        cancel.setOnClickListener(v -> {
+            dialog.dismiss();
+            onDialogButtonsClickListener.onSecondButtonClick();
+        });
+        container.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
     static void showErrorPopup(Context context, String message) {
 
         if (context == null) {

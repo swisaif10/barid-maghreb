@@ -20,12 +20,14 @@ import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.orders.details.OrderDetail;
 import com.mobiblanc.gbam.models.orders.details.OrderDetailsData;
 import com.mobiblanc.gbam.models.orders.details.OrderProduct;
+import com.mobiblanc.gbam.models.orders.details.TrackingNumber;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
 import com.mobiblanc.gbam.views.main.MainActivity;
 import com.mobiblanc.gbam.views.tracking.TrackingActivity;
+
 import java.util.List;
 
 public class OrderDetailsFragment extends Fragment implements OnItemSelectedListener {
@@ -71,6 +73,10 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentBinding = FragmentOrderDetailsBinding.inflate(inflater, container, false);
+        fragmentBinding.cardViewTotal.setVisibility(View.INVISIBLE);
+        //fragmentBinding.cardCodSapTimpber.setVisibility(View.INVISIBLE);
+        //fragmentBinding.cardCodSapPortrait.setVisibility(View.INVISIBLE);
+        fragmentBinding.expidition.setVisibility(View.INVISIBLE);
         return fragmentBinding.getRoot();
     }
 
@@ -85,7 +91,8 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
     public void onItemSelected(int position, Object object) {
         Intent intent = new Intent(requireActivity(), TrackingActivity.class);
         intent.putExtra("orderId", id);
-        intent.putExtra("trackingId", ((OrderDetail) object).getTrackingNumber());
+        //intent.putExtra("trackingId", ((OrderDetail) object).getTrackingNumber());
+        intent.putExtra("trackingId", ((TrackingNumber) object).getTracking());
         startActivity(intent);
     }
 
@@ -98,16 +105,14 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
     }
 
     private void handleOrderDetailsData(OrderDetailsData orderDetailsData) {
+        fragmentBinding.cardViewTotal.setVisibility(View.VISIBLE);
         fragmentBinding.loader.setVisibility(View.GONE);
         if (orderDetailsData == null) {
             Utilities.showErrorPopup(getContext(), getString(R.string.generic_error));
         } else {
             int code = orderDetailsData.getHeader().getCode();
             if (code == 200) {
-                List<OrderProduct> orderProductsList = orderDetailsData.getResponse().getProducts();
-                fragmentBinding.rvDetailCommande.setAdapter(new HistoryCommandeAdapter(orderProductsList));
-                fragmentBinding.rvDetailCommande.setLayoutManager(new LinearLayoutManager(getContext()));
-                init(orderDetailsData.getResponse().getOrderDetails());
+                init(orderDetailsData);
             } else if (code == 403) {
                 Utilities.showErrorPopupWithClick(getContext(), orderDetailsData.getHeader().getMessage(), view -> {
                     preferenceManager.clearValue(Constants.TOKEN);
@@ -122,12 +127,25 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
         }
     }
 
-    private void init(List<OrderDetail> orderDetails) {
-        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
-        fragmentBinding.orderNumber.setText(String.format("Commande N°%s", id));
-        fragmentBinding.amount.setText(String.format("%s MAD", amount));
+    private void init(OrderDetailsData orderDetails) {
 
-        fragmentBinding.orderDetailsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentBinding.orderDetailsRecycler.setAdapter(new OrdersDetailsAdapter(orderDetails, this));
+        fragmentBinding.cardViewTotal.setVisibility(View.VISIBLE);
+        fragmentBinding.expidition.setVisibility(View.VISIBLE);
+        List<OrderDetail> orderDetailsLit = orderDetails.getResponse().getOrderDetails();
+
+        if (orderDetailsLit.size()==0){
+            fragmentBinding.expidition.setVisibility(View.GONE);
+        }
+
+        fragmentBinding.rvOrdersDetail.setAdapter(new OrderDetailsAdapter(orderDetailsLit,requireContext(),this));
+        fragmentBinding.rvOrdersDetail.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
+        fragmentBinding.amount.setText(String.format("%s MAD", amount));
+        List<OrderProduct> orderProductsList = orderDetails.getResponse().getProducts();
+        fragmentBinding.rvDetailCommande.setAdapter(new HistoryCommandeAdapter(orderProductsList));
+        fragmentBinding.rvDetailCommande.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+
     }
 }

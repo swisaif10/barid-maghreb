@@ -86,7 +86,8 @@ public class TrackingActivity extends AppCompatActivity {
             String orderId = getIntent().getStringExtra("orderId");
             String trackingId = getIntent().getStringExtra("trackingId");
             activityBinding.codeLayout.setVisibility(View.GONE);
-            activityBinding.title.setText(String.format("Commande N°%s", orderId));
+            //activityBinding.title.setText(String.format("Commande N°%s", orderId));
+            activityBinding.title.setVisibility(View.GONE);
             activityBinding.trackingNumber.setText(String.format("Expédition N°%s", trackingId));
             activityBinding.trackingNumber.setVisibility(View.VISIBLE);
             getTracking(trackingId);

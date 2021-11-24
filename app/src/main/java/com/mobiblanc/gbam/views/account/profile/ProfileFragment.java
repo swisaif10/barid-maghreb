@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.mobiblanc.gbam.R;
 import com.mobiblanc.gbam.databinding.FragmentProfileBinding;
 import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
+import com.mobiblanc.gbam.listeners.OnDialogButtonsClickListener;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.account.ProfileMenuItem;
 import com.mobiblanc.gbam.models.account.otp.OTPData;
@@ -133,12 +134,25 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
     }
 
     private void logout() {
-        if (connectivity.isConnected()) {
-            fragmentBinding.loader.setVisibility(View.VISIBLE);
-            accountVM.logout(preferenceManager.getValue(Constants.TOKEN, null));
-            preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
-        } else
-            Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+
+        Utilities.signOutDialog(requireContext(), new OnDialogButtonsClickListener() {
+            @Override
+            public void onFirstButtonClick(String code) {
+                if (connectivity.isConnected()) {
+                    fragmentBinding.loader.setVisibility(View.VISIBLE);
+                    accountVM.logout(preferenceManager.getValue(Constants.TOKEN, null));
+                    preferenceManager.clearValue(Constants.NB_ITEMS_IN_CART);
+                } else
+                    Utilities.showErrorPopup(getContext(), getString(R.string.no_internet_msg));
+            }
+
+            @Override
+            public void onSecondButtonClick() {
+
+            }
+        });
+
+
     }
 
     private void handleLogoutData(OTPData otpData) {

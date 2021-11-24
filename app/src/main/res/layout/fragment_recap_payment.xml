@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:fillViewport="true"
             android:overScrollMode="never"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -348,7 +348,7 @@
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:src="@mipmap/loader"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 </layout>

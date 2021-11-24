@@ -2,6 +2,7 @@ package com.mobiblanc.gbam.views.account.orders;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,9 @@ public class HistoryCommandeAdapter extends RecyclerView.Adapter<HistoryCommande
 
     @Override
     public void onBindViewHolder(@NonNull HistoryCommandeAdapter.HistoryViewHolder holder, int position) {
+        if (arrayList.size()>1 && position == arrayList.size()-1){
+            holder.itemBinding.separator.setVisibility(View.GONE);
+        }
         holder.bind(arrayList.get(position));
     }
 
@@ -53,7 +57,7 @@ public class HistoryCommandeAdapter extends RecyclerView.Adapter<HistoryCommande
 
         private void bind(OrderProduct orderProduct) {
             itemBinding.nameHistory.setText(orderProduct.getName());
-            itemBinding.price.setText(String.format("%s MAD", orderProduct.getTotalPrice()));
+            //itemBinding.price.setText(String.format("%s MAD", orderProduct.getTotalPrice()));
             itemBinding.quantity.setText(String.format("Quantité: %s", orderProduct.getQuantity()));
             //itemBinding.getRoot().setOnClickListener(v -> onItemSelectedListener.onItemSelected(getAdapterPosition(), orderProduct));
         }
