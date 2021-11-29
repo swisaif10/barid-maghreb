@@ -66,7 +66,8 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<OrderDetailsAdapte
 
         @SuppressLint("SimpleDateFormat")
         private void bind(OrderDetail orderDetail) {
-            itemBinding.orderNumber.setText(String.format("N°%s", orderDetail.getOrderId()));
+            //itemBinding.orderNumber.setText(String.format("N°%s", orderDetail.getOrderId()));
+            itemBinding.orderNumber.setText(orderDetail.getOrderId());
             itemBinding.orderDetailsRecycler.setLayoutManager(new LinearLayoutManager(context));
             adapter = new OrdersDetailsItemsAdapter(orderDetail.getTrackingNumbers(),onItemSelectedListener);
             itemBinding.orderDetailsRecycler.setAdapter(adapter);

@@ -88,7 +88,8 @@ public class TrackingActivity extends AppCompatActivity {
             activityBinding.codeLayout.setVisibility(View.GONE);
             //activityBinding.title.setText(String.format("Commande N°%s", orderId));
             activityBinding.title.setVisibility(View.GONE);
-            activityBinding.trackingNumber.setText(String.format("Expédition N°%s", trackingId));
+            //activityBinding.trackingNumber.setText(String.format("Expédition N°%s", trackingId));
+            activityBinding.trackingNumber.setText(trackingId);
             activityBinding.trackingNumber.setVisibility(View.VISIBLE);
             getTracking(trackingId);
         }

@@ -61,6 +61,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.HistoryVie
         @SuppressLint("SimpleDateFormat")
         private void bind(Order order) {
             itemBinding.title.setText(String.format("N°%s", order.getOrderId()));
+            //itemBinding.title.setText(order.getOrderId());
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             SimpleDateFormat format2 = new SimpleDateFormat("dd MMMM yyy", new Locale("fr"));
             Date date = null;

@@ -56,8 +56,8 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            id = getArguments().getString("id");
-            amount = getArguments().getString("amount");
+            id = getArguments().getString("order_id");
+            amount = getArguments().getString("total_amount");
         }
 
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
@@ -133,11 +133,11 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
         fragmentBinding.expidition.setVisibility(View.VISIBLE);
         List<OrderDetail> orderDetailsLit = orderDetails.getResponse().getOrderDetails();
 
-        if (orderDetailsLit.size()==0){
+        if (orderDetailsLit.size() == 0) {
             fragmentBinding.expidition.setVisibility(View.GONE);
         }
 
-        fragmentBinding.rvOrdersDetail.setAdapter(new OrderDetailsAdapter(orderDetailsLit,requireContext(),this));
+        fragmentBinding.rvOrdersDetail.setAdapter(new OrderDetailsAdapter(orderDetailsLit, requireContext(), this));
         fragmentBinding.rvOrdersDetail.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.backBtn.setOnClickListener(v -> requireActivity().onBackPressed());
         fragmentBinding.amount.setText(String.format("%s MAD", amount));
@@ -145,7 +145,14 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
         fragmentBinding.rvDetailCommande.setAdapter(new HistoryCommandeAdapter(orderProductsList));
         fragmentBinding.rvDetailCommande.setLayoutManager(new LinearLayoutManager(getContext()));
 
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getArguments() != null) {
+            id = getArguments().getString("order_id");
+            amount = getArguments().getString("total_amount");
+        }
     }
 }

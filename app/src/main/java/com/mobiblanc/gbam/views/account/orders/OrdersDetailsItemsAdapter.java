@@ -57,8 +57,9 @@ public class OrdersDetailsItemsAdapter extends RecyclerView.Adapter<OrdersDetail
 
         @SuppressLint("SimpleDateFormat")
         private void bind(TrackingNumber orderDetail) {
-            itemBinding.title.setText(String.format("N°%s", orderDetail.getTracking()));
-            itemBinding.title.setText(String.format("N°%s", orderDetail.getTracking()));
+            //itemBinding.title.setText(String.format("N°%s", orderDetail.getTracking()));
+            itemBinding.title.setText(orderDetail.getTracking());
+            //itemBinding.title.setText(String.format("N°%s", orderDetail.getTracking()));
             SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat format2 = new SimpleDateFormat("dd MMMM yyy", new Locale("fr"));
             //Date date = null;

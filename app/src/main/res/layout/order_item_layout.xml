@@ -65,7 +65,7 @@
                 android:layout_toStartOf="@+id/title"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="center"
-                android:text="Réf Paiement"
+                android:text="Réf"
                 android:textColor="@color/black"
                 android:textSize="10sp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="N°SB129056" />
+                android:text="N°SB129056" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View

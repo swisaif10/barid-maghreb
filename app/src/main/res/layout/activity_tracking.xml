@@ -60,7 +60,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:visibility="gone"
-                tools:text="Expédition N°E2345678" />
+                android:text="Expédition N°E2345678" />
 
         </LinearLayout>
 

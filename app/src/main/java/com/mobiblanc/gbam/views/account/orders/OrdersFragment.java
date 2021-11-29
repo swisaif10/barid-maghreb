@@ -23,6 +23,7 @@ import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
 import com.mobiblanc.gbam.utilities.Utilities;
 import com.mobiblanc.gbam.viewmodels.AccountVM;
+import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.main.MainActivity;
 
 import java.util.List;
@@ -68,7 +69,13 @@ public class OrdersFragment extends Fragment implements OnItemSelectedListener {
     @Override
     public void onItemSelected(int position, Object object) {
         Order order = (Order) object;
-        ((MainActivity) requireActivity()).replaceFragment(OrderDetailsFragment.newInstance(order.getOrderId(), order.getTotalAmount()));
+        OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("order_id", order.getOrderId());
+        bundle.putString("total_amount", order.getTotalAmount());
+        orderDetailsFragment.setArguments(bundle);
+        //((MainActivity) requireActivity()).replaceFragment(OrderDetailsFragment.newInstance(order.getOrderId(), order.getTotalAmount()));
+        ((AccountActivity) requireActivity()).replaceFragment(orderDetailsFragment);
     }
 
     private void getOrders() {
