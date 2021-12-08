@@ -2,8 +2,9 @@ package com.mobiblanc.gbam.views.main.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,11 +17,9 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.mobiblanc.gbam.databinding.ProductItemLayoutBinding;
-import com.mobiblanc.gbam.datamanager.sharedpref.PreferenceManager;
 import com.mobiblanc.gbam.listeners.OnItemQuantityChangedListener;
 import com.mobiblanc.gbam.listeners.OnItemSelectedListener;
 import com.mobiblanc.gbam.models.products.Product;
-import com.mobiblanc.gbam.utilities.Constants;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -51,10 +50,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int step = arrayList.get(position).getStep();
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
+
         Glide.with(context).load(arrayList.get(position).getImage()).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
@@ -66,6 +67,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 return false;
             }
         }).placeholder(circularProgressDrawable).into(holder.itemBinding.image);
+        holder.itemBinding.quantity.setText(String.valueOf(step));
         Glide.with(context).load(arrayList.get(position).getImage()).into(holder.itemBinding.copy);
         holder.itemBinding.title.setText(arrayList.get(position).getName());
         Float price = Float.parseFloat(arrayList.get(position).getPrice());
@@ -73,12 +75,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         df.setMaximumFractionDigits(2);
         holder.itemBinding.price.setText(df.format(price));
 
-
-
+        holder.itemBinding.timbreDesc.setText(Html.fromHtml(arrayList.get(position).getShortDescription()));
         holder.itemBinding.decreaseBtn.setOnClickListener(v -> {
             int qty = Integer.parseInt(holder.itemBinding.quantity.getText().toString());
-            if (qty > 1) {
-                qty--;
+            if (qty > step) {
+                qty -= step;
                 holder.itemBinding.quantity.setText(String.valueOf(qty));
                 onItemQuantityChangedListener.onItemQuantityChanged(position, qty);
             }
@@ -87,13 +88,24 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.itemBinding.increaseBtn.setOnClickListener(v -> {
             int qty = Integer.parseInt(holder.itemBinding.quantity.getText().toString());
             if (qty < Integer.MAX_VALUE) {
-                qty++;
+                qty += step;
                 holder.itemBinding.quantity.setText(String.valueOf(qty));
                 onItemQuantityChangedListener.onItemQuantityChanged(position, qty);
             }
         });
 
-        holder.itemBinding.addBtn.setOnClickListener(view -> onItemSelectedListener.onItemSelected(position, holder.itemBinding.copy));
+        holder.itemBinding.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.itemBinding.addBtn.setOnClickListener(view -> {
+
+            onItemSelectedListener.onItemSelected(position, holder.itemBinding.copy);
+        });
+
     }
 
     @Override

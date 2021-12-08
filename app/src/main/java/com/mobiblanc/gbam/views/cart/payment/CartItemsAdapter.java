@@ -1,6 +1,7 @@
 package com.mobiblanc.gbam.views.cart.payment;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Item
         private void bind(Item item) {
             Glide.with(context).load(item.getImage()).into(itemBinding.image);
             itemBinding.title.setText(item.getName());
-            itemBinding.subtitle.setText(item.getShortDescription());
+            itemBinding.subtitle.setText(Html.fromHtml(item.getShortDescription()));
             itemBinding.quantity.setText(item.getQty());
             DecimalFormat df = new DecimalFormat("0.00");
             df.setMaximumFractionDigits(2);

@@ -18,6 +18,12 @@ public class Product implements Serializable {
     private String labelPrice;
     @Expose
     private String sku;
+    @Expose
+    private String shortDescription;
+    @Expose
+    private int step;
+
+
     private int quantity = 1;
 
     public int getId() {
@@ -74,5 +80,21 @@ public class Product implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
     }
 }

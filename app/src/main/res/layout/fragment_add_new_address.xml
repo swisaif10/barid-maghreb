@@ -109,6 +109,7 @@
                             android:digits="0123456789qwertzuiopasdfghjklyxcvbnm AZERTYUIOPQSDFGHJKLMWXCVBN"
                             android:fontFamily="@font/montserrat_medium"
                             android:hint="@string/street_number_hint"
+                            android:visibility="gone"
                             android:paddingBottom="15dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/hintGrey"

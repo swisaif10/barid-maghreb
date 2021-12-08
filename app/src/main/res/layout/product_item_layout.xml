@@ -4,7 +4,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg"
         android:paddingHorizontal="25dp"
         android:paddingVertical="15dp">
@@ -28,19 +28,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/copy"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/image"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/black"
                 android:textSize="13sp"
                 tools:text="100 cm * 150 cm100 cm* 150 cm " />
+
+            <TextView
+                android:id="@+id/timbreDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                tools:text="Description" />
 
             <LinearLayout
                 android:id="@+id/priceLayout"
@@ -70,7 +82,6 @@
                 android:id="@+id/buttonsLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <RelativeLayout

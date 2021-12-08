@@ -29,7 +29,6 @@ import com.mobiblanc.gbam.models.cart.items.CartItemsData;
 import com.mobiblanc.gbam.models.cart.items.CartItemsResponseData;
 import com.mobiblanc.gbam.models.common.Item;
 import com.mobiblanc.gbam.models.payment.recap.info.RecapInfoData;
-import com.mobiblanc.gbam.models.products.Product;
 import com.mobiblanc.gbam.models.shipping.address.AddressData;
 import com.mobiblanc.gbam.utilities.Connectivity;
 import com.mobiblanc.gbam.utilities.Constants;
@@ -40,7 +39,6 @@ import com.mobiblanc.gbam.views.account.AccountActivity;
 import com.mobiblanc.gbam.views.cart.CartActivity;
 import com.mobiblanc.gbam.views.cart.shipping.StandardShippingFragment;
 import com.mobiblanc.gbam.views.main.MainActivity;
-import com.mobiblanc.gbam.views.main.dashboard.DashboardFragment;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -107,7 +105,12 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     @Override
     public void onItemQuantityChanged(int index, int quantity) {
         deactivateUserInteraction();
-        itemsToAddInCart = quantity - Integer.parseInt(items.get(index).getQty());
+
+        //itemsToAddInCart = (quantity/items.get(index).getStep()) - (Integer.parseInt(items.get(index).getQty()));
+        itemsToAddInCart = ((quantity - Integer.parseInt(items.get(index).getQty())) / items.get(index).getStep());
+        Log.d("TAG", "onItemQuantityChanged: " + quantity);
+        Log.d("TAG", "onItemQuantityChanged: " + items.get(index).getQty());
+        Log.d("TAG", "onItemQuantityChanged: " + itemsToAddInCart);
         updateItemQty(index, quantity);
     }
 
@@ -143,7 +146,7 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         fragmentCartDetailsBinding.cartRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         cartAdapter = new CartAdapter(getContext(), items, this);
         fragmentCartDetailsBinding.cartRecycler.setAdapter(cartAdapter);
-        preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,response.getCountCart());
+        //preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,response.getCountCart());
         DecimalFormat df = new DecimalFormat("0.00");
         df.setMaximumFractionDigits(2);
         fragmentCartDetailsBinding.price.setText(df.format(response.getProductsPrice()) + " MAD");
@@ -204,7 +207,6 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
         } else {
             int code = addItemData.getHeader().getCode();
             if (code == 200) {
-
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + itemsToAddInCart);
                 getCartItems();
             } else if (code == 403) {
@@ -264,7 +266,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                         ContextCompat.getDrawable(requireContext(), R.drawable.supp),
                         pos -> {
                             deletedItemId = items.get(pos).getItemId();
-                            itemsToAddInCart = -Integer.parseInt(items.get(pos).getQty());
+                            itemsToAddInCart = -(Integer.parseInt(items.get(pos).getQty()) / items.get(pos).getStep());
+                            Log.d("DELETE", "instantiateUnderlayButton: " + itemsToAddInCart);
                             cartAdapter.removeItem(pos);
                             deleteItem();
                         }

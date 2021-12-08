@@ -56,8 +56,8 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            id = getArguments().getString("order_id");
-            amount = getArguments().getString("total_amount");
+            id = getArguments().getString("id");
+            amount = getArguments().getString("amount");
         }
 
         accountVM = ViewModelProviders.of(this).get(AccountVM.class);
@@ -147,12 +147,4 @@ public class OrderDetailsFragment extends Fragment implements OnItemSelectedList
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getArguments() != null) {
-            id = getArguments().getString("order_id");
-            amount = getArguments().getString("total_amount");
-        }
-    }
 }

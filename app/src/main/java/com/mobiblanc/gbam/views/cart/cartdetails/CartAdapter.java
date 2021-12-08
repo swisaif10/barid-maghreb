@@ -1,6 +1,7 @@
 package com.mobiblanc.gbam.views.cart.cartdetails;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -64,15 +65,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         private void bind(Item item) {
             Glide.with(context).load(item.getImage()).into(itemBinding.image);
             itemBinding.title.setText(item.getName());
-            itemBinding.subtitle.setText(item.getShortDescription());
-            itemBinding.quantity.setText(item.getQty());
+            itemBinding.subtitle.setText(Html.fromHtml(item.getShortDescription()));
+            itemBinding.quantity.setText(String.valueOf(item.getQty()));
             DecimalFormat df = new DecimalFormat("0.00");
             df.setMaximumFractionDigits(2);
             //itemBinding.price.setText(df.format(item.getPrice()));
             int[] qty = {Integer.parseInt(itemBinding.quantity.getText().toString())};
             itemBinding.decreaseBtn.setOnClickListener(v -> {
-                if (qty[0] > 1) {
-                    qty[0]--;
+
+                if (qty[0] > item.getStep()) {
+                    qty[0] -= item.getStep();
                     itemBinding.quantity.setText(String.valueOf(qty[0]));
                     onItemQuantityChangedListener.onItemQuantityChanged(getAdapterPosition(), qty[0]);
 
@@ -82,14 +84,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             itemBinding.increaseBtn.setOnClickListener(v -> {
                 //int qty = Integer.parseInt(itemBinding.quantity.getText().toString());
                 if (qty[0] < Integer.MAX_VALUE) {
-                    qty[0]++;
+                    qty[0] += item.getStep();
                     itemBinding.quantity.setText(String.valueOf(qty[0]));
-                    onItemQuantityChangedListener.onItemQuantityChanged(getAdapterPosition(), qty[0] );
+                    onItemQuantityChangedListener.onItemQuantityChanged(getAdapterPosition(), qty[0]);
                     //itemBinding.price.setText(df.format(item.getPrice()*qty[0]));
                 }
             });
 
-            itemBinding.price.setText(df.format(item.getPrice()* qty[0]));
+            itemBinding.price.setText(df.format(item.getPrice() * qty[0]));
 
         }
     }

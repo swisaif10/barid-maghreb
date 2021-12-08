@@ -8,6 +8,7 @@ import android.provider.Settings.Secure;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;

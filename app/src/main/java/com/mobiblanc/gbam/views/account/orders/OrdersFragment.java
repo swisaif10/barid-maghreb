@@ -3,6 +3,7 @@ package com.mobiblanc.gbam.views.account.orders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,13 +70,16 @@ public class OrdersFragment extends Fragment implements OnItemSelectedListener {
     @Override
     public void onItemSelected(int position, Object object) {
         Order order = (Order) object;
+        /*
         OrderDetailsFragment orderDetailsFragment = new OrderDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("order_id", order.getOrderId());
         bundle.putString("total_amount", order.getTotalAmount());
-        orderDetailsFragment.setArguments(bundle);
-        //((MainActivity) requireActivity()).replaceFragment(OrderDetailsFragment.newInstance(order.getOrderId(), order.getTotalAmount()));
-        ((AccountActivity) requireActivity()).replaceFragment(orderDetailsFragment);
+        orderDetailsFragment.setArguments(bundle);*/
+        if (requireActivity() instanceof MainActivity)
+            ((MainActivity) requireActivity()).replaceFragment(OrderDetailsFragment.newInstance(order.getOrderId(), order.getTotalAmount()));
+        else
+            ((AccountActivity) requireActivity()).replaceFragment(OrderDetailsFragment.newInstance(order.getOrderId(), order.getTotalAmount()));
     }
 
     private void getOrders() {

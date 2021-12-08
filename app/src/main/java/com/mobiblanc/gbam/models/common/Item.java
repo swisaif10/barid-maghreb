@@ -20,6 +20,8 @@ public class Item {
     private String image;
     @Expose
     private String shortDescription;
+    @Expose
+    private int step;
 
     public int getItemId() {
         return itemId;
@@ -81,6 +83,15 @@ public class Item {
         return image;
     }
 
+
+    public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+
     public void setImage(String image) {
         this.image = image;
     }
@@ -93,8 +104,6 @@ public class Item {
                 ", name='" + name + '\'' +
 
                 ", qty='" + qty + '\'' +
-
-
 
 
                 '}';

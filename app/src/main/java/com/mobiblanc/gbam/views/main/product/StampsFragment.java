@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,11 +115,13 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
         fragmentStampsBinding.loader.setVisibility(View.VISIBLE);
         selectedProductPosition = position;
         this.imageView = (ImageView) object;
+        int qte = products.get(position).getQuantity();
+        if (qte == 1 && products.get(position).getStep() > 1)
+            products.get(position).setQuantity(qte * products.get(position).getStep());
         addItemToCart(preferenceManager.getValue(Constants.CART_ID, null));
     }
 
     private void init() {
-
         fragmentStampsBinding.stampsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentStampsBinding.stampsRecycler.setAdapter(new ProductsAdapter(getContext(), products, this, this));
         fragmentStampsBinding.stampsRecycler.setNestedScrollingEnabled(false);
@@ -199,7 +202,10 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
         } else {
             int code = addItemData.getHeader().getCode();
             if (code == 200) {
-                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + products.get(selectedProductPosition).getQuantity());
+                if (products.get(selectedProductPosition).getStep() > 1)
+                    preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + (products.get(selectedProductPosition).getQuantity() / products.get(selectedProductPosition).getStep()));
+                else
+                    preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + products.get(selectedProductPosition).getQuantity());
                 makeFlyAnimation();
             } else if (code == 403)
                 Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> {
