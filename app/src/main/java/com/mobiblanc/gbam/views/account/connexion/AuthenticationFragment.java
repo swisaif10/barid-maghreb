@@ -93,6 +93,14 @@ public class AuthenticationFragment extends Fragment implements OnDialogButtonsC
             int code = cartItemsData.getHeader().getCode();
             if (code == 200) {
                 items = cartItemsData.getResponse().getItems();
+
+               /* int countCard = 0;
+
+                for (Item item : items ){
+                    countCard += Integer.parseInt(item.getQty()) / item.getStep();
+                }
+                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,countCard);
+*/
                 preferenceManager.putValue(Constants.NB_ITEMS_IN_CART,cartItemsData.getResponse().getCountCart());
                 if (destination.equalsIgnoreCase("new_address")) {
                     Intent intent = new Intent(getActivity(), CartActivity.class);

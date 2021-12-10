@@ -106,8 +106,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
     public void onItemQuantityChanged(int index, int quantity) {
         deactivateUserInteraction();
 
-        //itemsToAddInCart = (quantity/items.get(index).getStep()) - (Integer.parseInt(items.get(index).getQty()));
-        itemsToAddInCart = ((quantity - Integer.parseInt(items.get(index).getQty())) / items.get(index).getStep());
+        itemsToAddInCart = quantity - (Integer.parseInt(items.get(index).getQty()));
+        //itemsToAddInCart = ((quantity - Integer.parseInt(items.get(index).getQty())) / items.get(index).getStep());
         Log.d("TAG", "onItemQuantityChanged: " + quantity);
         Log.d("TAG", "onItemQuantityChanged: " + items.get(index).getQty());
         Log.d("TAG", "onItemQuantityChanged: " + itemsToAddInCart);
@@ -266,7 +266,8 @@ public class CartDetailsFragment extends Fragment implements OnDialogButtonsClic
                         ContextCompat.getDrawable(requireContext(), R.drawable.supp),
                         pos -> {
                             deletedItemId = items.get(pos).getItemId();
-                            itemsToAddInCart = -(Integer.parseInt(items.get(pos).getQty()) / items.get(pos).getStep());
+                            //itemsToAddInCart = -(Integer.parseInt(items.get(pos).getQty()) / items.get(pos).getStep());
+                            itemsToAddInCart = -(Integer.parseInt(items.get(pos).getQty()));
                             Log.d("DELETE", "instantiateUnderlayButton: " + itemsToAddInCart);
                             cartAdapter.removeItem(pos);
                             deleteItem();

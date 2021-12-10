@@ -202,10 +202,8 @@ public class StampsFragment extends Fragment implements OnItemSelectedListener, 
         } else {
             int code = addItemData.getHeader().getCode();
             if (code == 200) {
-                if (products.get(selectedProductPosition).getStep() > 1)
-                    preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + (products.get(selectedProductPosition).getQuantity() / products.get(selectedProductPosition).getStep()));
-                else
-                    preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + products.get(selectedProductPosition).getQuantity());
+                preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + (products.get(selectedProductPosition).getQuantity()));
+                //preferenceManager.putValue(Constants.NB_ITEMS_IN_CART, preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) + (products.get(selectedProductPosition).getQuantity() / products.get(selectedProductPosition).getStep()));
                 makeFlyAnimation();
             } else if (code == 403)
                 Utilities.showErrorPopupWithClick(getContext(), addItemData.getHeader().getMessage(), view -> {
