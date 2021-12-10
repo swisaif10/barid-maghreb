@@ -23,9 +23,11 @@
         app:layout_constraintWidth_percent="0.85">
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/logout"
+
             />
 
         <TextView
@@ -33,12 +35,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:fontFamily="@font/montserrat_regular"
+            android:fontFamily="@font/montserrat_semibold"
             android:text="Voulez-vous vraiment quitter ?"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="18sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_marginTop="25dp"
             android:layout_width="wrap_content"
