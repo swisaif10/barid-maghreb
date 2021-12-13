@@ -67,7 +67,7 @@
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="@id/cart"
                     app:layout_constraintTop_toTopOf="@id/cart"
-                    tools:text="0" />
+                    tools:text="" />
 
                 <ImageView
                     android:id="@+id/preview"

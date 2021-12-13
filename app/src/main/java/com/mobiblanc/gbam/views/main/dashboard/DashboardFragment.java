@@ -89,7 +89,7 @@ public class DashboardFragment extends Fragment implements OnDashboardItemSelect
             createCart();
         if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0) {
             fragmentDashboardBinding.count.setVisibility(View.VISIBLE);
-            fragmentDashboardBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
+            //fragmentDashboardBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
         } else fragmentDashboardBinding.count.setVisibility(View.GONE);
 
     }

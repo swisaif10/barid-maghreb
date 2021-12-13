@@ -115,7 +115,7 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
 
         if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0) {
             fragmentPortraitBinding.count.setVisibility(View.VISIBLE);
-            fragmentPortraitBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
+            //fragmentPortraitBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
         } else fragmentPortraitBinding.count.setVisibility(View.GONE);
     }
 
@@ -155,7 +155,7 @@ public class PortraitFragment extends Fragment implements OnItemSelectedListener
                 fragmentPortraitBinding.preview.setVisibility(View.VISIBLE);
                 fragmentPortraitBinding.preview.setImageDrawable(imageView.getDrawable());
                 fragmentPortraitBinding.count.setVisibility(View.VISIBLE);
-                fragmentPortraitBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
+                //fragmentPortraitBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
             }
 
             @Override

@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment implements OnItemSelectedListener 
         super.onResume();
         if (preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0) > 0) {
             fragmentBinding.count.setVisibility(View.VISIBLE);
-            fragmentBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
+            //fragmentBinding.count.setText(String.valueOf(preferenceManager.getValue(Constants.NB_ITEMS_IN_CART, 0)));
         } else fragmentBinding.count.setVisibility(View.GONE);
         init();
     }
