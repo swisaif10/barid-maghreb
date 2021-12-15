@@ -128,6 +128,7 @@ public class FAQStampsFragment extends Fragment {
 
         fragmentBinding.faqRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentBinding.faqRecycler.setAdapter(new FAQStampsAdapter(items));
+        //fragmentBinding.faqRecycler.getChildAt(0).
     }
 
     @Override

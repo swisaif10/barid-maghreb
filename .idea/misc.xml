@@ -16,10 +16,12 @@
         <entry key="app/src/main/res/layout/confirmation_item_layout.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/custom_dropdown_item_layout.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/dashboard_dialog.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/faq_stamp_item_layout.xml" value="0.32864583333333336" />
         <entry key="app/src/main/res/layout/fragment_add_new_address.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_cart_details.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/fragment_cgu.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_faq_stamps.xml" value="0.32864583333333336" />
         <entry key="app/src/main/res/layout/fragment_order_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_orders.xml" value="0.2861111111111111" />
         <entry key="app/src/main/res/layout/fragment_portrait.xml" value="0.3302083333333333" />

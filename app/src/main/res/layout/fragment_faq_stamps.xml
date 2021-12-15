@@ -91,12 +91,12 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/faqRecycler"
-                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="13dp"
                 android:layout_marginTop="30dp"
-                tools:itemCount="4"
+                android:overScrollMode="never"
+                tools:itemCount="1"
                 tools:listitem="@layout/faq_stamp_item_layout" />
         </LinearLayout>
 
