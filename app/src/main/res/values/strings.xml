@@ -113,5 +113,6 @@
     <string name="order_number_hint">Numéro de commande</string>
     <string name="select_city">Veuillez sélectionner une ville</string>
     <string name="lire_plus">Lire plus</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
 
 </resources>
