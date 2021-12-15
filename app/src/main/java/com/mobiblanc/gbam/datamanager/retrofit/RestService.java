@@ -22,9 +22,9 @@ public class RestService {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder client = new OkHttpClient.Builder().addInterceptor(interceptor);;
-        client.connectTimeout(30, TimeUnit.SECONDS);
-        client.readTimeout(30, TimeUnit.SECONDS);
-        client.writeTimeout(30, TimeUnit.SECONDS);
+        client.connectTimeout(120, TimeUnit.SECONDS);
+        client.readTimeout(120, TimeUnit.SECONDS);
+        client.writeTimeout(120, TimeUnit.SECONDS);
 
         client.addInterceptor(chain -> {
             Request original = chain.request();
