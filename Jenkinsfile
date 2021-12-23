@@ -1,15 +1,14 @@
 pipeline {
-    /*agent {
+    agent {
         label "Jenkins-Slave"
-    }*/
-    agent any
+    }
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "https"
         NEXUS_URL = "appcenter.blanc.tech"
-        NEXUS_REPOSITORY = "LaPoste_Android"
+        NEXUS_REPOSITORY = "LaPoste_Mobile"
         NEXUS_CREDENTIAL_ID = "nexus3"
-        VERSION = "2.0"
+        VERSION = "3"
         BODY = ""
     }
     stages {
@@ -19,39 +18,35 @@ pipeline {
                 sh "./gradlew assemble"
             }
         }
-        /*stage('Upload Apk')
+        stage('Upload Apk')
         {
             steps {
                 script {
-                    def apkJson = readJSON file: 'app/build/outputs/apk/release/output-metadata.json'
-                    VERSION = apkJson.elements.versionName[0]
                     echo "*** File: ${VERSION}"
-                    sh "cp /var/lib/jenkins/install.html $WORKSPACE/install.html"
-                    contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: "$VERSION", search: 'PARAM_VERSION')], fileEncoding: 'UTF-8', filePath: 'install.html')])
-                    //contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: "$PortParam", search: 'PARAM_DATE')], fileEncoding: 'UTF-8', filePath: 'install.html')])
-                    nexusArtifactUploader(
-                        nexusVersion: NEXUS_VERSION,
-                        protocol: NEXUS_PROTOCOL,
-                        nexusUrl: NEXUS_URL,
-                        groupId: "myinwi.Android",
-                        version: VERSION,
-                        repository: NEXUS_REPOSITORY,
-                        credentialsId: NEXUS_CREDENTIAL_ID,
-                        artifacts: [
-                            [artifactId: "myinwi",
-                            classifier: '',
-                            file: "app/build/outputs/apk/release/app-release.apk",
-                            type: "apk"],
-                            [artifactId: "myinwi",
-                            classifier: '',
-                            file: "install.html",
-                            type: "html"]
-                        ]
-                    );
+                    contentReplace(configs: [fileContentReplaceConfig(configs: [fileContentReplaceItemConfig(matchCount: 0, replace: "$PARAM_URL",    search: 'PARAM_URL')], fileEncoding: 'UTF-8', filePath: 'install.html')])
+                    nexusArtifactUploader artifacts: 
+                    [
+                        [artifactId: 'LaPoste', 
+                        classifier: '', 
+                        file: 'app/build/outputs/apk/dev/debug/app-dev-debug.apk', 
+                        type: 'apk'], 
+                        [artifactId: 'LaPoste', 
+                        classifier: '', 
+                        file: 'install.html', 
+                        type: 'html']
+                    ], 
+                        credentialsId: NEXUS_CREDENTIAL_ID, 
+                        groupId: 'LaPoste_Android', 
+                        nexusUrl: NEXUS_URL, 
+                        nexusVersion: NEXUS_VERSION, 
+                        protocol: NEXUS_PROTOCOL, 
+                        repository: NEXUS_REPOSITORY, 
+                        version: VERSION
+
                 }
             }
         }
-        stage ('Send Mail')
+        /*stage ('Send Mail')
         {
             steps{
                 script {
