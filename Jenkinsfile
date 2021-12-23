@@ -52,8 +52,8 @@ pipeline {
                 script {
                 BODY = '''<p>bonjour!</p>
 <p>un nouveau APK est disponible sur le <a href="HTML_URL" target="_blank">lien</a>.</p>
-<p>login: reader</p>
-<p>passwd: <span style="background-color: #000000; color: #000000;">Nexus@2021</span></p>
+<p>login: LaPoste</p>
+<p>passwd: <span style="background-color: #000000; color: #000000;">Laposte@2021</span></p>
 <p>crdlt</p>'''
                 BODY = BODY.replaceAll("HTML_URL", "$HTML_URL")
 
