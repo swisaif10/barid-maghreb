@@ -47,6 +47,10 @@ android {
             dimension "app"
             buildConfigField "String", "BASEURL", PREPROD_URL
         }
+        prod {
+            dimension "app"
+            buildConfigField "String", "BASEURL", PROD_URL
+        }
     }
 
     compileOptions {

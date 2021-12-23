@@ -48,5 +48,4 @@ public interface ApiUrls {
     String DELETE_ADDRESS = "/api/shipping/delete-address";
     String AUTHORIZATION = Credentials.basic(BuildConfig.ID, BuildConfig.DOMAIN);
 
-
 }

@@ -65,6 +65,7 @@ public class FAQStampsAdapter extends RecyclerView.Adapter<FAQStampsAdapter.ITem
             itemBinding.response.setText(response);
             itemBinding.getRoot().setOnClickListener(view -> {
                 for (int i = 0; i < holders.size(); i++) {
+                    Log.d("TAG", "bind: " + holders.get(i).itemBinding.response.getText().toString());
                     if (i == position) {
                         if (holders.get(i).itemBinding.response.getVisibility() == View.GONE) {
                             holders.get(i).itemBinding.separator.setVisibility(View.VISIBLE);
