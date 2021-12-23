@@ -4,11 +4,11 @@ pipeline {
     }
     environment {
         NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "repo.blanc.tech"
-        NEXUS_REPOSITORY = "MyInwi_Mobile"
-        NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
-        VERSION = ""
+        NEXUS_PROTOCOL = "https"
+        NEXUS_URL = "appcenter.blanc.tech"
+        NEXUS_REPOSITORY = "LaPoste_Android"
+        NEXUS_CREDENTIAL_ID = "nexus3"
+        VERSION = "2.0"
         BODY = ""
     }
     stages {
@@ -18,7 +18,7 @@ pipeline {
                 sh "./gradlew assemble"
             }
         }
-        stage('Upload Apk')
+        /*stage('Upload Apk')
         {
             steps {
                 script {
@@ -63,6 +63,6 @@ pipeline {
                 }
                 emailext body: "$BODY", subject: 'Nouveau APK', to: '${PARAM_RECIPIENTS}'
             }
-        }
+        }*/
     }
 }
