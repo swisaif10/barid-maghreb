@@ -42,6 +42,7 @@ public class FirebaseService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
+
         String title = notification.getTitle();
         String body = notification.getBody();
 
