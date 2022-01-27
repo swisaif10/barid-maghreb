@@ -11,5 +11,6 @@ public class APSM extends Application {
         super.onCreate();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+
     }
 }
